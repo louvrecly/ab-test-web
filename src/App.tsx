@@ -1,5 +1,6 @@
 import React from 'react';
 import HeadNav from './Components/HeadNav';
+import RecordButton from './Components/RecordButton';
 import './App.css';
 
 const App: React.FC = () => {
@@ -7,6 +8,7 @@ const App: React.FC = () => {
     <div className="app">
       <HeadNav title="head nav title" />
       App
+      <RecordButton />
     </div>
   );
 }
