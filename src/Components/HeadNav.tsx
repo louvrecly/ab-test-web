@@ -10,7 +10,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
     <div className="head-nav">
       <button className="menu nav-button">三</button>
       <div className="switch">
-        Switch
+        {title}
       </div>
       <button className="search nav-button">Q</button>
     </div>

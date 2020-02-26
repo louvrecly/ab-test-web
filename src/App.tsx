@@ -6,8 +6,7 @@ import './App.css';
 const App: React.FC = () => {
   return (
     <div className="app">
-      <HeadNav title="head nav title" />
-      App
+      <HeadNav title="吹水台" />
       <RecordButton />
     </div>
   );
