@@ -1,9 +1,11 @@
 {
   "extends": [
     "tslint:latest",
-    "tslint-react"
+    "tslint-react",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
   ],
   "rules": {
-    "jsx-wrap-multiline": false
+    "prettier": true
   }
 }
