@@ -6,7 +6,7 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
-import './HeadNav.css';
+import classes from './HeadNav.module.scss';
 
 interface IHeadNavProps {
   title: string;
@@ -14,10 +14,10 @@ interface IHeadNavProps {
 
 const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
   return (
-    <AppBar className="head-nav" position="absolute">
+    <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
         <IconButton
-          className="menu nav-button"
+          className={`${classes.menu} ${classes['nav-button']}`}
           edge="start"
           color="inherit"
           aria-label="menu"
@@ -25,22 +25,28 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           三
         </IconButton>
 
-        <ButtonGroup className="switch">
-          <IconButton className="prev switch-button" aria-label="previous">
+        <ButtonGroup className={classes.switch}>
+          <IconButton
+            className={`${classes.prev} ${classes['switch-button']}`}
+            aria-label="previous"
+          >
             &lt;
           </IconButton>
 
-          <Button className="title" color="inherit">
+          <Button className={classes.title} color="inherit">
             {title}
           </Button>
 
-          <IconButton className="next switch-button" aria-label="next">
+          <IconButton
+            className={`${classes.next} ${classes['switch-button']}`}
+            aria-label="next"
+          >
             &gt;
           </IconButton>
         </ButtonGroup>
 
         <IconButton
-          className="search nav-button"
+          className={`${classes.search} ${classes['nav-button']}`}
           edge="end"
           color="inherit"
           aria-label="search"
