@@ -7,6 +7,6 @@ const RecordButton: React.FC = () => {
       <button className="button">9up</button>
     </div>
   );
-}
+};
 
 export default RecordButton;

@@ -10,6 +10,6 @@ const App: React.FC = () => {
       <RecordButton />
     </div>
   );
-}
+};
 
 export default App;
