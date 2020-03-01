@@ -1,11 +1,11 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
-import './RecordButton.css';
+import classes from './RecordButton.module.scss';
 
 const RecordButton: React.FC = () => {
   return (
-    <div className="record-button">
-      <IconButton className="button" aria-label="record">
+    <div className={classes['record-button']}>
+      <IconButton className={classes.button} aria-label="record">
         9up
       </IconButton>
     </div>
