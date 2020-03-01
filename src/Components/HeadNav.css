@@ -1,28 +1,34 @@
-.head-nav {
+header.head-nav {
   background-color: #484747;
   height: 40px;
   border-radius: 20px;
-  position: absolute;
   top: 15px;
   left: 15px;
   right: 15px;
   text-align: center;
-  display: flex;
-  align-items: center;
+  width: unset;
+  justify-content: center;
+  color: #FADC4E;
 }
 
 .nav-button {
-  width: 30px;
-  height: 30px;
-  color: #FADC4E;
-  background-color: transparent;
-  border: none;
-  font-size: 16px;
   font-weight: bold;
-  margin: 0 10px;
-  cursor: pointer;
+}
+
+.nav-button > span, .switch-button > span {
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .switch {
-  flex: 1
+  flex: 1 1;
+  justify-content: center;
+}
+
+.switch-button, .title {
+  border: none !important;
+}
+
+.switch-button {
+  color: #FFFFFF !important;
 }
