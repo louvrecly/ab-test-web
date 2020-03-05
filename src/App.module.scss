@@ -1,5 +1,6 @@
+@import 'index';
+
 .app {
-  background-color: #0D0E09;
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/de/China_Hong_Kong_location_map.svg');
   background-size: cover;
   height: 100%;
@@ -7,7 +8,7 @@
 
 .app::before {
   content: '';
-  background-color: #000000;
+  background-color: get-color(black);
   position: absolute;
   top: 0;
   bottom: 0;

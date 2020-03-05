@@ -1,34 +1,44 @@
+@import 'index';
+
 header.head-nav {
-  background-color: #484747;
+  background-color: rgba(get-color(grey), 0.5);
+  color: get-color(gold);
   height: 40px;
-  border-radius: 20px;
   top: 15px;
   left: 15px;
   right: 15px;
+  border-radius: 20px;
   text-align: center;
   width: unset;
   justify-content: center;
-  color: #FADC4E;
 }
 
 .nav-button {
-  font-weight: bold;
-}
-
-.nav-button > span, .switch-button > span {
-  font-weight: bold;
-  font-size: 16px;
+  span {
+    font-weight: $font-weight-bolder;
+    @include font-size-small;
+  }
 }
 
 .switch {
   flex: 1 1;
   justify-content: center;
-}
 
-.switch-button, .title {
-  border: none !important;
-}
+  .switch-button {
+    color: get-color(white);
 
-.switch-button {
-  color: #FFFFFF !important;
+    span {
+      font-weight: $font-weight-bolder;
+      @include font-size-small;
+    }
+  }
+
+  .title {
+    border: none;
+
+    span {
+      font-weight: $font-weight-bolder;
+      @include font-size-small;
+    }
+  }
 }
