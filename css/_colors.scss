@@ -1,0 +1,37 @@
+// Main Theme Colors
+$color-white:        #FFFFFF;
+$color-gold:         #FADC4E;
+$color-grey:         #454545;
+$color-brown:        #21140F;
+$color-black:        #000000;
+
+$colors: (
+  // Absolute Colors
+  white:             $color-white,
+  black:             $color-black,
+
+  // Gold Shades
+  gold-lighter:      lighten($color-gold, 10%),
+  gold-light:        lighten($color-gold, 5%),
+  gold:              $color-gold,
+  gold-dark:         darken($color-gold, 30%),
+  gold-darker:       darken($color-gold, 50%),
+
+  // Grey Shades
+  grey-lighter:      lighten($color-grey, 30%),
+  grey-light:        lighten($color-grey, 15%),
+  grey:              $color-grey,
+  grey-dark:         darken($color-grey, 10%),
+  grey-darker:       darken($color-grey, 15%),
+
+  // Brown Shades
+  brown-lighter:     lighten($color-brown, 30%),
+  brown-light:       lighten($color-brown, 15%),
+  brown:             $color-brown,
+  brown-dark:        darken($color-brown, 3%),
+  brown-darker:      darken($color-brown, 5%),
+);
+
+@function get-color($color-name) {
+  @return map-get($map: $colors, $key: $color-name)
+}

@@ -1,0 +1,21 @@
+$screen: "only screen" !default;
+
+$xsmall: 320px;
+$mobile: 480px;
+$tablets: 768px;
+$medium: 1025px;
+$large: 1200px;
+
+$xsmall-up: $screen !default;
+$xsmall-only: "#{$screen} and (max-width: #{$mobile - 1px})" !default;
+
+$mobile-up: "#{$screen} and (min-width: #{$mobile})" !default;
+$mobile-only: "#{$screen} and (min-width: #{$mobile}) and (max-width: #{$tablets - 1px})" !default;
+
+$tablets-up: "#{$screen} and (min-width: #{$tablets})" !default;
+$tablets-only: "#{$screen} and (min-width: #{$tablets}) and (max-width: #{$medium - 1px})" !default;
+
+$medium-up: "#{$screen} and (min-width: #{$medium})" !default;
+$medium-only: "#{$screen} and (min-width: #{$medium}) and (max-width: #{$large - 1px})" !default;
+
+$large-up: "#{$screen} and (min-width: #{$large})" !default;
