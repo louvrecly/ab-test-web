@@ -1,6 +1,6 @@
 import React from 'react';
-import HeadNav from './Components/HeadNav';
-import RecordButton from './Components/RecordButton';
+import HeadNav from './components/HeadNav';
+import RecordButton from './components/RecordButton';
 import classes from './App.module.scss';
 
 const App: React.FC = () => {
