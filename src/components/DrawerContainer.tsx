@@ -1,6 +1,8 @@
 import React from 'react';
 import { SwipeableDrawer } from '@material-ui/core';
 import { DrawerSide } from '../models/models';
+import classes from './DrawerContainer.module.scss';
+import classNames from 'classnames';
 
 interface IDrawerContainerProps {
   side: DrawerSide;
@@ -20,6 +22,11 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
       open={props.open}
       onClose={props.toggleDrawer(props.side, false)}
       onOpen={props.toggleDrawer(props.side, true)}
+      className={classNames({
+        [classes.drawer]: true,
+        [classes['drawer-horizontal']]:
+          props.side === 'left' || props.side === 'right'
+      })}
     >
       {props.children}
     </SwipeableDrawer>
