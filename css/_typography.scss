@@ -1,0 +1,62 @@
+// Global Font Sizes (Mixins)
+// ===========================
+@mixin font-size-smaller {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+@mixin font-size-small {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin font-size-normal {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+@mixin font-size-large {
+  font-size: 30px;
+  line-height: 42px;
+}
+
+@mixin font-size-larger {
+  font-size: 50px;
+  line-height: 64px;
+}
+
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
+
+// Font Sizes
+// ============================
+.text-size-smaller {
+  @include font-size-smaller();
+}
+
+.text-size-small {
+  @include font-size-small();
+}
+
+.text-size-normal {
+  @include font-size-normal();
+}
+
+.text-size-large {
+  @include font-size-large();
+}
+
+.text-size-larger {
+  @include font-size-larger();
+}
+
+
+// Font Styling
+// ========================
+.text-bold {
+  font-weight: $font-weight-bold;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}

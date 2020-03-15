@@ -1,0 +1,44 @@
+@import 'css/main';
+
+header.head-nav {
+  background-color: rgba(get-color(grey), 0.5);
+  color: get-color(gold);
+  height: 40px;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  border-radius: 20px;
+  text-align: center;
+  width: unset;
+  justify-content: center;
+}
+
+.nav-button {
+  span {
+    font-weight: $font-weight-bolder;
+    @include font-size-small;
+  }
+}
+
+.switch {
+  flex: 1 1;
+  justify-content: center;
+
+  .switch-button {
+    color: get-color(white);
+
+    span {
+      font-weight: $font-weight-bolder;
+      @include font-size-small;
+    }
+  }
+
+  .title {
+    border: none;
+
+    span {
+      font-weight: $font-weight-bolder;
+      @include font-size-small;
+    }
+  }
+}
