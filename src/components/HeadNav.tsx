@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -6,13 +6,36 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
+import DrawerContainer from './DrawerContainer';
 import classes from './HeadNav.module.scss';
+import { DrawerSide } from '../models/models';
 
 interface IHeadNavProps {
   title: string;
 }
 
 const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
+  const [state, setState] = useState({
+    top: false,
+    right: false,
+    bottom: false,
+    left: false
+  });
+
+  const toggleDrawer = (side: DrawerSide, open: boolean) => (
+    event: React.KeyboardEvent | React.MouseEvent
+  ) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+    setState({ ...state, [side]: open });
+  };
+
   return (
     <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
@@ -21,6 +44,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           edge="start"
           color="inherit"
           aria-label="menu"
+          onClick={toggleDrawer('left', true)}
         >
           三
         </IconButton>
@@ -54,6 +78,10 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           Q
         </IconButton>
       </Toolbar>
+
+      <DrawerContainer side="left" open={state.left} toggleDrawer={toggleDrawer}>
+        <p>drawer contents</p>
+      </DrawerContainer>
     </AppBar>
   );
 };
