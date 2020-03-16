@@ -1,0 +1,16 @@
+@import 'css/main';
+
+.drawer {
+  > div[tabindex="-1"] {
+    background-color: transparent;
+    color: get-color(gold);
+    width: 100%;
+  }
+}
+
+.drawer-horizontal {
+  > div[tabindex="-1"] {
+    background-color: rgba(get-color(brown), 0.7);
+    width: 300px;
+  }
+}
