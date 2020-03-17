@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import L from 'leaflet';
 
-interface IMapProps {
-  children: React.ReactNode;
-}
-
-const Map: React.FC<IMapProps> = (props: IMapProps) => {
+const Map: React.FC = () => {
   useEffect(() => {
     L.map('map', {
       center: [22.2988, 114.1722],
@@ -23,7 +19,7 @@ const Map: React.FC<IMapProps> = (props: IMapProps) => {
     });
   }, []);
 
-  return <div id="map">{props.children}</div>;
+  return <div id="map" />;
 };
 
 export default Map;

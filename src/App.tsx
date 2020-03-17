@@ -7,10 +7,9 @@ import classes from './App.module.scss';
 const App: React.FC = () => {
   return (
     <div className={classes.app}>
-      <Map>
-        <HeadNav title="吹水台" />
-        <RecordButton />
-      </Map>
+      <Map />
+      <HeadNav title="吹水台" />
+      <RecordButton />
     </div>
   );
 };
