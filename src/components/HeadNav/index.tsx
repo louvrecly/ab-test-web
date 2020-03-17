@@ -6,9 +6,9 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
-import DrawerContainer from './DrawerContainer';
+import DrawerContainer from '../DrawerContainer';
 import classes from './HeadNav.module.scss';
-import { DrawerSide } from '../models/models';
+import { DrawerSide } from '../../models/models';
 
 interface IHeadNavProps {
   title: string;

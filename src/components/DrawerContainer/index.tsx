@@ -1,6 +1,6 @@
 import React from 'react';
 import { SwipeableDrawer } from '@material-ui/core';
-import { DrawerSide } from '../models/models';
+import { DrawerSide } from '../../models/models';
 import classes from './DrawerContainer.module.scss';
 import classNames from 'classnames';
 
