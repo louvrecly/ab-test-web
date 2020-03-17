@@ -1,9 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 
-const Map: React.FC = () => {
+interface IMapProps {
+  markersData: [number, number][];
+}
+
+const Map: React.FC<IMapProps> = (props: IMapProps) => {
+  const mapRef: React.MutableRefObject<L.Map | null> = useRef(null);
+  const layerRef: React.MutableRefObject<L.LayerGroup | null> = useRef(null);
+
   useEffect(() => {
-    L.map('map', {
+    mapRef.current = L.map('map', {
       center: [22.2988, 114.1722],
       zoom: 12,
       zoomSnap: 0.1,
@@ -18,6 +25,17 @@ const Map: React.FC = () => {
       ]
     });
   }, []);
+
+  useEffect(() => {
+    layerRef.current = L.layerGroup().addTo(mapRef.current as L.Map);
+  }, []);
+
+  useEffect(() => {
+    (layerRef.current as L.LayerGroup).clearLayers();
+    props.markersData.forEach(marker => {
+      L.marker(L.latLng(marker)).addTo(layerRef.current as L.LayerGroup);
+    });
+  });
 
   return <div id="map" />;
 };
