@@ -12,6 +12,7 @@ const Map: React.FC<IMapProps> = (props: IMapProps) => {
       zoom: 12,
       zoomSnap: 0.1,
       zoomDelta: 0.5,
+      doubleClickZoom: false,
       layers: [
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
           attribution:
