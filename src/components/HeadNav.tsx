@@ -79,7 +79,11 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
         </IconButton>
       </Toolbar>
 
-      <DrawerContainer side="left" open={state.left} toggleDrawer={toggleDrawer}>
+      <DrawerContainer
+        side="left"
+        open={state.left}
+        toggleDrawer={toggleDrawer}
+      >
         <p>drawer contents</p>
       </DrawerContainer>
     </AppBar>
