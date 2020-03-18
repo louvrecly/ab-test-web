@@ -1,12 +1,9 @@
 @import 'index';
 
 .app {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/de/China_Hong_Kong_location_map.svg');
-  background-size: cover;
   height: 100%;
 
   > div[tabindex="0"] {
-    height: 100%;
     background-color: get-color(black);
   }
 }
