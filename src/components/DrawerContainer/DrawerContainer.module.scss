@@ -11,6 +11,7 @@
 .drawer-horizontal {
   > div[tabindex="-1"] {
     background-color: rgba(get-color(brown), 0.7);
-    width: 300px;
+    width: calc(100% - 20px);
+    max-width: 405px;
   }
 }
