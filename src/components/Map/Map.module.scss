@@ -1,0 +1,11 @@
+@import 'css/main';
+
+.tile-layer {
+  filter: contrast(1.4) hue-rotate(260deg) saturate(1.3) brightness(0.8);
+}
+
+.icon {
+  background-color: rgba(get-color(white), 0.9);
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 3px 3px get-color(gold), 0px 0px 5px 5px rgba(get-color(gold), 0.9);
+}
