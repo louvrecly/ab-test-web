@@ -1,8 +1,8 @@
 import React from 'react';
-import { SwipeableDrawer } from '@material-ui/core';
-import { DrawerSide } from '../../models/models';
-import classes from './DrawerContainer.module.scss';
 import classNames from 'classnames';
+import { SwipeableDrawer } from '@material-ui/core';
+import { DrawerSide } from 'models';
+import classes from './styles.module.scss';
 
 interface IDrawerContainerProps {
   side: DrawerSide;
