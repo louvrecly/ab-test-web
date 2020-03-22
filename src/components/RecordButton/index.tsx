@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
-import classes from './RecordButton.module.scss';
+import classes from './styles.module.scss';
 
 const RecordButton: React.FC = () => {
   return (

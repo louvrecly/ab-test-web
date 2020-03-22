@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import classes from './Map.module.scss';
 import { urlTemplate, attribution, options } from './constant';
+import classes from './styles.module.scss';
 
 interface IMapProps {
   markersData: [number, number][];
