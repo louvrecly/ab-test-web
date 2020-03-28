@@ -1,8 +1,6 @@
 @import 'css/main';
 
 .main {
-  height: 100%;
-
   > div[tabindex="0"] {
     background-color: get-color(black);
   }
