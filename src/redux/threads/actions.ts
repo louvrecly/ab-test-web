@@ -7,6 +7,13 @@ export function getThreadsSuccess(threads: Array<Thread>) {
   };
 }
 
+export function setActiveThread(activeThread?: Thread) {
+  return {
+    type: 'SET_ACTIVE_THREAD' as 'SET_ACTIVE_THREAD',
+    activeThread
+  };
+}
+
 export function failed(type: FAILED, msg: string) {
   return {
     type,
@@ -16,6 +23,9 @@ export function failed(type: FAILED, msg: string) {
 
 type FAILED = 'GET_THREADS_FAILED';
 
-type ThreadsActionCreators = typeof getThreadsSuccess | typeof failed;
+type ThreadsActionCreators =
+  | typeof getThreadsSuccess
+  | typeof setActiveThread
+  | typeof failed;
 
 export type IThreadsAction = ReturnType<ThreadsActionCreators>;
