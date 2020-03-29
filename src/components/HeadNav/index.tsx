@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -6,21 +6,20 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
-import { DrawerSide } from 'models';
+import { DrawerState, DrawerSide } from 'redux/components/state';
 import DrawerContainer from 'components/DrawerContainer';
 import classes from './styles.module.scss';
+import { IRootState, ThunkResult } from 'store';
+import { setDrawerState } from 'redux/components/actions';
+import { connect } from 'react-redux';
 
 interface IHeadNavProps {
   title: string;
+  drawerState: DrawerState;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
-const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
-  const [state, setState] = useState({
-    top: false,
-    right: false,
-    bottom: false,
-    left: false
-  });
+const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
 
   const toggleDrawer = (side: DrawerSide, open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
@@ -33,7 +32,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
     ) {
       return;
     }
-    setState({ ...state, [side]: open });
+    props.setDrawerState(side, open);
   };
 
   return (
@@ -58,7 +57,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           </IconButton>
 
           <Button className={classes.title} color="inherit">
-            {title}
+            {props.title}
           </Button>
 
           <IconButton
@@ -80,8 +79,16 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
       </Toolbar>
 
       <DrawerContainer
+        side="bottom"
+        open={props.drawerState.bottom}
+        toggleDrawer={toggleDrawer}
+      >
+        <p>drawer contents</p>
+      </DrawerContainer>
+
+      <DrawerContainer
         side="left"
-        open={state.left}
+        open={props.drawerState.left}
         toggleDrawer={toggleDrawer}
       >
         <p>drawer contents</p>
@@ -90,4 +97,17 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
   );
 };
 
-export default HeadNav;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    drawerState: state.components.drawerState
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkResult) => {
+  return {
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeadNav);
