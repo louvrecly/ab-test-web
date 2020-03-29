@@ -20,7 +20,6 @@ interface IHeadNavProps {
 }
 
 const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
-
   const toggleDrawer = (side: DrawerSide, open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
