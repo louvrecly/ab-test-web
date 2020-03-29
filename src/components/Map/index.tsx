@@ -3,16 +3,23 @@ import { connect } from 'react-redux';
 import L from 'leaflet';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
+import { DrawerSide } from 'redux/components/state';
+import { setActiveThread } from 'redux/threads/actions';
+import { setDrawerState } from 'redux/components/actions';
 import { urlTemplate, attribution, options } from './constant';
 import classes from './styles.module.scss';
-import { setActiveThread } from 'redux/threads/actions';
 
 interface IMapProps {
   threads: Array<Thread>;
   setActiveThread: (thread?: Thread) => void;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
-const Map: React.FC<IMapProps> = (props: IMapProps) => {
+const Map: React.FC<IMapProps> = ({
+  threads,
+  setActiveThread, /* tslint:disable-line */
+  setDrawerState /* tslint:disable-line */
+}: IMapProps) => {
   const mapRef: React.MutableRefObject<L.Map | null> = useRef(null);
   const layerRef: React.MutableRefObject<L.LayerGroup | null> = useRef(null);
   const markerRef: React.MutableRefObject<L.Marker | null> = useRef(null);
@@ -43,7 +50,7 @@ const Map: React.FC<IMapProps> = (props: IMapProps) => {
     (layerRef.current as L.LayerGroup).clearLayers();
     const icon: L.DivIcon = L.divIcon({ className: classes.icon });
 
-    props.threads.forEach(thread => {
+    threads.forEach(thread => {
       const position = L.latLng([
         (thread.location as any)._latitude,
         (thread.location as any)._longitude
@@ -59,29 +66,34 @@ const Map: React.FC<IMapProps> = (props: IMapProps) => {
         .bindPopup(popup)
         .on('popupopen', (event: L.LeafletEvent) => {
           markerRef.current = event.target as L.Marker;
-          props.setActiveThread(thread);
+          setActiveThread(thread);
           (mapRef.current as L.Map).flyTo(position);
+          setDrawerState('bottom', true);
         })
         .on('popupclose', () => {
           markerRef.current = null;
-          props.setActiveThread();
+          setActiveThread();
+          setDrawerState('bottom', false);
         })
         .addTo(layerRef.current as L.LayerGroup);
     });
-  }, [props]);
+  }, [threads, setActiveThread, setDrawerState]);
 
   return <div id="map" className={classes.map} />;
 };
 
 const mapStateToProps = (state: IRootState) => {
   return {
-    threads: state.threads.threads
+    threads: state.threads.threads,
+    drawerState: state.components.drawerState
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setActiveThread: (thread?: Thread) => dispatch(setActiveThread(thread))
+    setActiveThread: (thread?: Thread) => dispatch(setActiveThread(thread)),
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open))
   };
 };
 
