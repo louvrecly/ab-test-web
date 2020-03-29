@@ -6,34 +6,18 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
-import { DrawerState, DrawerSide } from 'redux/components/state';
-import DrawerContainer from 'components/DrawerContainer';
+import { DrawerSide } from 'redux/components/state';
 import classes from './styles.module.scss';
-import { IRootState, ThunkResult } from 'store';
-import { setDrawerState } from 'redux/components/actions';
-import { connect } from 'react-redux';
 
 interface IHeadNavProps {
   title: string;
-  drawerState: DrawerState;
-  setDrawerState: (side: DrawerSide, open: boolean) => void;
+  toggleDrawer: (
+    side: DrawerSide,
+    open: boolean
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
-  const toggleDrawer = (side: DrawerSide, open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    props.setDrawerState(side, open);
-  };
-
   return (
     <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
@@ -42,7 +26,7 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          onClick={toggleDrawer('left', true)}
+          onClick={props.toggleDrawer('left', true)}
         >
           三
         </IconButton>
@@ -76,37 +60,8 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
           Q
         </IconButton>
       </Toolbar>
-
-      <DrawerContainer
-        side="bottom"
-        open={props.drawerState.bottom}
-        toggleDrawer={toggleDrawer}
-      >
-        <p>drawer contents</p>
-      </DrawerContainer>
-
-      <DrawerContainer
-        side="left"
-        open={props.drawerState.left}
-        toggleDrawer={toggleDrawer}
-      >
-        <p>drawer contents</p>
-      </DrawerContainer>
     </AppBar>
   );
 };
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    drawerState: state.components.drawerState
-  };
-};
-
-const mapDispatchToProps = (dispatch: ThunkResult) => {
-  return {
-    setDrawerState: (side: DrawerSide, open: boolean) =>
-      dispatch(setDrawerState(side, open))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeadNav);
+export default HeadNav;
