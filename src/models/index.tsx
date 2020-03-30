@@ -1,4 +1,4 @@
-import { firestore } from 'firebase-admin';
+import { firestore } from 'firebase';
 
 /* components */
 export type DrawerSide = 'top' | 'right' | 'bottom' | 'left';
