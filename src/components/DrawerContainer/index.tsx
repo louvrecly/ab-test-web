@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { SwipeableDrawer } from '@material-ui/core';
 import { DrawerSide } from 'redux/components/state';
 import classes from './styles.module.scss';
@@ -23,7 +23,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
       open={props.open}
       onClose={props.toggleDrawer(props.side, false)}
       onOpen={props.toggleDrawer(props.side, true)}
-      className={classNames({
+      className={clsx({
         [classes.drawer]: true,
         [classes['drawer-horizontal']]:
           props.side === 'left' || props.side === 'right'
