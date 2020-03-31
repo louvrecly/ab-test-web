@@ -4,7 +4,7 @@
   padding: 10px 0;
   margin: 0 15px;
 
-  .thread {
+  .container {
     .record {
       margin: 0 auto;
       width: 20px;
@@ -30,6 +30,22 @@
       .control {
         display: flex;
         justify-content: center;
+
+        &-star,
+        &-share {
+          @include font-size-normal;
+        }
+
+        .thread {
+          &-previous,
+          &-next {
+            @include font-size-large;
+          }
+
+          &-play {
+            @include font-size-small;
+          }
+        }
       }
     }
   }

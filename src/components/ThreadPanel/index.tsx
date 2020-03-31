@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { IconButton, ButtonGroup } from '@material-ui/core';
+import { FaRegStar, FaPlay } from 'react-icons/fa';
+import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
+import { FiShare } from 'react-icons/fi';
 import { firestore } from 'firebase';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
@@ -24,7 +27,7 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
   return (
     <div className={classes['thread-panel']}>
       {props.activeThread && (
-        <div className={classes.thread}>
+        <div className={classes.container}>
           <div className={classes.record} />
 
           <div className={classes.contents}>
@@ -37,46 +40,46 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
 
             <div className={classes.control}>
               <IconButton
-                className={`${classes.search} ${classes['control-button']}`}
+                className={`${classes.search} ${classes['control-star']}`}
                 color="inherit"
                 aria-label="star"
               >
-                大
+                <FaRegStar />
               </IconButton>
 
               <ButtonGroup>
                 <IconButton
-                  className={`${classes.search} ${classes['control-button']}`}
+                  className={`${classes.search} ${classes['thread-previous']}`}
                   color="inherit"
                   aria-label="previous"
                 >
-                  |&lt;
+                  <MdSkipPrevious />
                 </IconButton>
 
                 <IconButton
-                  className={`${classes.search} ${classes['control-button']}`}
+                  className={`${classes.search} ${classes['thread-play']}`}
                   color="inherit"
                   aria-label="play"
                 >
-                  |&gt;
+                  <FaPlay />
                 </IconButton>
 
                 <IconButton
-                  className={`${classes.search} ${classes['control-button']}`}
+                  className={`${classes.search} ${classes['thread-next']}`}
                   color="inherit"
                   aria-label="next"
                 >
-                  &gt;|
+                  <MdSkipNext />
                 </IconButton>
               </ButtonGroup>
 
               <IconButton
-                className={`${classes.search} ${classes['control-button']}`}
+                className={`${classes.search} ${classes['control-share']}`}
                 edge="end"
                 color="inherit"
                 aria-label="share"
               >
-                仚
+                <FiShare />
               </IconButton>
             </div>
           </div>
