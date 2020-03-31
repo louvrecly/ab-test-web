@@ -2,16 +2,20 @@
 
 .drawer {
   > div[tabindex="-1"] {
-    background-color: transparent;
+    margin: 0 auto;
+    width: calc(100% - 10px);
+    background-color: rgba(get-color(grey-darker), 0.7);
     color: get-color(gold);
-    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
 }
 
 .drawer-horizontal {
   > div[tabindex="-1"] {
-    background-color: rgba(get-color(brown), 0.7);
     width: calc(100% - 20px);
     max-width: 405px;
+    background-color: rgba(get-color(brown), 0.7);
+    height: 100%;
   }
 }

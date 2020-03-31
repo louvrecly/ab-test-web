@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SwipeableDrawer } from '@material-ui/core';
-import { DrawerSide } from 'models';
+import { DrawerSide } from 'redux/components/state';
 import classes from './styles.module.scss';
 
 interface IDrawerContainerProps {
@@ -19,6 +19,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
 ) => {
   return (
     <SwipeableDrawer
+      anchor={props.side}
       open={props.open}
       onClose={props.toggleDrawer(props.side, false)}
       onOpen={props.toggleDrawer(props.side, true)}

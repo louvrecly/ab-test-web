@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -6,36 +6,18 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
-import { DrawerSide } from 'models';
-import DrawerContainer from 'components/DrawerContainer';
+import { DrawerSide } from 'redux/components/state';
 import classes from './styles.module.scss';
 
 interface IHeadNavProps {
   title: string;
+  toggleDrawer: (
+    side: DrawerSide,
+    open: boolean
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
-  const [state, setState] = useState({
-    top: false,
-    right: false,
-    bottom: false,
-    left: false
-  });
-
-  const toggleDrawer = (side: DrawerSide, open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    setState({ ...state, [side]: open });
-  };
-
+const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
   return (
     <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
@@ -44,7 +26,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          onClick={toggleDrawer('left', true)}
+          onClick={props.toggleDrawer('left', true)}
         >
           三
         </IconButton>
@@ -58,7 +40,7 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           </IconButton>
 
           <Button className={classes.title} color="inherit">
-            {title}
+            {props.title}
           </Button>
 
           <IconButton
@@ -78,14 +60,6 @@ const HeadNav: React.FC<IHeadNavProps> = ({ title }: IHeadNavProps) => {
           Q
         </IconButton>
       </Toolbar>
-
-      <DrawerContainer
-        side="left"
-        open={state.left}
-        toggleDrawer={toggleDrawer}
-      >
-        <p>drawer contents</p>
-      </DrawerContainer>
     </AppBar>
   );
 };

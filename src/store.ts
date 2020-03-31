@@ -14,8 +14,11 @@ import {
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import logger from 'redux-logger';
 import { IThreadsState } from 'redux/threads/state';
+import { IComponentsState } from 'redux/components/state';
 import { IThreadsAction } from 'redux/threads/actions';
+import { IComponentsAction } from 'redux/components/actions';
 import { threadsReducer } from 'redux/threads/reducer';
+import { componentsReducer } from 'redux/components/reducer';
 
 declare global {
   interface Window {
@@ -30,13 +33,15 @@ export const history = createBrowserHistory();
 
 export interface IRootState {
   threads: IThreadsState;
+  components: IComponentsState;
   router: RouterState;
 }
 
-type IRootAction = IThreadsAction;
+type IRootAction = IThreadsAction | IComponentsAction;
 
 const rootReducer = combineReducers<IRootState>({
   threads: threadsReducer,
+  components: componentsReducer,
   router: connectRouter(history)
 });
 
