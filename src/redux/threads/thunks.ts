@@ -12,12 +12,12 @@ export function getThreads() {
     const res = await fetch(`${REACT_APP_API_SERVER}/threads`, {
       method: 'GET'
     });
-    const result = await res.json();
+    const { isSuccess, data } = await res.json();
 
-    if (result.isSuccess) {
-      dispatch(getThreadsSuccess(result.data));
+    if (isSuccess) {
+      dispatch(getThreadsSuccess(data));
     } else {
-      dispatch(failed('GET_THREADS_FAILED', result.data));
+      dispatch(failed('GET_THREADS_FAILED', data));
     }
   };
 }
