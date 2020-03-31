@@ -6,6 +6,12 @@ import {
   ButtonGroup,
   Button
 } from '@material-ui/core';
+import { FiSearch } from 'react-icons/fi';
+import {
+  MdFormatListBulleted,
+  MdChevronLeft,
+  MdChevronRight
+} from 'react-icons/md';
 import { DrawerSide } from 'redux/components/state';
 import classes from './styles.module.scss';
 
@@ -22,42 +28,42 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
     <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
         <IconButton
-          className={`${classes.menu} ${classes['nav-button']}`}
+          className={`${classes.menu} ${classes['nav-menu']}`}
           edge="start"
           color="inherit"
           aria-label="menu"
           onClick={props.toggleDrawer('left', true)}
         >
-          三
+          <MdFormatListBulleted />
         </IconButton>
 
         <ButtonGroup className={classes.switch}>
           <IconButton
-            className={`${classes.prev} ${classes['switch-button']}`}
+            className={`${classes.prev} ${classes['stage-previous']}`}
             aria-label="previous"
           >
-            &lt;
+            <MdChevronLeft />
           </IconButton>
 
-          <Button className={classes.title} color="inherit">
+          <Button className={classes.stage} color="inherit">
             {props.title}
           </Button>
 
           <IconButton
-            className={`${classes.next} ${classes['switch-button']}`}
+            className={`${classes.next} ${classes['stage-next']}`}
             aria-label="next"
           >
-            &gt;
+            <MdChevronRight />
           </IconButton>
         </ButtonGroup>
 
         <IconButton
-          className={`${classes.search} ${classes['nav-button']}`}
+          className={`${classes.search} ${classes['nav-search']}`}
           edge="end"
           color="inherit"
           aria-label="search"
         >
-          Q
+          <FiSearch />
         </IconButton>
       </Toolbar>
     </AppBar>
