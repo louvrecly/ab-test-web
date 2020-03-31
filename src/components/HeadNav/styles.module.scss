@@ -11,34 +11,32 @@ header.head-nav {
   text-align: center;
   width: unset;
   justify-content: center;
-}
 
-.nav-button {
-  span {
-    font-weight: $font-weight-bolder;
-    @include font-size-small;
-  }
-}
-
-.switch {
-  flex: 1 1;
-  justify-content: center;
-
-  .switch-button {
-    color: get-color(white);
-
-    span {
+  .nav {
+    &-menu,
+    &-search {
       font-weight: $font-weight-bolder;
-      @include font-size-small;
+      @include font-size-large;
     }
   }
 
-  .title {
-    border: none;
+  .switch {
+    flex: 1 1;
+    justify-content: center;
 
-    span {
+    .stage {
+      padding: 5px;
+      border: none;
       font-weight: $font-weight-bolder;
       @include font-size-small;
+
+      &-previous,
+      &-next {
+        padding: 0;
+        color: get-color(white);
+        @include font-size-large;
+      }
     }
   }
 }
+
