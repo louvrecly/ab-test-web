@@ -1,29 +1,20 @@
 import React from 'react';
-import moment from 'moment';
 import { IconButton, ButtonGroup } from '@material-ui/core';
 import { FaRegStar, FaPlay } from 'react-icons/fa';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { FiShare } from 'react-icons/fi';
-import { firestore } from 'firebase';
-import { Thread } from 'models';
+import { Thread, User } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
+import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IThreadPanelProps {
   activeThread: Thread | undefined;
+  users: Array<User>;
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
-  function sanitizedDate(timestampObj: {
-    _seconds: number;
-    _nanoseconds: number;
-  }) {
-    const { _seconds, _nanoseconds } = timestampObj;
-    const timestamp = new firestore.Timestamp(_seconds, _nanoseconds);
-    return moment(timestamp.toDate()).fromNow();
-  }
-
   return (
     <div className={classes['thread-panel']}>
       {props.activeThread && (
@@ -34,8 +25,12 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
             <h2 className={classes.title}>{props.activeThread.title}</h2>
 
             <p className={classes.info}>
-              {props.activeThread?.user_id}・
-              {sanitizedDate(props.activeThread.timestamp as any)}
+              {
+                props.users.find(
+                  user => user.id === props.activeThread?.user_id.split('/')[1]
+                )?.username
+              }
+              ・{sanitizedDate(props.activeThread.timestamp as any)}
             </p>
 
             <div className={classes.control}>
@@ -91,7 +86,8 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
 
 const mapStateToProps = (state: IRootState) => {
   return {
-    activeThread: state.threads.activeThread
+    activeThread: state.threads.activeThread,
+    users: state.users.users
   };
 };
 
