@@ -2,6 +2,7 @@ import React from 'react';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/DrawerContainer';
+import ThreadPanel from 'components/ThreadPanel';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerState, DrawerSide } from 'redux/components/state';
 import { setDrawerState } from 'redux/components/actions';
@@ -47,7 +48,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         open={props.drawerState.bottom}
         toggleDrawer={toggleDrawer}
       >
-        <p>drawer contents</p>
+        <ThreadPanel />
       </DrawerContainer>
     </div>
   );
