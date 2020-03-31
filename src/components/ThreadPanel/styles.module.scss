@@ -1,0 +1,36 @@
+@import 'css/main';
+
+.thread-panel {
+  padding: 10px 0;
+  margin: 0 15px;
+
+  .thread {
+    .record {
+      margin: 0 auto;
+      width: 20px;
+      height: 5px;
+      background-color: get-color(white);
+      border-radius: 5px;
+    }
+
+    .contents {
+      padding: 20px 0;
+
+      .title {
+        margin: 0;
+        text-align: center;
+      }
+
+      .info {
+        margin: 10px 0;
+        color: get-color(white);
+        text-align: center;
+      }
+
+      .control {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
