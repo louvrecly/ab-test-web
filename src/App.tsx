@@ -5,14 +5,17 @@ import Map from 'components/Map';
 import Main from 'components/Main';
 import { history, IRootState, ThunkResult } from './store';
 import { getThreads } from 'redux/threads/thunks';
+import { getUsers } from 'redux/users/thunks';
 import classes from './App.module.scss';
 
 interface IAppProps {
   getThreads: () => void;
+  getUsers: () => void;
 }
 
 const App: React.FC<IAppProps> = (props: IAppProps) => {
   props.getThreads();
+  props.getUsers();
 
   return (
     <ConnectedRouter history={history}>
@@ -30,7 +33,8 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    getThreads: () => dispatch(getThreads())
+    getThreads: () => dispatch(getThreads()),
+    getUsers: () => dispatch(getUsers())
   };
 };
 
