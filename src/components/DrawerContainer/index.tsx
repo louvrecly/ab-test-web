@@ -7,6 +7,7 @@ import classes from './styles.module.scss';
 interface IDrawerContainerProps {
   side: DrawerSide;
   open: boolean;
+  disableSwipe?: boolean;
   children: React.ReactNode;
   toggleDrawer: (
     side: DrawerSide,
@@ -21,6 +22,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
     <SwipeableDrawer
       anchor={props.side}
       open={props.open}
+      disableSwipeToOpen={props.disableSwipe}
       onClose={props.toggleDrawer(props.side, false)}
       onOpen={props.toggleDrawer(props.side, true)}
       className={clsx({
