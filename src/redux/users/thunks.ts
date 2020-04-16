@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
-import { IUsersAction, getUsersSuccess, failed } from 'redux/users/actions';
+import { IUsersAction, loadUsersSuccess, failed } from './actions';
 
 const { REACT_APP_API_SERVER } = process.env;
 
-export function getUsers() {
+export function loadUsers() {
   return async (dispatch: Dispatch<IUsersAction>) => {
     const res = await fetch(`${REACT_APP_API_SERVER}/users`, {
       method: 'GET'
@@ -11,9 +11,9 @@ export function getUsers() {
     const { isSuccess, data } = await res.json();
 
     if (isSuccess) {
-      dispatch(getUsersSuccess(data));
+      dispatch(loadUsersSuccess(data));
     } else {
-      dispatch(failed('GET_USERS_FAILED', data));
+      dispatch(failed('LOAD_USERS_FAILED', data));
     }
   };
 }
