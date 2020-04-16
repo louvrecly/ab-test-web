@@ -6,10 +6,21 @@ export interface Thread {
   is_active: boolean;
   title: string;
   user_id: string;
-  location: firestore.GeoPoint;
   color_code?: 'Y' | 'B';
-  timestamp: firestore.Timestamp;
   bookmarked_by_users: Array<string>;
+  location: firestore.GeoPoint;
+  timestamp: firestore.Timestamp;
+}
+
+export interface Voice {
+  id?: string;
+  is_active: boolean;
+  thread_id: string;
+  user_id: string;
+  voice_url: string;
+  liked_by_users: Array<string>;
+  location: firestore.GeoPoint;
+  timestamp: firestore.Timestamp;
 }
 
 export interface User {
