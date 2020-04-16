@@ -4,7 +4,8 @@ import L from 'leaflet';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerSide } from 'redux/components/state';
-import { setActiveThread } from 'redux/threads/actions';
+import { setActiveThread, stopPlayingThread } from 'redux/threads/actions';
+import { loadVoices } from 'redux/voices/thunks';
 import { setDrawerState } from 'redux/components/actions';
 import { urlTemplate, attribution, options } from './constant';
 import classes from './styles.module.scss';
@@ -12,12 +13,16 @@ import classes from './styles.module.scss';
 interface IMapProps {
   threads: Array<Thread>;
   setActiveThread: (thread?: Thread) => void;
+  loadVoices: (threadId: string) => void;
+  stopPlayingThread: () => void;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
 const Map: React.FC<IMapProps> = ({
   threads,
   setActiveThread, /* tslint:disable-line */
+  loadVoices, /* tslint:disable-line */
+  stopPlayingThread, /* tslint:disable-line */
   setDrawerState /* tslint:disable-line */
 }: IMapProps) => {
   const mapRef: React.MutableRefObject<L.Map | null> = useRef(null);
@@ -66,7 +71,9 @@ const Map: React.FC<IMapProps> = ({
         .bindPopup(popup)
         .on('popupopen', (event: L.LeafletEvent) => {
           markerRef.current = event.target as L.Marker;
+          stopPlayingThread();
           setActiveThread(thread);
+          loadVoices(thread.id as string);
           (mapRef.current as L.Map).flyTo(position);
           setDrawerState('bottom', true);
         })
@@ -77,7 +84,7 @@ const Map: React.FC<IMapProps> = ({
         })
         .addTo(layerRef.current as L.LayerGroup);
     });
-  }, [threads, setActiveThread, setDrawerState]);
+  }, [threads, stopPlayingThread, setActiveThread, loadVoices, setDrawerState]);
 
   return <div id="map" className={classes.map} />;
 };
@@ -92,6 +99,8 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     setActiveThread: (thread?: Thread) => dispatch(setActiveThread(thread)),
+    loadVoices: (threadId: string) => dispatch(loadVoices(threadId)),
+    stopPlayingThread: () => dispatch(stopPlayingThread()),
     setDrawerState: (side: DrawerSide, open: boolean) =>
       dispatch(setDrawerState(side, open))
   };
