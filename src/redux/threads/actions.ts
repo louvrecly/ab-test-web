@@ -1,8 +1,8 @@
 import { Thread } from 'models';
 
-export function getThreadsSuccess(threads: Array<Thread>) {
+export function loadThreadsSuccess(threads: Array<Thread>) {
   return {
-    type: 'GET_THREADS' as 'GET_THREADS',
+    type: 'LOAD_THREADS' as 'LOAD_THREADS',
     threads
   };
 }
@@ -14,6 +14,18 @@ export function setActiveThread(activeThread?: Thread) {
   };
 }
 
+export function toggleThreadPlaying() {
+  return {
+    type: 'TOGGLE_THREAD_PLAYING' as 'TOGGLE_THREAD_PLAYING'
+  };
+}
+
+export function stopPlayingThread() {
+  return {
+    type: 'STOP_PLAYING_THREAD' as 'STOP_PLAYING_THREAD'
+  };
+}
+
 export function failed(type: FAILED, msg: string) {
   return {
     type,
@@ -21,11 +33,13 @@ export function failed(type: FAILED, msg: string) {
   };
 }
 
-type FAILED = 'GET_THREADS_FAILED';
+type FAILED = 'LOAD_THREADS_FAILED';
 
 type ThreadsActionCreators =
-  | typeof getThreadsSuccess
+  | typeof loadThreadsSuccess
   | typeof setActiveThread
+  | typeof toggleThreadPlaying
+  | typeof stopPlayingThread
   | typeof failed;
 
 export type IThreadsAction = ReturnType<ThreadsActionCreators>;
