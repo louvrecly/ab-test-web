@@ -1,0 +1,15 @@
+@import 'css/main';
+
+.playing-panel {
+  border-top: 1px solid get-color(white);
+
+  .voices {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+
+    .voice {
+      padding: 10px 0;
+    }
+  }
+}
