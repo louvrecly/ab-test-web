@@ -1,9 +1,10 @@
 import L from 'leaflet';
 
+const { STADIA_MAP_API_KEY } = process.env;
+
 const tsimShaTsuiLatLng: [number, number] = [22.2988, 114.1722];
 
-export const urlTemplate: string =
-  'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
+export const urlTemplate: string = `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${STADIA_MAP_API_KEY}`;
 
 export const attribution: string = `
   &copy; <a href="https://stadiamaps.com/">Stadia Maps</a>,
