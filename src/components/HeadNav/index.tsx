@@ -38,23 +38,23 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
         </IconButton>
 
         <ButtonGroup className={classes.switch}>
-          <IconButton
+          <Button
             className={`${classes.prev} ${classes['stage-previous']}`}
             aria-label="previous"
           >
             <MdChevronLeft />
-          </IconButton>
+          </Button>
 
           <Button className={classes.stage} color="inherit">
             {props.title}
           </Button>
 
-          <IconButton
+          <Button
             className={`${classes.next} ${classes['stage-next']}`}
             aria-label="next"
           >
             <MdChevronRight />
-          </IconButton>
+          </Button>
         </ButtonGroup>
 
         <IconButton
