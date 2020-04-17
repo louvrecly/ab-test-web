@@ -74,7 +74,6 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
 
               <IconButton
                 className={classes['control-share']}
-                edge="end"
                 color="inherit"
                 aria-label="share"
               >
