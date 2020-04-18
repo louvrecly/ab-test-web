@@ -1,9 +1,10 @@
-import { IThreadsState } from 'redux/threads/state';
-import { IThreadsAction } from 'redux/threads/actions';
+import { IThreadsState } from './state';
+import { IThreadsAction } from './actions';
 
 const initialState: IThreadsState = {
   threads: [],
-  activeThread: undefined
+  activeThread: undefined,
+  threadPlaying: false
 };
 
 export const threadsReducer = (
@@ -11,7 +12,7 @@ export const threadsReducer = (
   action: IThreadsAction
 ): IThreadsState => {
   switch (action.type) {
-    case 'GET_THREADS':
+    case 'LOAD_THREADS':
       const { threads } = action;
       return {
         ...state,
@@ -22,6 +23,17 @@ export const threadsReducer = (
       return {
         ...state,
         activeThread
+      };
+    case 'TOGGLE_THREAD_PLAYING':
+      const threadPlaying = !state.threadPlaying;
+      return {
+        ...state,
+        threadPlaying
+      };
+    case 'STOP_PLAYING_THREAD':
+      return {
+        ...state,
+        threadPlaying: false
       };
     default:
       return state;

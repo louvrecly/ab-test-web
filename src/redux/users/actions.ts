@@ -1,8 +1,8 @@
 import { User } from 'models';
 
-export function getUsersSuccess(users: Array<User>) {
+export function loadUsersSuccess(users: Array<User>) {
   return {
-    type: 'GET_USERS' as 'GET_USERS',
+    type: 'LOAD_USERS' as 'LOAD_USERS',
     users
   };
 }
@@ -14,8 +14,8 @@ export function failed(type: FAILED, msg: string) {
   };
 }
 
-type FAILED = 'GET_USERS_FAILED';
+type FAILED = 'LOAD_USERS_FAILED';
 
-type UsersActionCreators = typeof getUsersSuccess | typeof failed;
+type UsersActionCreators = typeof loadUsersSuccess | typeof failed;
 
 export type IUsersAction = ReturnType<UsersActionCreators>;

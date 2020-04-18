@@ -1,13 +1,9 @@
 import { Dispatch } from 'redux';
-import {
-  IThreadsAction,
-  getThreadsSuccess,
-  failed
-} from 'redux/threads/actions';
+import { IThreadsAction, loadThreadsSuccess, failed } from './actions';
 
 const { REACT_APP_API_SERVER } = process.env;
 
-export function getThreads() {
+export function loadThreads() {
   return async (dispatch: Dispatch<IThreadsAction>) => {
     const res = await fetch(`${REACT_APP_API_SERVER}/threads`, {
       method: 'GET'
@@ -15,9 +11,9 @@ export function getThreads() {
     const { isSuccess, data } = await res.json();
 
     if (isSuccess) {
-      dispatch(getThreadsSuccess(data));
+      dispatch(loadThreadsSuccess(data));
     } else {
-      dispatch(failed('GET_THREADS_FAILED', data));
+      dispatch(failed('LOAD_THREADS_FAILED', data));
     }
   };
 }

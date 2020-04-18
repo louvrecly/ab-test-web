@@ -1,5 +1,5 @@
-import { IUsersState } from 'redux/users/state';
-import { IUsersAction } from 'redux/users/actions';
+import { IUsersState } from './state';
+import { IUsersAction } from './actions';
 
 const initialState: IUsersState = {
   users: []
@@ -10,7 +10,7 @@ export const usersReducer = (
   action: IUsersAction
 ): IUsersState => {
   switch (action.type) {
-    case 'GET_USERS':
+    case 'LOAD_USERS':
       const { users } = action;
       return {
         ...state,

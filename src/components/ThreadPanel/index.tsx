@@ -1,10 +1,12 @@
 import React from 'react';
-import { IconButton, ButtonGroup } from '@material-ui/core';
-import { FaRegStar, FaPlay } from 'react-icons/fa';
+import PlayList from 'components/PlayList';
+import { IconButton } from '@material-ui/core';
+import { FaRegStar, FaPlay, FaPause } from 'react-icons/fa';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { FiShare } from 'react-icons/fi';
-import { Thread, User } from 'models';
+import { Thread, User, Voice } from 'models';
 import { IRootState, ThunkResult } from 'store';
+import { toggleThreadPlaying } from 'redux/threads/actions';
 import { connect } from 'react-redux';
 import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
@@ -12,6 +14,9 @@ import classes from './styles.module.scss';
 interface IThreadPanelProps {
   activeThread: Thread | undefined;
   users: Array<User>;
+  voices: Array<Voice>;
+  threadPlaying: boolean;
+  toggleThreadPlaying: () => void;
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
@@ -35,48 +40,48 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
 
             <div className={classes.control}>
               <IconButton
-                className={`${classes.search} ${classes['control-star']}`}
+                className={classes['control-star']}
                 color="inherit"
                 aria-label="star"
               >
                 <FaRegStar />
               </IconButton>
 
-              <ButtonGroup>
-                <IconButton
-                  className={`${classes.search} ${classes['thread-previous']}`}
-                  color="inherit"
-                  aria-label="previous"
-                >
-                  <MdSkipPrevious />
-                </IconButton>
-
-                <IconButton
-                  className={`${classes.search} ${classes['thread-play']}`}
-                  color="inherit"
-                  aria-label="play"
-                >
-                  <FaPlay />
-                </IconButton>
-
-                <IconButton
-                  className={`${classes.search} ${classes['thread-next']}`}
-                  color="inherit"
-                  aria-label="next"
-                >
-                  <MdSkipNext />
-                </IconButton>
-              </ButtonGroup>
+              <IconButton
+                className={classes['thread-previous']}
+                color="inherit"
+                aria-label="previous"
+              >
+                <MdSkipPrevious />
+              </IconButton>
 
               <IconButton
-                className={`${classes.search} ${classes['control-share']}`}
-                edge="end"
+                className={classes['thread-play']}
+                color="inherit"
+                aria-label="play"
+                onClick={props.toggleThreadPlaying}
+              >
+                {props.threadPlaying ? <FaPause /> : <FaPlay />}
+              </IconButton>
+
+              <IconButton
+                className={classes['thread-next']}
+                color="inherit"
+                aria-label="next"
+              >
+                <MdSkipNext />
+              </IconButton>
+
+              <IconButton
+                className={classes['control-share']}
                 color="inherit"
                 aria-label="share"
               >
                 <FiShare />
               </IconButton>
             </div>
+
+            {props.threadPlaying && <PlayList />}
           </div>
         </div>
       )}
@@ -87,12 +92,16 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
 const mapStateToProps = (state: IRootState) => {
   return {
     activeThread: state.threads.activeThread,
-    users: state.users.users
+    users: state.users.users,
+    voices: state.voices.voices,
+    threadPlaying: state.threads.threadPlaying
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
-  return {};
+  return {
+    toggleThreadPlaying: () => dispatch(toggleThreadPlaying())
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreadPanel);

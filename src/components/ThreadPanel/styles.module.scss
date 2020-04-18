@@ -2,7 +2,7 @@
 
 .thread-panel {
   padding: 10px 0;
-  margin: 0 15px;
+  margin: 0 30px;
 
   .container {
     .record {
@@ -17,33 +17,50 @@
       padding: 20px 0;
 
       .title {
-        margin: 0;
+        margin: 0 0 10px;
         text-align: center;
       }
 
       .info {
-        margin: 10px 0;
+        margin: 0;
         color: get-color(white);
         text-align: center;
       }
 
       .control {
+        padding: 15px 0;
         display: flex;
         justify-content: center;
+        align-items: center;
 
         &-star,
         &-share {
           @include font-size-normal;
+          padding: 10px;
         }
 
         .thread {
           &-previous,
           &-next {
             @include font-size-large;
+            padding: 5px;
           }
 
           &-play {
-            @include font-size-small;
+            @include font-size-normal;
+            width: 75px;
+            height: 75px;
+            background-color: rgba($color: get-color(gold), $alpha: 0.2);
+            border-radius: 50%;
+
+            &:before {
+              content: '';
+              width: 55px;
+              height: 55px;
+              background-color: rgba($color: get-color(gold), $alpha: 0.2);
+              border-radius: 50%;
+              position: absolute;
+            }
           }
         }
       }

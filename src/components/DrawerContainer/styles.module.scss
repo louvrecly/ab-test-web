@@ -1,6 +1,10 @@
 @import 'css/main';
 
 .drawer {
+  > div:first-child {
+    background-color: transparent;
+  }
+
   > div[tabindex="-1"] {
     margin: 0 auto;
     width: calc(100% - 10px);
@@ -9,13 +13,13 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
-}
 
-.drawer-horizontal {
-  > div[tabindex="-1"] {
-    width: calc(100% - 20px);
-    max-width: 405px;
-    background-color: rgba(get-color(brown), 0.7);
-    height: 100%;
+  &-horizontal {
+    > div[tabindex="-1"] {
+      width: calc(100% - 20px);
+      max-width: 405px;
+      background-color: rgba(get-color(brown), 0.7);
+      height: 100%;
+    }
   }
 }

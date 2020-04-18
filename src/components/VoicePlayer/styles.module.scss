@@ -1,0 +1,54 @@
+@import 'css/main';
+
+.voice-player {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .profile,
+  .like {
+    @include font-size-small;
+    padding: 0;
+    color: get-color(gold);
+    width: 45px;
+    height: 45px;
+    background-color: rgba($color: get-color(gold), $alpha: 0.2);
+    border-radius: 50%;
+
+    &:before {
+      content: '';
+      width: 35px;
+      height: 35px;
+      background-color: rgba($color: get-color(gold), $alpha: 0.2);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    span {
+      display: flex;
+      flex-flow: column nowrap;
+
+      .badge {
+        @include font-size-smaller;
+        color: get-color(white);
+        line-height: 0.8;
+      }
+    }
+  }
+
+  .info {
+    .date {
+      @include font-size-smaller;
+      margin: 0 0 5px;
+      color: get-color(white);
+      text-align: center;
+    }
+
+    .user {
+      @include font-size-large;
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
