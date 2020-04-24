@@ -5,12 +5,13 @@
   margin: 0 30px;
 
   .container {
-    .record {
+    .handle {
       margin: 0 auto;
       width: 20px;
       height: 5px;
       background-color: get-color(white);
       border-radius: 5px;
+      cursor: pointer;
     }
 
     .contents {
@@ -19,6 +20,11 @@
       .title {
         margin: 0 0 10px;
         text-align: center;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+        }
       }
 
       .info {
