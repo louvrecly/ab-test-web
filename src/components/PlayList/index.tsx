@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import VoicePlayer from 'components/VoicePlayer';
 import RecordButton from 'components/RecordButton';
 import { Voice } from 'models';
@@ -7,12 +8,18 @@ import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IPlayListProps {
+  open: boolean;
   voices: Array<Voice>;
 }
 
 const PlayList: React.FC<IPlayListProps> = (props: IPlayListProps) => {
   return (
-    <div className={classes['playing-panel']}>
+    <div
+      className={clsx({
+        [classes['play-list']]: true,
+        [classes.open]: props.open
+      })}
+    >
       <ul className={classes.voices}>
         {props.voices.map((voice, idx) => (
           <li key={idx}>
