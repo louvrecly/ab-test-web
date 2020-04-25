@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PlayList from 'components/PlayList';
 import { IconButton } from '@material-ui/core';
 import { FaRegStar, FaPlay, FaPause } from 'react-icons/fa';
@@ -20,14 +20,27 @@ interface IThreadPanelProps {
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
+  const [playListState, setPlayListState] = useState(props.threadPlaying);
+
+  const toggleHasPlayed = () => {
+    setPlayListState(!playListState);
+  };
+
+  const playOrPauseThread = () => {
+    setPlayListState(true);
+    props.toggleThreadPlaying();
+  };
+
   return (
     <div className={classes['thread-panel']}>
       {props.activeThread && (
         <div className={classes.container}>
-          <div className={classes.record} />
+          <div className={classes.handle} onClick={toggleHasPlayed} />
 
           <div className={classes.contents}>
-            <h2 className={classes.title}>{props.activeThread.title}</h2>
+            <h2 className={classes.title} onClick={toggleHasPlayed}>
+              {props.activeThread.title}
+            </h2>
 
             <p className={classes.info}>
               {
@@ -59,7 +72,7 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
                 className={classes['thread-play']}
                 color="inherit"
                 aria-label="play"
-                onClick={props.toggleThreadPlaying}
+                onClick={playOrPauseThread}
               >
                 {props.threadPlaying ? <FaPause /> : <FaPlay />}
               </IconButton>
@@ -81,7 +94,7 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
               </IconButton>
             </div>
 
-            {props.threadPlaying && <PlayList />}
+            {<PlayList open={playListState} />}
           </div>
         </div>
       )}
