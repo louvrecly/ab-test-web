@@ -3,6 +3,7 @@ import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/DrawerContainer';
 import ThreadPanel from 'components/ThreadPanel';
+import TimerBar from 'components/TimerBar';
 import { drawerSides } from 'components/DrawerContainer/constant';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
@@ -14,6 +15,7 @@ import classes from './styles.module.scss';
 interface IMainProps {
   drawerState: DrawerState;
   activeThread: Thread | undefined;
+  isRecording: boolean;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
@@ -58,6 +60,8 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
       >
         <ThreadPanel />
       </DrawerContainer>
+
+      {props.isRecording && <TimerBar />}
     </div>
   );
 };
@@ -65,7 +69,8 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
 const mapStateToProps = (state: IRootState) => {
   return {
     drawerState: state.components.drawerState,
-    activeThread: state.threads.activeThread
+    activeThread: state.threads.activeThread,
+    isRecording: state.audios.isRecording
   };
 };
 
