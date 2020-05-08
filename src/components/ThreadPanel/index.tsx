@@ -20,7 +20,9 @@ interface IThreadPanelProps {
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
-  const [playListState, setPlayListState] = useState(props.threadPlaying);
+  const [playListState, setPlayListState] = useState<boolean>(
+    props.threadPlaying
+  );
 
   const toggleHasPlayed = () => {
     setPlayListState(!playListState);
