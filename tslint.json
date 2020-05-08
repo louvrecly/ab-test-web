@@ -9,6 +9,7 @@
     "prettier": true,
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,
+    "no-shadowed-variable": false,
     "array-type": [true, "generic"]
   }
 }
