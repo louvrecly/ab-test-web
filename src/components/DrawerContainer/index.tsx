@@ -1,30 +1,49 @@
 import React from 'react';
 import clsx from 'clsx';
 import { SwipeableDrawer } from '@material-ui/core';
-import { DrawerSide } from 'redux/components/state';
+import { IRootState, ThunkResult } from 'store';
+import { DrawerSide, DrawerState } from 'redux/components/state';
+import {
+  setDrawerState,
+  setShowRecordButtonState
+} from 'redux/components/actions';
+import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IDrawerContainerProps {
   side: DrawerSide;
-  open: boolean;
+  drawerState: DrawerState;
   disableSwipe?: boolean;
   children: React.ReactNode;
-  toggleDrawer: (
-    side: DrawerSide,
-    open: boolean
-  ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const DrawerContainer: React.FC<IDrawerContainerProps> = (
   props: IDrawerContainerProps
 ) => {
+  const toggleDrawer = (side: DrawerSide, open: boolean) => (
+    event: React.KeyboardEvent | React.MouseEvent
+  ) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+    props.setShowRecordButtonState(!open);
+    props.setDrawerState(side, open);
+  };
+
   return (
     <SwipeableDrawer
       anchor={props.side}
-      open={props.open}
+      open={props.drawerState[props.side]}
       disableSwipeToOpen={props.disableSwipe}
-      onClose={props.toggleDrawer(props.side, false)}
-      onOpen={props.toggleDrawer(props.side, true)}
+      onClose={toggleDrawer(props.side, false)}
+      onOpen={toggleDrawer(props.side, true)}
       className={clsx({
         [classes.drawer]: true,
         [classes['drawer-horizontal']]:
@@ -36,4 +55,19 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
   );
 };
 
-export default DrawerContainer;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    drawerState: state.components.drawerState
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkResult) => {
+  return {
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContainer);
