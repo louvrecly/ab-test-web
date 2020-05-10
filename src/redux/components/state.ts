@@ -8,5 +8,7 @@ export interface DrawerState {
 }
 
 export interface IComponentsState {
+  showRecordButton: boolean;
+  showPlayList: boolean;
   drawerState: DrawerState;
 }
