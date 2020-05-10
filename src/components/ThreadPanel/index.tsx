@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PlayList from 'components/PlayList';
 import { IconButton } from '@material-ui/core';
 import { FaRegStar, FaPlay, FaPause } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import { FiShare } from 'react-icons/fi';
 import { Thread, User, Voice } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { toggleThreadPlaying } from 'redux/threads/actions';
+import { setShowPlayListState } from 'redux/components/actions';
 import { connect } from 'react-redux';
 import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
@@ -16,20 +17,19 @@ interface IThreadPanelProps {
   users: Array<User>;
   voices: Array<Voice>;
   threadPlaying: boolean;
+  showPlayList: boolean;
   toggleThreadPlaying: () => void;
+  setShowPlayListState: (showPlayList: boolean) => void;
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
-  const [playListState, setPlayListState] = useState<boolean>(
-    props.threadPlaying
-  );
-
-  const toggleHasPlayed = () => {
-    setPlayListState(!playListState);
+  const toggleShowPlayList = () => {
+    const showPlayList = !props.showPlayList;
+    props.setShowPlayListState(showPlayList);
   };
 
   const playOrPauseThread = () => {
-    setPlayListState(true);
+    props.setShowPlayListState(true);
     props.toggleThreadPlaying();
   };
 
@@ -37,10 +37,10 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
     <div className={classes['thread-panel']}>
       {props.activeThread && (
         <div className={classes.container}>
-          <div className={classes.handle} onClick={toggleHasPlayed} />
+          <div className={classes.handle} onClick={toggleShowPlayList} />
 
           <div className={classes.contents}>
-            <h2 className={classes.title} onClick={toggleHasPlayed}>
+            <h2 className={classes.title} onClick={toggleShowPlayList}>
               {props.activeThread.title}
             </h2>
 
@@ -96,7 +96,7 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
               </IconButton>
             </div>
 
-            {<PlayList open={playListState} />}
+            <PlayList open={props.showPlayList} />
           </div>
         </div>
       )}
@@ -109,13 +109,16 @@ const mapStateToProps = (state: IRootState) => {
     activeThread: state.threads.activeThread,
     users: state.users.users,
     voices: state.voices.voices,
-    threadPlaying: state.threads.threadPlaying
+    threadPlaying: state.threads.threadPlaying,
+    showPlayList: state.components.showPlayList
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    toggleThreadPlaying: () => dispatch(toggleThreadPlaying())
+    toggleThreadPlaying: () => dispatch(toggleThreadPlaying()),
+    setShowPlayListState: (showPlayList: boolean) =>
+      dispatch(setShowPlayListState(showPlayList))
   };
 };
 
