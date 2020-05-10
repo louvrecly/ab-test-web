@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import VoicePlayer from 'components/VoicePlayer';
-import RecordButton from 'components/RecordButton';
 import { Voice } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
@@ -27,8 +26,6 @@ const PlayList: React.FC<IPlayListProps> = (props: IPlayListProps) => {
           </li>
         ))}
       </ul>
-
-      <RecordButton />
     </div>
   );
 };
