@@ -13,6 +13,7 @@
     border-radius: 50%;
     box-shadow: inset 0px 0px 3px 3px get-color(gold), 0px 0px 5px 5px rgba(get-color(gold), 0.9);
     transform-origin: center;
+    outline: none;
 
     &:active {
       zoom: 1;
