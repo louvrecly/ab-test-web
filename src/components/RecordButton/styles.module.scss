@@ -7,6 +7,10 @@
   background: linear-gradient(#E7E7E7, #B1B4BC);
   border-radius: 50%;
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  position: absolute;
+  bottom: 45px;
+  right: calc(50% - 35px);
+  left: calc(50% - 35px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,13 +23,6 @@
     background: linear-gradient(#313338, #313338 50%, #FFFFFF 90%, #FFFFFF);
     border-radius: 50%;
     position: absolute;
-  }
-
-  &.absolute {
-    position: absolute;
-    bottom: 45px;
-    right: calc(50% - 35px);
-    left: calc(50% - 35px);
   }
 
   .button {
