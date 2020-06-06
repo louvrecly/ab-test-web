@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
 // import { AudioData, AudioRecorder } from 'utils/audioRecorder';
 import { IRootState, ThunkResult } from 'store';
@@ -10,7 +9,6 @@ import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
   // recorder: AudioRecorder | undefined;
-  isAbsolute?: boolean;
   isRecording: boolean;
   // setAudio: (audio: AudioData) => void;
   setIsRecordingState: (isRecording: boolean) => void;
@@ -40,12 +38,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
   };
 
   return (
-    <div
-      className={clsx({
-        [classes['record-button']]: true,
-        [classes.absolute]: props.isAbsolute
-      })}
-    >
+    <div className={classes['record-button']}>
       <IconButton
         className={classes.button}
         aria-label="record"

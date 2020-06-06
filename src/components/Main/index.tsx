@@ -23,9 +23,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
     <div className={classes.main}>
       <HeadNav title="吹水台" />
 
-      {(props.showRecordButton || props.showPlayList) && (
-        <RecordButton isAbsolute={true} />
-      )}
+      {(props.showRecordButton || props.showPlayList) && <RecordButton />}
 
       <DrawerContainer side="left">
         <p>drawer contents</p>
