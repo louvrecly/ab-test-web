@@ -1,15 +1,10 @@
 @import 'css/main';
 
 .timer-bar {
-  height: 50px;
-  background-color: get-color(grey-darker);
-  color: get-color(gold);
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1350;
+  .timer {
+    color: get-color(gold);
+    font-weight: normal;
+    @include font-size-small;
+    text-align: center;
+  }
 }
