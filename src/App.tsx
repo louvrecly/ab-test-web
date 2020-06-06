@@ -6,20 +6,21 @@ import Main from 'components/Main';
 import { history, IRootState, ThunkResult } from './store';
 import { loadThreads } from 'redux/threads/thunks';
 import { loadUsers } from 'redux/users/thunks';
-import { audioRecorder, AudioRecorder } from 'utils/audioRecorder';
+// import { audioRecorder, AudioRecorder } from 'utils/audioRecorder';
 import classes from './App.module.scss';
-import { setRecorder } from 'redux/audios/actions';
+// import { setRecorder } from 'redux/audios/actions';
 
 interface IAppProps {
   loadThreads: () => void;
   loadUsers: () => void;
-  setRecorder: (recorder?: AudioRecorder) => void;
+  // setRecorder: (recorder?: AudioRecorder) => void;
 }
 
 const App: React.FC<IAppProps> = (props: IAppProps) => {
   const initializeRecorder = async () => {
-    const recorder = await audioRecorder();
-    props.setRecorder(recorder);
+    console.log('initializeRecorder()'); // tslint:disable-line
+    // const recorder = await audioRecorder();
+    // props.setRecorder(recorder);
   };
 
   props.loadThreads();
@@ -44,8 +45,8 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     loadThreads: () => dispatch(loadThreads()),
-    loadUsers: () => dispatch(loadUsers()),
-    setRecorder: (recorder?: AudioRecorder) => dispatch(setRecorder(recorder))
+    loadUsers: () => dispatch(loadUsers())
+    // setRecorder: (recorder?: AudioRecorder) => dispatch(setRecorder(recorder))
   };
 };
 

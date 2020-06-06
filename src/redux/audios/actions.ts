@@ -1,18 +1,18 @@
-import { AudioRecorder, AudioData } from 'utils/audioRecorder';
+// import { AudioRecorder, AudioData } from 'utils/audioRecorder';
 
-export function setRecorder(recorder?: AudioRecorder) {
-  return {
-    type: 'SET_RECORDER' as 'SET_RECORDER',
-    recorder
-  };
-}
+// export function setRecorder(recorder?: AudioRecorder) {
+//   return {
+//     type: 'SET_RECORDER' as 'SET_RECORDER',
+//     recorder
+//   };
+// }
 
-export function setAudio(audio: AudioData) {
-  return {
-    type: 'SET_AUDIO' as 'SET_AUDIO',
-    audio
-  };
-}
+// export function setAudio(audio: AudioData) {
+//   return {
+//     type: 'SET_AUDIO' as 'SET_AUDIO',
+//     audio
+//   };
+// }
 
 export function setIsRecordingState(isRecording: boolean) {
   return {
@@ -21,9 +21,10 @@ export function setIsRecordingState(isRecording: boolean) {
   };
 }
 
-type AudiosActionCreators =
-  | typeof setRecorder
-  | typeof setAudio
-  | typeof setIsRecordingState;
+type AudiosActionCreators = typeof setIsRecordingState;
+// type AudiosActionCreators =
+//   | typeof setRecorder
+//   | typeof setAudio
+//   | typeof setIsRecordingState;
 
 export type IAudiosAction = ReturnType<AudiosActionCreators>;
