@@ -1,9 +1,11 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
 // import { AudioData, AudioRecorder } from 'utils/audioRecorder';
+import { DrawerSide } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 // import { setAudio, setIsRecordingState } from 'redux/audios/actions';
 import { setIsRecordingState } from 'redux/audios/actions';
+import { setDrawerState } from 'redux/components/actions';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
@@ -12,12 +14,14 @@ interface IRecordButtonProps {
   isRecording: boolean;
   // setAudio: (audio: AudioData) => void;
   setIsRecordingState: (isRecording: boolean) => void;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
   props: IRecordButtonProps
 ) => {
   const startRecording = () => {
+    props.setDrawerState('bottom', true);
     props.setIsRecordingState(true);
     // if (props.recorder) {
     //   props.recorder.start();
@@ -62,7 +66,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     // setAudio: (audio: AudioData) => dispatch(setAudio(audio)),
     setIsRecordingState: (isRecording: boolean) =>
-      dispatch(setIsRecordingState(isRecording))
+      dispatch(setIsRecordingState(isRecording)),
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open))
   };
 };
 
