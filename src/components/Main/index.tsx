@@ -33,10 +33,8 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         side="bottom"
         disableSwipe={props.activeThread === undefined}
       >
-        <ThreadPanel />
+        {props.isRecording ? <TimerBar /> : <ThreadPanel />}
       </DrawerContainer>
-
-      {props.isRecording && <TimerBar />}
     </div>
   );
 };
