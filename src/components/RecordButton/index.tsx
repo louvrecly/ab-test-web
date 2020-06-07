@@ -8,6 +8,7 @@ import { setIsRecordingState } from 'redux/audios/actions';
 import { setDrawerState } from 'redux/components/actions';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
+import { useHistory } from 'react-router-dom';
 
 interface IRecordButtonProps {
   // recorder: AudioRecorder | undefined;
@@ -20,6 +21,8 @@ interface IRecordButtonProps {
 const RecordButton: React.FC<IRecordButtonProps> = (
   props: IRecordButtonProps
 ) => {
+  const history = useHistory();
+
   const startRecording = () => {
     props.setDrawerState('bottom', true);
     props.setIsRecordingState(true);
@@ -36,6 +39,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
       // const audio = await props.recorder?.stop();
       // props.setAudio(audio as AudioData);
       props.setIsRecordingState(false);
+      history.push('/threads/new');
     } else {
       console.log('no audio is being recorded'); // tslint:disable-line
     }
