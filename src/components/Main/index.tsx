@@ -1,9 +1,12 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/DrawerContainer';
 import ThreadPanel from 'components/ThreadPanel';
 import TimerBar from 'components/TimerBar';
+import ThreadForm from 'components/ThreadForm';
+import VoiceForm from 'components/VoiceForm';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerState } from 'redux/components/state';
@@ -33,7 +36,15 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         side="bottom"
         disableSwipe={props.activeThread === undefined}
       >
-        {props.isRecording ? <TimerBar /> : <ThreadPanel />}
+        <Switch>
+          <Route path="/threads/new">
+            {props.activeThread ? <VoiceForm /> : <ThreadForm />}
+          </Route>
+
+          <Route path="/">
+            {props.isRecording ? <TimerBar /> : <ThreadPanel />}
+          </Route>
+        </Switch>
       </DrawerContainer>
     </div>
   );
