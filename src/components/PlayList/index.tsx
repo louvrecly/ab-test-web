@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import VoicePlayer from 'components/VoicePlayer';
+import VoiceInfo from 'components/VoiceInfo';
 import { Voice } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ const PlayList: React.FC<IPlayListProps> = (props: IPlayListProps) => {
       <ul className={classes.voices}>
         {props.voices.map((voice, idx) => (
           <li key={idx}>
-            <VoicePlayer voice={voice} />
+            <VoiceInfo voice={voice} />
           </li>
         ))}
       </ul>
