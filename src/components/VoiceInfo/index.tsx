@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
 
-interface IVoicePlayerProps {
+interface IVoiceInfoProps {
   voice: Voice;
   users: Array<User>;
 }
 
-const VoicePlayer: React.FC<IVoicePlayerProps> = (props: IVoicePlayerProps) => {
+const VoiceInfo: React.FC<IVoiceInfoProps> = (props: IVoiceInfoProps) => {
   return (
-    <div className={classes['voice-player']}>
+    <div className={classes['voice-info']}>
       <IconButton className={classes.profile} aria-label="profile">
         <FaUserPlus />
 
@@ -63,4 +63,4 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VoicePlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(VoiceInfo);
