@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import VoicePlayer from 'components/VoicePlayer';
 import { RiFileAddLine } from 'react-icons/ri';
@@ -11,6 +11,14 @@ interface IVoiceFormProps {
 }
 
 const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
+  const [value, setValue] = useState<string>(
+    props.thread ? props.thread.title : ''
+  );
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
   return (
     <div className={classes['voice-form']}>
       <div className={classes.container}>
@@ -18,7 +26,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
 
         <form className={classes.form}>
           <ul className={classes.fields}>
-            {props.thread && (
+            {props.thread ? null : (
               <li className={classes.field}>
                 <label className={classes.label} htmlFor="channel">
                   選擇版區：
@@ -41,7 +49,8 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
                 className={classes.input}
                 name="thread"
                 type="text"
-                value={props.thread?.title}
+                value={value}
+                onChange={handleInput}
               />
             </li>
           </ul>
