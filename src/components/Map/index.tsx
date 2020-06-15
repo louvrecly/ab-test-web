@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router';
 import L from 'leaflet';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
@@ -36,6 +37,8 @@ const Map: React.FC<IMapProps> = ({
   const mapRef: React.MutableRefObject<L.Map | null> = useRef(null);
   const layerRef: React.MutableRefObject<L.LayerGroup | null> = useRef(null);
   const markerRef: React.MutableRefObject<L.Marker | null> = useRef(null);
+
+  const history = useHistory();
 
   /* initialize map and add tile layer */
   useEffect(() => {
@@ -84,6 +87,7 @@ const Map: React.FC<IMapProps> = ({
         setShowPlayListState(false);
         setShowRecordButtonState(false);
         setDrawerState('bottom', true);
+        history.push(`/threads/${thread.id}`);
       };
 
       const popupCloseHandler = () => {
@@ -91,6 +95,7 @@ const Map: React.FC<IMapProps> = ({
         setActiveThread();
         setShowRecordButtonState(true);
         setDrawerState('bottom', false);
+        history.push('/');
       };
 
       L.marker(position, { icon })
@@ -101,6 +106,7 @@ const Map: React.FC<IMapProps> = ({
     });
   }, [
     threads,
+    history,
     stopPlayingThread,
     setActiveThread,
     loadVoices,
