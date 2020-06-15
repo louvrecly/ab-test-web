@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IHeadNavProps {
-  title: string;
+  channel: string;
   drawerState: DrawerState;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
@@ -57,7 +57,7 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
           </Button>
 
           <Button className={classes.stage} color="inherit">
-            {props.title}
+            {props.channel}
           </Button>
 
           <Button
@@ -83,6 +83,7 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
 
 const mapStateToProps = (state: IRootState) => {
   return {
+    channel: state.channels.channel,
     drawerState: state.components.drawerState
   };
 };
