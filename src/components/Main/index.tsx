@@ -5,7 +5,6 @@ import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/DrawerContainer';
 import ThreadPanel from 'components/ThreadPanel';
 import TimerBar from 'components/TimerBar';
-import ThreadForm from 'components/ThreadForm';
 import VoiceForm from 'components/VoiceForm';
 import { Thread } from 'models';
 import { IRootState, ThunkResult } from 'store';
@@ -24,7 +23,7 @@ interface IMainProps {
 const Main: React.FC<IMainProps> = (props: IMainProps) => {
   return (
     <div className={classes.main}>
-      <HeadNav title="吹水台" />
+      <HeadNav />
 
       {(props.showRecordButton || props.showPlayList) && <RecordButton />}
 
@@ -37,9 +36,10 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         disableSwipe={props.activeThread === undefined}
       >
         <Switch>
-          <Route path="/threads/new">
-            {props.activeThread ? <VoiceForm /> : <ThreadForm />}
-          </Route>
+          <Route
+            path="/threads/new"
+            children={<VoiceForm thread={props.activeThread} />}
+          />
 
           <Route path="/">
             {props.isRecording ? <TimerBar /> : <ThreadPanel />}
