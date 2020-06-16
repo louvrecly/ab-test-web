@@ -51,6 +51,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
                 type="text"
                 value={value}
                 onChange={handleInput}
+                readOnly={Boolean(props.thread)}
               />
             </li>
           </ul>
