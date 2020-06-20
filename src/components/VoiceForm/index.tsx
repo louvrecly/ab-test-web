@@ -42,7 +42,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
 
             <li className={classes.field}>
               <label className={classes.label} htmlFor="thread">
-                新貼題目：
+                {`${props.thread ? '回應' : '新貼'}題目：`}
               </label>
 
               <input
