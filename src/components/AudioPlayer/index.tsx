@@ -5,11 +5,11 @@ import { IoMdClose } from 'react-icons/io';
 import { AudioData } from 'utils/audioRecorder';
 import classes from './styles.module.scss';
 
-interface IVoicePlayerProps {
+interface IAudioPlayerProps {
   audio: AudioData | undefined;
 }
 
-const VoicePlayer: React.FC<IVoicePlayerProps> = (props: IVoicePlayerProps) => {
+const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
   const playAudio = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -37,4 +37,4 @@ const VoicePlayer: React.FC<IVoicePlayerProps> = (props: IVoicePlayerProps) => {
   );
 };
 
-export default VoicePlayer;
+export default AudioPlayer;

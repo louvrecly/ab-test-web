@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton } from '@material-ui/core';
-import VoicePlayer from 'components/VoicePlayer';
+import AudioPlayer from 'components/AudioPlayer';
 import { RiFileAddLine } from 'react-icons/ri';
 import { FaMusic, FaCheck } from 'react-icons/fa';
 import { Thread } from 'models';
@@ -60,7 +60,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
             </li>
           </ul>
 
-          <VoicePlayer audio={props.audio} />
+          <AudioPlayer audio={props.audio} />
 
           <div className={classes.control}>
             <div className={classes.buttons}>
