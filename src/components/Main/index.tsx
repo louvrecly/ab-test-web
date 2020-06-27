@@ -36,8 +36,10 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         disableSwipe={props.activeThread === undefined}
       >
         <Switch>
+          <Route path="/threads/new" children={<VoiceForm />} />
+
           <Route
-            path="/threads/new"
+            path="/threads/:id/new"
             children={<VoiceForm thread={props.activeThread} />}
           />
 
