@@ -4,9 +4,13 @@ import VoicePlayer from 'components/VoicePlayer';
 import { RiFileAddLine } from 'react-icons/ri';
 import { FaMusic, FaCheck } from 'react-icons/fa';
 import { Thread } from 'models';
+import { AudioData } from 'utils/audioRecorder';
+import { IRootState, ThunkResult } from 'store';
+import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IVoiceFormProps {
+  audio: AudioData | undefined;
   thread?: Thread;
 }
 
@@ -56,7 +60,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
             </li>
           </ul>
 
-          <VoicePlayer />
+          <VoicePlayer audio={props.audio} />
 
           <div className={classes.control}>
             <div className={classes.buttons}>
@@ -79,4 +83,14 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
   );
 };
 
-export default VoiceForm;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    audio: state.audios.audio
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkResult) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VoiceForm);
