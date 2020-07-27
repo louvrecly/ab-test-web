@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - feat/github-pages
+      - develop
 
 jobs:
   build:
