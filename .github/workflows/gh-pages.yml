@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feat/github-pages
 
 jobs:
   build:
@@ -20,9 +21,8 @@ jobs:
         yarn install
         yarn build
       env:
-        key:
-          REACT_APP_API_SERVER: ${{ secrets.REACT_APP_API_SERVER }}
-          REACT_APP_STADIA_MAP_API_KEY: ${{ secrets.REACT_APP_STADIA_MAP_API_KEY }}
+        REACT_APP_API_SERVER: ${{ secrets.REACT_APP_API_SERVER }}
+        REACT_APP_STADIA_MAP_API_KEY: ${{ secrets.REACT_APP_STADIA_MAP_API_KEY }}
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
