@@ -5,7 +5,10 @@ import { DrawerSide } from 'redux/components/state';
 import { useHistory } from 'react-router-dom';
 import { IRootState, ThunkResult } from 'store';
 import { setAudio, setIsRecordingState } from 'redux/audios/actions';
-import { setDrawerState } from 'redux/components/actions';
+import {
+  setDrawerState,
+  setShowRecordButtonState
+} from 'redux/components/actions';
 import { connect } from 'react-redux';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
 import classes from './styles.module.scss';
@@ -17,6 +20,7 @@ interface IRecordButtonProps {
   setAudio: (audio: AudioData) => void;
   setIsRecordingState: (isRecording: boolean) => void;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
@@ -43,6 +47,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         props.activeThread ? `/${props.activeThread.id}` : ''
       }/new`;
       history.push(pathname);
+      props.setShowRecordButtonState(false);
     } else {
       console.log('no audio is being recorded'); // tslint:disable-line
     }
@@ -76,7 +81,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     setIsRecordingState: (isRecording: boolean) =>
       dispatch(setIsRecordingState(isRecording)),
     setDrawerState: (side: DrawerSide, open: boolean) =>
-      dispatch(setDrawerState(side, open))
+      dispatch(setDrawerState(side, open)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton))
   };
 };
 

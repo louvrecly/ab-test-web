@@ -7,7 +7,10 @@ import { FiShare } from 'react-icons/fi';
 import { Thread, User, Voice } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { toggleThreadPlaying } from 'redux/threads/actions';
-import { setShowPlayListState } from 'redux/components/actions';
+import {
+  setShowPlayListState,
+  setShowRecordButtonState
+} from 'redux/components/actions';
 import { connect } from 'react-redux';
 import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
@@ -20,16 +23,19 @@ interface IThreadPanelProps {
   showPlayList: boolean;
   toggleThreadPlaying: () => void;
   setShowPlayListState: (showPlayList: boolean) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
   const toggleShowPlayList = () => {
     const showPlayList = !props.showPlayList;
     props.setShowPlayListState(showPlayList);
+    props.setShowRecordButtonState(showPlayList);
   };
 
   const playOrPauseThread = () => {
     props.setShowPlayListState(true);
+    props.setShowRecordButtonState(true);
     props.toggleThreadPlaying();
   };
 
@@ -118,7 +124,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     toggleThreadPlaying: () => dispatch(toggleThreadPlaying()),
     setShowPlayListState: (showPlayList: boolean) =>
-      dispatch(setShowPlayListState(showPlayList))
+      dispatch(setShowPlayListState(showPlayList)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton))
   };
 };
 
