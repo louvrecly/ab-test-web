@@ -16,7 +16,6 @@ interface IMainProps {
   drawerState: DrawerState;
   activeThread: Thread | undefined;
   showRecordButton: boolean;
-  showPlayList: boolean;
   isRecording: boolean;
 }
 
@@ -25,7 +24,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
     <div className={classes.main}>
       <HeadNav />
 
-      {(props.showRecordButton || props.showPlayList) && <RecordButton />}
+      {props.showRecordButton && <RecordButton />}
 
       <DrawerContainer side="left">
         <p>drawer contents</p>
@@ -57,7 +56,6 @@ const mapStateToProps = (state: IRootState) => {
     drawerState: state.components.drawerState,
     activeThread: state.threads.activeThread,
     showRecordButton: state.components.showRecordButton,
-    showPlayList: state.components.showPlayList,
     isRecording: state.audios.isRecording
   };
 };
