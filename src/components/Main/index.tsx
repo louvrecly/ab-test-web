@@ -34,18 +34,20 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         side="bottom"
         disableSwipe={props.activeThread === undefined}
       >
-        <Switch>
-          <Route path="/threads/new" children={<VoiceForm />} />
+        {props.isRecording ? (
+          <TimerBar />
+        ) : (
+          <Switch>
+            <Route path="/threads/new" component={VoiceForm} />
 
-          <Route
-            path="/threads/:id/new"
-            children={<VoiceForm thread={props.activeThread} />}
-          />
+            <Route
+              path="/threads/:id/new"
+              children={<VoiceForm thread={props.activeThread} />}
+            />
 
-          <Route path="/">
-            {props.isRecording ? <TimerBar /> : <ThreadPanel />}
-          </Route>
-        </Switch>
+            <Route path="/" component={ThreadPanel} />
+          </Switch>
+        )}
       </DrawerContainer>
     </div>
   );
