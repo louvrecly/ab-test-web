@@ -15,10 +15,10 @@ export const audioRecorder = () =>
       audio: true
     });
     const mediaRecorder: MediaRecorder = new MediaRecorder(stream);
-    const audioChunks: Array<Blob> = [];
+    let audioChunk: Blob | undefined;
 
     const dataAvailableHandler = (event: BlobEvent) => {
-      audioChunks.push(event.data);
+      audioChunk = event.data;
     };
 
     mediaRecorder.addEventListener(
@@ -31,7 +31,7 @@ export const audioRecorder = () =>
     const stop = () =>
       new Promise((resolve: (audioData: AudioData) => void) => {
         const stopHandler: EventListenerOrEventListenerObject = () => {
-          const audioBlob = new Blob(audioChunks);
+          const audioBlob = new Blob([audioChunk as Blob]);
           const audioUrl = URL.createObjectURL(audioBlob);
           const audio = new Audio(audioUrl);
           const play = () => audio.play();

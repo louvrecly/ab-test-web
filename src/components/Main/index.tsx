@@ -16,7 +16,6 @@ interface IMainProps {
   drawerState: DrawerState;
   activeThread: Thread | undefined;
   showRecordButton: boolean;
-  showPlayList: boolean;
   isRecording: boolean;
 }
 
@@ -25,7 +24,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
     <div className={classes.main}>
       <HeadNav />
 
-      {(props.showRecordButton || props.showPlayList) && <RecordButton />}
+      {props.showRecordButton && <RecordButton />}
 
       <DrawerContainer side="left">
         <p>drawer contents</p>
@@ -35,18 +34,20 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         side="bottom"
         disableSwipe={props.activeThread === undefined}
       >
-        <Switch>
-          <Route path="/threads/new" children={<VoiceForm />} />
+        {props.isRecording ? (
+          <TimerBar />
+        ) : (
+          <Switch>
+            <Route path="/threads/new" component={VoiceForm} />
 
-          <Route
-            path="/threads/:id/new"
-            children={<VoiceForm thread={props.activeThread} />}
-          />
+            <Route
+              path="/threads/:id/new"
+              children={<VoiceForm thread={props.activeThread} />}
+            />
 
-          <Route path="/">
-            {props.isRecording ? <TimerBar /> : <ThreadPanel />}
-          </Route>
-        </Switch>
+            <Route path="/" component={ThreadPanel} />
+          </Switch>
+        )}
       </DrawerContainer>
     </div>
   );
@@ -57,7 +58,6 @@ const mapStateToProps = (state: IRootState) => {
     drawerState: state.components.drawerState,
     activeThread: state.threads.activeThread,
     showRecordButton: state.components.showRecordButton,
-    showPlayList: state.components.showPlayList,
     isRecording: state.audios.isRecording
   };
 };
