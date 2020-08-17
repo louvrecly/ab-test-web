@@ -95,7 +95,7 @@ const Map: React.FC<IMapProps> = ({
         setActiveThread();
         setShowRecordButtonState(true);
         setDrawerState('bottom', false);
-        history.push('/');
+        history.push('/threads');
       };
 
       L.marker(position, { icon })

@@ -45,7 +45,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
               children={<VoiceForm thread={props.activeThread} />}
             />
 
-            <Route path="/" component={ThreadPanel} />
+            <Route path="/threads" component={ThreadPanel} />
           </Switch>
         )}
       </DrawerContainer>
