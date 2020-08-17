@@ -9,7 +9,8 @@ const initialState: IComponentsState = {
     right: false,
     bottom: false,
     left: false
-  }
+  },
+  embeddedRecordButton: false
 };
 
 export function componentsReducer(
@@ -38,6 +39,12 @@ export function componentsReducer(
           ...drawerState,
           [side]: open
         }
+      };
+    case 'EMBED_RECORD_BUTTON':
+      const { embeddedRecordButton } = action;
+      return {
+        ...state,
+        embeddedRecordButton
       };
     default:
       return state;
