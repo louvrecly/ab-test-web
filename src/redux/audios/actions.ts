@@ -7,7 +7,7 @@ export function setRecorder(recorder?: AudioRecorder) {
   };
 }
 
-export function setAudio(audio: AudioData) {
+export function setAudio(audio?: AudioData) {
   return {
     type: 'SET_AUDIO' as 'SET_AUDIO',
     audio
