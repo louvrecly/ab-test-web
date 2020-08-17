@@ -19,9 +19,8 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
     props.thread ? props.thread.title : ''
   );
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
-  };
 
   return (
     <div className={classes['voice-form']}>
@@ -60,7 +59,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
             </li>
           </ul>
 
-          <AudioPlayer audio={props.audio} />
+          <AudioPlayer audioUrl={props.audio?.audioUrl as string} />
 
           <div className={classes.control}>
             <div className={classes.buttons}>
