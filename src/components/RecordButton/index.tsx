@@ -35,13 +35,15 @@ const RecordButton: React.FC<IRecordButtonProps> = (
   const location = useLocation();
 
   const startRecording = () => {
-    if (props.recorder) {
+    if (props.recorder && !props.isRecording) {
+      const pathname = location.pathname.replace('/new', '');
+      history.push(pathname);
       props.setDrawerState('bottom', true);
       props.recorder.start();
       props.setIsRecordingState(true);
       props.embedRecordButton(false);
     } else {
-      console.log('recorder is not initialized!'); /* tslint:disable-line */
+      console.log('recorder is not ready!'); /* tslint:disable-line */
     }
   };
 
