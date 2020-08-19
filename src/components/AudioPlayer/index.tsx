@@ -32,6 +32,7 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (isPlaying) {
+      // TODO: cannot pause audio, fix needed
       audio.pause();
     } else {
       audio.play();
@@ -68,6 +69,7 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
           </IconButton>
         </div>
       ) : (
+        // TODO: capture global mouseup event and dispatch in RecordButton to trigger stopRecording
         <RecordButton />
       )}
     </div>
