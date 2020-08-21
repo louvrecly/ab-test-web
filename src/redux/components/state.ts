@@ -7,6 +7,11 @@ export interface DrawerState {
   left: boolean;
 }
 
+export interface VoiceFormData {
+  channel?: string;
+  threadTitle: string;
+}
+
 export interface IComponentsState {
   showRecordButton: boolean;
   showPlayList: boolean;
