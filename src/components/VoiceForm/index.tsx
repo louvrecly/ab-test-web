@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { IconButton } from '@material-ui/core';
 import AudioPlayer from 'components/AudioPlayer';
 import { RiFileAddLine } from 'react-icons/ri';
 import { FaMusic, FaCheck } from 'react-icons/fa';
 import { Thread } from 'models';
-import { AudioData } from 'utils/audioRecorder';
+import { VoiceFormData } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
+import { AudioData } from 'utils/audioRecorder';
 import classes from './styles.module.scss';
 
 interface IVoiceFormProps {
@@ -15,6 +17,8 @@ interface IVoiceFormProps {
 }
 
 const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
+  const { register, handleSubmit } = useForm<VoiceFormData>();
+
   const [value, setValue] = useState<string>(
     props.thread ? props.thread.title : ''
   );
@@ -22,12 +26,20 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
 
+  const submitVoice = (voiceFormData: VoiceFormData) => {
+    console.log({ voiceFormData }); // tslint:disable-line
+  };
+
   return (
     <div className={classes['voice-form']}>
       <div className={classes.container}>
         <div className={classes.handle} />
 
-        <form className={classes.form}>
+        <form
+          id="voice-form"
+          className={classes.form}
+          onSubmit={handleSubmit(submitVoice)}
+        >
           <ul className={classes.fields}>
             {props.thread ? null : (
               <li className={classes.field}>
@@ -35,7 +47,11 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
                   選擇版區：
                 </label>
 
-                <select className={classes.select} name="channel">
+                <select
+                  className={classes.select}
+                  name="channel"
+                  ref={register}
+                >
                   <option className={classes.option} value="吹水台">
                     吹水台
                   </option>
@@ -50,7 +66,8 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
 
               <input
                 className={classes.input}
-                name="thread"
+                name="threadTitle"
+                ref={register({ required: true })}
                 type="text"
                 value={value}
                 onChange={handleInput}
@@ -72,7 +89,12 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
               </IconButton>
             </div>
 
-            <IconButton className={classes.submit} aria-label="submit">
+            <IconButton
+              className={classes.submit}
+              aria-label="submit"
+              type="submit"
+              form="voice-form"
+            >
               <FaCheck />
             </IconButton>
           </div>
