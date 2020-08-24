@@ -52,7 +52,9 @@ const RecordButton: React.FC<IRecordButtonProps> = (
       const audio = await props.recorder?.stop();
       props.setAudio(audio as AudioData);
       props.setIsRecordingState(false);
-      const pathname = `${location.pathname}/new`;
+      const pathname = `${
+        props.activeThread ? location.pathname : '/threads'
+      }/new`;
       history.push(pathname);
       props.setShowRecordButtonState(false);
     } else {
