@@ -74,7 +74,9 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         className={classes.button}
         aria-label="record"
         onMouseDown={startRecording}
+        onTouchStart={startRecording}
         onMouseUp={stopRecording}
+        onTouchEnd={stopRecording}
       >
         {props.embeddedRecordButton ? '開始錄' : '9up'}
       </IconButton>
