@@ -62,6 +62,11 @@ const RecordButton: React.FC<IRecordButtonProps> = (
     }
   };
 
+  /* disable context menu from long press event in mobile or tablet devices */
+  const disableContextMenu = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => event.preventDefault();
+
   return (
     <div
       className={clsx({
@@ -77,6 +82,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         onTouchStart={startRecording}
         onMouseUp={stopRecording}
         onTouchEnd={stopRecording}
+        onContextMenu={disableContextMenu}
       >
         {props.embeddedRecordButton ? '開始錄' : '9up'}
       </IconButton>
