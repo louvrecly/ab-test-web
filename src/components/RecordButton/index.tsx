@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
 import classes from './styles.module.scss';
 
+const { REACT_APP_URL_PREFIX } = process.env;
+
 interface IRecordButtonProps {
   recorder: AudioRecorder | undefined;
   isRecording: boolean;
@@ -53,7 +55,9 @@ const RecordButton: React.FC<IRecordButtonProps> = (
       props.setAudio(audio as AudioData);
       props.setIsRecordingState(false);
       const pathname = `${
-        props.activeThread ? location.pathname : '/threads'
+        props.activeThread
+          ? location.pathname
+          : `${REACT_APP_URL_PREFIX}/threads`
       }/new`;
       history.push(pathname);
       props.setShowRecordButtonState(false);
