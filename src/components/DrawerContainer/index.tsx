@@ -5,7 +5,8 @@ import { IRootState, ThunkResult } from 'store';
 import { DrawerSide, DrawerState } from 'redux/components/state';
 import {
   setDrawerState,
-  setShowRecordButtonState
+  setShowRecordButtonState,
+  embedRecordButton
 } from 'redux/components/actions';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
@@ -17,6 +18,7 @@ interface IDrawerContainerProps {
   children: React.ReactNode;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
+  embedRecordButton: (embeddedRecordButton: boolean) => void;
 }
 
 const DrawerContainer: React.FC<IDrawerContainerProps> = (
@@ -35,6 +37,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
     }
     props.setShowRecordButtonState(!open);
     props.setDrawerState(side, open);
+    props.embedRecordButton(open); /* reset RecordButton */
   };
 
   return (
@@ -66,7 +69,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     setDrawerState: (side: DrawerSide, open: boolean) =>
       dispatch(setDrawerState(side, open)),
     setShowRecordButtonState: (showRecordButton: boolean) =>
-      dispatch(setShowRecordButtonState(showRecordButton))
+      dispatch(setShowRecordButtonState(showRecordButton)),
+    embedRecordButton: (embeddedRecordButton: boolean) =>
+      dispatch(embedRecordButton(embeddedRecordButton))
   };
 };
 

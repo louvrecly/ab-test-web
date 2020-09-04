@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import { urlTemplate, attribution, options } from './constant';
 import classes from './styles.module.scss';
 
+const { REACT_APP_URL_PREFIX } = process.env;
+
 interface IMapProps {
   threads: Array<Thread>;
   setActiveThread: (thread?: Thread) => void;
@@ -87,7 +89,7 @@ const Map: React.FC<IMapProps> = ({
         setShowPlayListState(false);
         setShowRecordButtonState(false);
         setDrawerState('bottom', true);
-        history.push(`/threads/${thread.id}`);
+        history.push(`${REACT_APP_URL_PREFIX}/threads/${thread.id}`);
       };
 
       const popupCloseHandler = () => {
@@ -95,7 +97,7 @@ const Map: React.FC<IMapProps> = ({
         setActiveThread();
         setShowRecordButtonState(true);
         setDrawerState('bottom', false);
-        history.push('/');
+        history.push(REACT_APP_URL_PREFIX as string);
       };
 
       L.marker(position, { icon })

@@ -1,7 +1,6 @@
 export interface AudioData {
   audioBlob: Blob;
   audioUrl: string;
-  play: () => void;
 }
 
 export interface AudioRecorder {
@@ -33,9 +32,7 @@ export const audioRecorder = () =>
         const stopHandler: EventListenerOrEventListenerObject = () => {
           const audioBlob = new Blob([audioChunk as Blob]);
           const audioUrl = URL.createObjectURL(audioBlob);
-          const audio = new Audio(audioUrl);
-          const play = () => audio.play();
-          const audioData: AudioData = { audioBlob, audioUrl, play };
+          const audioData: AudioData = { audioBlob, audioUrl };
           resolve(audioData);
         };
 

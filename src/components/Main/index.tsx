@@ -12,6 +12,8 @@ import { DrawerState } from 'redux/components/state';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
+const { REACT_APP_URL_PREFIX } = process.env;
+
 interface IMainProps {
   drawerState: DrawerState;
   activeThread: Thread | undefined;
@@ -38,14 +40,17 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
           <TimerBar />
         ) : (
           <Switch>
-            <Route path="/threads/new" component={VoiceForm} />
+            <Route
+              path={`${REACT_APP_URL_PREFIX}/threads/new`}
+              component={VoiceForm}
+            />
 
             <Route
-              path="/threads/:id/new"
+              path={`${REACT_APP_URL_PREFIX}/threads/:id/new`}
               children={<VoiceForm thread={props.activeThread} />}
             />
 
-            <Route path="/" component={ThreadPanel} />
+            <Route path={`${REACT_APP_URL_PREFIX}/`} component={ThreadPanel} />
           </Switch>
         )}
       </DrawerContainer>
