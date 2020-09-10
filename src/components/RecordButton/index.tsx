@@ -1,9 +1,9 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
-import { Thread } from 'models';
+import { ThreadJson, LocationJson } from 'models';
 import { DrawerSide } from 'redux/components/state';
-import { useHistory, useLocation } from 'react-router-dom';
 import { IRootState, ThunkResult } from 'store';
 import { setAudio, setIsRecordingState } from 'redux/audios/actions';
 import {
@@ -11,8 +11,10 @@ import {
   setShowRecordButtonState,
   embedRecordButton
 } from 'redux/components/actions';
+import { setGeolocation } from 'redux/geolocation/actions';
 import { connect } from 'react-redux';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
+import { getLocationJson } from 'utils/geolocation';
 import classes from './styles.module.scss';
 
 const { REACT_APP_URL_PREFIX } = process.env;
@@ -20,7 +22,7 @@ const { REACT_APP_URL_PREFIX } = process.env;
 interface IRecordButtonProps {
   recorder: AudioRecorder | undefined;
   isRecording: boolean;
-  activeThread: Thread | undefined;
+  activeThread: ThreadJson | undefined;
   showRecordButton: boolean;
   embeddedRecordButton: boolean;
   setAudio: (audio?: AudioData) => void;
@@ -28,6 +30,7 @@ interface IRecordButtonProps {
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
+  setGeolocation: (geolocation?: LocationJson) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
@@ -38,6 +41,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
 
   const startRecording = () => {
     if (props.recorder && !props.isRecording) {
+      props.setGeolocation();
       const pathname = location.pathname.replace('/new', '');
       history.push(pathname);
       props.setDrawerState('bottom', true);
@@ -61,6 +65,9 @@ const RecordButton: React.FC<IRecordButtonProps> = (
       }/new`;
       history.push(pathname);
       props.setShowRecordButtonState(false);
+
+      const geolocation = await getLocationJson();
+      props.setGeolocation(geolocation);
     } else {
       console.log('no audio is being recorded'); /* tslint:disable-line */
     }
@@ -114,7 +121,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     setShowRecordButtonState: (showRecordButton: boolean) =>
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>
-      dispatch(embedRecordButton(embeddedRecordButton))
+      dispatch(embedRecordButton(embeddedRecordButton)),
+    setGeolocation: (geolocation?: LocationJson) =>
+      dispatch(setGeolocation(geolocation))
   };
 };
 
