@@ -1,14 +1,14 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
 import { FaUserPlus, FaRegHeart } from 'react-icons/fa';
-import { Voice, User } from 'models';
+import { VoiceJson, User } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
 import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IVoiceInfoProps {
-  voice: Voice;
+  voice: VoiceJson;
   users: Array<User>;
 }
 

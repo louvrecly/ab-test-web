@@ -1,7 +1,7 @@
-import { Thread } from 'models';
+import { ThreadJson } from 'models';
 
 export interface IThreadsState {
-  threads: Array<Thread>;
-  activeThread: Thread | undefined;
+  threads: Array<ThreadJson>;
+  activeThread: ThreadJson | undefined;
   threadPlaying: boolean;
 }
