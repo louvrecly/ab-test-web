@@ -4,7 +4,7 @@ import { IconButton } from '@material-ui/core';
 import { FaRegStar, FaPlay, FaPause } from 'react-icons/fa';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { FiShare } from 'react-icons/fi';
-import { Thread, User, Voice } from 'models';
+import { ThreadJson, User, VoiceJson } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { toggleThreadPlaying } from 'redux/threads/actions';
 import {
@@ -16,9 +16,9 @@ import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IThreadPanelProps {
-  activeThread: Thread | undefined;
+  activeThread: ThreadJson | undefined;
   users: Array<User>;
-  voices: Array<Voice>;
+  voices: Array<VoiceJson>;
   threadPlaying: boolean;
   showPlayList: boolean;
   toggleThreadPlaying: () => void;
@@ -53,7 +53,7 @@ const ThreadPanel: React.FC<IThreadPanelProps> = (props: IThreadPanelProps) => {
             <p className={classes.info}>
               {
                 props.users.find(
-                  user => user.id === props.activeThread?.user_id.split('/')[1]
+                  user => user.id === props.activeThread?.user_id!.split('/')[1]
                 )?.username
               }
               ・{sanitizedDate(props.activeThread.timestamp as any)}
