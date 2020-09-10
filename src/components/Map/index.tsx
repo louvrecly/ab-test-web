@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import L from 'leaflet';
 import { ThreadJson, LocationJson } from 'models';
-import { IRootState, ThunkResult } from 'store';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { DrawerSide } from 'redux/components/state';
+import { IRootState, ThunkResult } from 'store';
 import { setActiveThread, stopPlayingThread } from 'redux/threads/actions';
 import {
   setDrawerState,
@@ -14,8 +15,6 @@ import { loadVoices } from 'redux/voices/thunks';
 import { connect } from 'react-redux';
 import { urlTemplate, attribution, options } from './constant';
 import classes from './styles.module.scss';
-
-const { REACT_APP_URL_PREFIX } = process.env;
 
 interface IMapProps {
   threads: Array<ThreadJson>;

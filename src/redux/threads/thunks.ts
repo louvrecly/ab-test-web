@@ -1,13 +1,12 @@
 import { Dispatch } from 'redux';
 import { ThreadJson } from 'models';
+import { REACT_APP_API_SERVER } from 'variables';
 import {
   IThreadsAction,
   loadThreadsSuccess,
   createThreadSuccess,
   failed
 } from './actions';
-
-const { REACT_APP_API_SERVER } = process.env;
 
 export function loadThreads() {
   return async (dispatch: Dispatch<IThreadsAction>) => {
