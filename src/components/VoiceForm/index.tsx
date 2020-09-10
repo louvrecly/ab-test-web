@@ -6,6 +6,7 @@ import AudioPlayer from 'components/AudioPlayer';
 import { RiFileAddLine } from 'react-icons/ri';
 import { FaMusic, FaCheck } from 'react-icons/fa';
 import { ThreadJson, VoiceJson, LocationJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { VoiceFormData } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { createThread } from 'redux/threads/thunks';
@@ -15,8 +16,6 @@ import { connect } from 'react-redux';
 import { AudioData } from 'utils/audioRecorder';
 import { getTimestampJson } from 'utils/time';
 import classes from './styles.module.scss';
-
-const { REACT_APP_URL_PREFIX } = process.env;
 
 interface IVoiceFormProps {
   audio: AudioData | undefined;

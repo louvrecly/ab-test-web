@@ -1,8 +1,7 @@
 import { Dispatch } from 'redux';
-import { IVoicesAction, loadVoicesSuccess, failed } from './actions';
 import { VoiceJson } from 'models';
-
-const { REACT_APP_API_SERVER } = process.env;
+import { REACT_APP_API_SERVER } from 'variables';
+import { IVoicesAction, loadVoicesSuccess, failed } from './actions';
 
 export function loadVoices(threadId: string) {
   return async (dispatch: Dispatch<IVoicesAction>) => {

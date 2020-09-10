@@ -7,12 +7,11 @@ import ThreadPanel from 'components/ThreadPanel';
 import TimerBar from 'components/TimerBar';
 import VoiceForm from 'components/VoiceForm';
 import { ThreadJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerState } from 'redux/components/state';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
-
-const { REACT_APP_URL_PREFIX } = process.env;
 
 interface IMainProps {
   drawerState: DrawerState;

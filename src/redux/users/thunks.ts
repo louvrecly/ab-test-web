@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
+import { REACT_APP_API_SERVER } from 'variables';
 import { IUsersAction, loadUsersSuccess, failed } from './actions';
-
-const { REACT_APP_API_SERVER } = process.env;
 
 export function loadUsers() {
   return async (dispatch: Dispatch<IUsersAction>) => {

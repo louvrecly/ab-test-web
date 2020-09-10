@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
 import { ThreadJson, LocationJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { DrawerSide } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { setAudio, setIsRecordingState } from 'redux/audios/actions';
@@ -16,8 +17,6 @@ import { connect } from 'react-redux';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
 import { getLocationJson } from 'utils/geolocation';
 import classes from './styles.module.scss';
-
-const { REACT_APP_URL_PREFIX } = process.env;
 
 interface IRecordButtonProps {
   recorder: AudioRecorder | undefined;
