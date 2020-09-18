@@ -1,26 +1,36 @@
 import { firestore } from 'firebase';
 
 /* api */
-export interface Thread {
+export interface LocationJson {
+  _latitude: number;
+  _longitude: number;
+}
+
+export interface TimestampJson {
+  _seconds: number;
+  _nanoseconds: number;
+}
+
+export interface ThreadJson {
   id?: string;
   is_active: boolean;
   title: string;
   user_id: string;
   color_code?: 'Y' | 'B';
   bookmarked_by_users: Array<string>;
-  location: firestore.GeoPoint;
-  timestamp: firestore.Timestamp;
+  location: LocationJson;
+  timestamp: TimestampJson;
 }
 
-export interface Voice {
+export interface VoiceJson {
   id?: string;
   is_active: boolean;
   thread_id: string;
   user_id: string;
   voice_url: string;
   liked_by_users: Array<string>;
-  location: firestore.GeoPoint;
-  timestamp: firestore.Timestamp;
+  location: LocationJson;
+  timestamp: TimestampJson;
 }
 
 export interface User {

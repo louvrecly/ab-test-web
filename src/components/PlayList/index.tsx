@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import VoiceInfo from 'components/VoiceInfo';
-import { Voice } from 'models';
+import { VoiceJson } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IPlayListProps {
   open: boolean;
-  voices: Array<Voice>;
+  voices: Array<VoiceJson>;
 }
 
 const PlayList: React.FC<IPlayListProps> = (props: IPlayListProps) => {

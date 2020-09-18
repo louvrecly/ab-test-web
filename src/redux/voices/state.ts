@@ -1,5 +1,5 @@
-import { Voice } from 'models';
+import { VoiceJson } from 'models';
 
 export interface IVoicesState {
-  voices: Array<Voice>;
+  voices: Array<VoiceJson>;
 }

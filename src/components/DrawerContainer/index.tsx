@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { SwipeableDrawer } from '@material-ui/core';
+import { LocationJson } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerSide, DrawerState } from 'redux/components/state';
 import {
@@ -8,6 +9,7 @@ import {
   setShowRecordButtonState,
   embedRecordButton
 } from 'redux/components/actions';
+import { setGeolocation } from 'redux/geolocation/actions';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
@@ -19,11 +21,19 @@ interface IDrawerContainerProps {
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
+  setGeolocation: (geolocation?: LocationJson) => void;
 }
 
-const DrawerContainer: React.FC<IDrawerContainerProps> = (
-  props: IDrawerContainerProps
-) => {
+const DrawerContainer: React.FC<IDrawerContainerProps> = ({
+  side,
+  drawerState,
+  disableSwipe,
+  children,
+  setDrawerState,
+  setShowRecordButtonState,
+  embedRecordButton,
+  setGeolocation
+}: IDrawerContainerProps) => {
   const toggleDrawer = (side: DrawerSide, open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -35,25 +45,30 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = (
     ) {
       return;
     }
-    props.setShowRecordButtonState(!open);
-    props.setDrawerState(side, open);
-    props.embedRecordButton(open); /* reset RecordButton */
+    setShowRecordButtonState(!open);
+    setDrawerState(side, open);
+    embedRecordButton(open); /* reset RecordButton */
   };
+
+  useEffect(() => {
+    if (!drawerState.bottom) {
+      setGeolocation();
+    }
+  }, [drawerState.bottom, setGeolocation]);
 
   return (
     <SwipeableDrawer
-      anchor={props.side}
-      open={props.drawerState[props.side]}
-      disableSwipeToOpen={props.disableSwipe}
-      onClose={toggleDrawer(props.side, false)}
-      onOpen={toggleDrawer(props.side, true)}
+      anchor={side}
+      open={drawerState[side]}
+      disableSwipeToOpen={disableSwipe}
+      onClose={toggleDrawer(side, false)}
+      onOpen={toggleDrawer(side, true)}
       className={clsx({
         [classes.drawer]: true,
-        [classes['drawer-horizontal']]:
-          props.side === 'left' || props.side === 'right'
+        [classes['drawer-horizontal']]: side === 'left' || side === 'right'
       })}
     >
-      {props.children}
+      {children}
     </SwipeableDrawer>
   );
 };
@@ -71,7 +86,9 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     setShowRecordButtonState: (showRecordButton: boolean) =>
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>
-      dispatch(embedRecordButton(embeddedRecordButton))
+      dispatch(embedRecordButton(embeddedRecordButton)),
+    setGeolocation: (geolocation?: LocationJson) =>
+      dispatch(setGeolocation(geolocation))
   };
 };
 

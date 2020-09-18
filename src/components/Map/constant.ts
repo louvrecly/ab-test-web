@@ -1,6 +1,5 @@
 import L from 'leaflet';
-
-const { REACT_APP_STADIA_MAP_API_KEY } = process.env;
+import { REACT_APP_STADIA_MAP_API_KEY } from 'variables';
 
 const tsimShaTsuiLatLng: [number, number] = [22.2988, 114.1722];
 

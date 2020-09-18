@@ -6,17 +6,16 @@ import DrawerContainer from 'components/DrawerContainer';
 import ThreadPanel from 'components/ThreadPanel';
 import TimerBar from 'components/TimerBar';
 import VoiceForm from 'components/VoiceForm';
-import { Thread } from 'models';
+import { ThreadJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerState } from 'redux/components/state';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
-const { REACT_APP_URL_PREFIX } = process.env;
-
 interface IMainProps {
   drawerState: DrawerState;
-  activeThread: Thread | undefined;
+  activeThread: ThreadJson | undefined;
   showRecordButton: boolean;
   isRecording: boolean;
 }
