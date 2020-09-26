@@ -16,7 +16,7 @@ import { sanitizedDate } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IThreadPanelProps {
-  activeThread: ThreadJson | undefined;
+  activeThread: ThreadJson | null;
   users: Array<User>;
   voices: Array<VoiceJson>;
   threadPlaying: boolean;
