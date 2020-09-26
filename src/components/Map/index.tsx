@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router';
 import L from 'leaflet';
 import { ThreadJson, LocationJson } from 'models';
 import { REACT_APP_URL_PREFIX } from 'variables';
@@ -17,9 +17,10 @@ import { urlTemplate, attribution, options } from './constant';
 import classes from './styles.module.scss';
 
 interface IMapProps {
+  activeThread: ThreadJson | null;
   threads: Array<ThreadJson>;
   geolocation: LocationJson | undefined;
-  setActiveThread: (thread?: ThreadJson) => void;
+  setActiveThread: (thread: ThreadJson | null) => void;
   loadVoices: (threadId: string) => void;
   stopPlayingThread: () => void;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
@@ -27,7 +28,16 @@ interface IMapProps {
   setShowPlayListState: (showPlayList: boolean) => void;
 }
 
+interface ThreadRouteParam {
+  threadId: string;
+}
+
+interface MarkersMap {
+  [threadId: string]: L.Marker;
+}
+
 const Map: React.FC<IMapProps> = ({
+  activeThread,
   threads,
   geolocation,
   setActiveThread, /* tslint:disable-line */
@@ -42,7 +52,9 @@ const Map: React.FC<IMapProps> = ({
   const tempLayerRef: React.MutableRefObject<L.LayerGroup | null> = useRef(null);
   const markerRef: React.MutableRefObject<L.Marker | null> = useRef(null);
 
+  const [markers, setMarkers] = useState<MarkersMap>({});
   const history = useHistory();
+  const match = useRouteMatch(`${REACT_APP_URL_PREFIX}/threads/:threadId`);
 
   /* initialize map and add tile layer */
   useEffect(() => {
@@ -58,10 +70,8 @@ const Map: React.FC<IMapProps> = ({
 
     const mapOptions: L.MapOptions = { ...options, layers: [tileLayer] };
     mapRef.current = L.map('map', mapOptions);
-  }, []);
 
-  /* create layer group */
-  useEffect(() => {
+    /* create layer group */
     layerRef.current = L.layerGroup().addTo(mapRef.current as L.Map);
     tempLayerRef.current = L.layerGroup().addTo(mapRef.current as L.Map);
   }, []);
@@ -83,40 +93,43 @@ const Map: React.FC<IMapProps> = ({
         pane: 'shadowPane' /* avoid masking other markers */
       });
 
-      const popupOpenHandler = (event: L.LeafletEvent) => {
+      const markerOnMousedownHandler = (event: L.LeafletEvent) => {
         markerRef.current = event.target as L.Marker;
-        stopPlayingThread();
-        setActiveThread(thread);
-        loadVoices(thread.id as string);
-        (mapRef.current as L.Map).flyTo(position);
-        setShowPlayListState(false);
-        setShowRecordButtonState(false);
-        setDrawerState('bottom', true);
         const pathname = `${REACT_APP_URL_PREFIX}/threads/${thread.id}`;
         history.push(pathname);
       };
 
+      const popupOpenHandler = () => {
+        (mapRef.current as L.Map).flyTo(position);
+        setShowPlayListState(false);
+        setShowRecordButtonState(false);
+        setDrawerState('bottom', true);
+      };
+
       const popupCloseHandler = () => {
         markerRef.current = null;
-        setActiveThread();
         setShowRecordButtonState(true);
         setDrawerState('bottom', false);
         const pathname = REACT_APP_URL_PREFIX as string;
         history.push(pathname);
       };
 
-      L.marker(position, { icon })
+      const marker = L.marker(position, { icon })
         .bindPopup(popup)
+        .on('mousedown', markerOnMousedownHandler)
         .on('popupopen', popupOpenHandler)
         .on('popupclose', popupCloseHandler)
         .addTo(layerRef.current as L.LayerGroup);
+
+      setMarkers(prevMarkers => ({
+        ...prevMarkers,
+        [thread.id as string]: marker
+      }));
     });
   }, [
     threads,
     history,
-    stopPlayingThread,
     setActiveThread,
-    loadVoices,
     setDrawerState,
     setShowRecordButtonState,
     setShowPlayListState
@@ -141,11 +154,40 @@ const Map: React.FC<IMapProps> = ({
     }
   }, [geolocation]);
 
+  /* monitor route to check if it matches /threads/:threadId */
+  useEffect(() => {
+    if (match && match.isExact) {
+      const { threadId } = match.params as ThreadRouteParam;
+      const thread = threads.find(thread => thread.id === threadId);
+      stopPlayingThread();
+      if (thread) {
+        setActiveThread(thread);
+      } else {
+        setActiveThread(null);
+      }
+    } else {
+      setActiveThread(null);
+    }
+  }, [match, threads, stopPlayingThread, setActiveThread]);
+
+  useEffect(() => {
+    if (activeThread) {
+      loadVoices(activeThread.id as string);
+      markerRef.current = markers[activeThread.id as string];
+
+      const isPopupOpen = markerRef.current.isPopupOpen();
+      if (!isPopupOpen) {
+        markerRef.current.openPopup();
+      }
+    }
+  }, [activeThread, markers, loadVoices]);
+
   return <div id="map" className={classes.map} />;
 };
 
 const mapStateToProps = (state: IRootState) => {
   return {
+    activeThread: state.threads.activeThread,
     threads: state.threads.threads,
     drawerState: state.components.drawerState,
     geolocation: state.geolocation.geolocation
@@ -154,7 +196,8 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setActiveThread: (thread?: ThreadJson) => dispatch(setActiveThread(thread)),
+    setActiveThread: (thread: ThreadJson | null) =>
+      dispatch(setActiveThread(thread)),
     loadVoices: (threadId: string) => dispatch(loadVoices(threadId)),
     stopPlayingThread: () => dispatch(stopPlayingThread()),
     setDrawerState: (side: DrawerSide, open: boolean) =>
