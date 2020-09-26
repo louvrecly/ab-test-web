@@ -19,7 +19,7 @@ import classes from './styles.module.scss';
 
 interface IVoiceFormProps {
   audio: AudioData | undefined;
-  thread?: ThreadJson;
+  thread: ThreadJson | null;
   geolocation: LocationJson | undefined;
   createThread: (newThread: ThreadJson) => Promise<ThreadJson | undefined>;
   createVoice: (newVoice: VoiceJson) => Promise<VoiceJson | undefined>;

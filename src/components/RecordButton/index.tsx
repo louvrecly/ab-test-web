@@ -21,7 +21,7 @@ import classes from './styles.module.scss';
 interface IRecordButtonProps {
   recorder: AudioRecorder | undefined;
   isRecording: boolean;
-  activeThread: ThreadJson | undefined;
+  activeThread: ThreadJson | null;
   showRecordButton: boolean;
   embeddedRecordButton: boolean;
   setAudio: (audio?: AudioData) => void;

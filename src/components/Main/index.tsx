@@ -15,7 +15,7 @@ import classes from './styles.module.scss';
 
 interface IMainProps {
   drawerState: DrawerState;
-  activeThread: ThreadJson | undefined;
+  activeThread: ThreadJson | null;
   showRecordButton: boolean;
   isRecording: boolean;
 }
@@ -31,10 +31,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         <p>drawer contents</p>
       </DrawerContainer>
 
-      <DrawerContainer
-        side="bottom"
-        disableSwipe={props.activeThread === undefined}
-      >
+      <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
         {props.isRecording ? (
           <TimerBar />
         ) : (
@@ -45,7 +42,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
             />
 
             <Route
-              path={`${REACT_APP_URL_PREFIX}/threads/:id/new`}
+              path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`}
               children={<VoiceForm thread={props.activeThread} />}
             />
 
