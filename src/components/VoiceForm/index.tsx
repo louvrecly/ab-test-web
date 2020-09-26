@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@material-ui/core';
@@ -28,6 +28,7 @@ interface IVoiceFormProps {
 
 const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
   const { register, handleSubmit } = useForm<VoiceFormData>();
+  const inputRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
   const history = useHistory();
 
   const [value, setValue] = useState<string>(
@@ -85,6 +86,13 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
     }
   };
 
+  /* set focus on thread title input on render */
+  useEffect(() => {
+    if (inputRef.current && !props.thread) {
+      inputRef.current.focus();
+    }
+  }, [props.thread]);
+
   return (
     <div className={classes['voice-form']}>
       <div className={classes.container}>
@@ -122,7 +130,10 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
               <input
                 className={classes.input}
                 name="threadTitle"
-                ref={register({ required: true })}
+                ref={e => {
+                  register(e, { required: true });
+                  inputRef.current = e;
+                }}
                 type="text"
                 value={value}
                 onChange={handleInput}
