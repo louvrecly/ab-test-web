@@ -14,7 +14,7 @@ export function createThreadSuccess(newThread: ThreadJson) {
   };
 }
 
-export function setActiveThread(activeThread?: ThreadJson) {
+export function setActiveThread(activeThread: ThreadJson | null) {
   return {
     type: 'SET_ACTIVE_THREAD' as 'SET_ACTIVE_THREAD',
     activeThread
