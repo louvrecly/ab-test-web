@@ -3,7 +3,6 @@ import { IconButton } from '@material-ui/core';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import RecordButton from 'components/RecordButton';
-import { ThreadJson } from 'models';
 import { setAudio } from 'redux/audios/actions';
 import {
   setShowRecordButtonState,
@@ -16,7 +15,6 @@ import classes from './styles.module.scss';
 
 interface IAudioPlayerProps {
   audioUrl: string;
-  activeThread: ThreadJson | undefined;
   setAudio: (audio?: AudioData) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
@@ -77,9 +75,7 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
 };
 
 const mapStateToProps = (state: IRootState) => {
-  return {
-    activeThread: state.threads.activeThread
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
