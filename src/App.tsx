@@ -29,6 +29,7 @@ const App: React.FC<IAppProps> = (props: IAppProps) => {
   return (
     <div className={classes.app}>
       <Map />
+
       <Main />
     </div>
   );
