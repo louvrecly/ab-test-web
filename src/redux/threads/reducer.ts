@@ -4,7 +4,7 @@ import { ThreadJson } from 'models';
 
 const initialState: IThreadsState = {
   threads: [],
-  activeThread: undefined,
+  activeThread: null,
   threadPlaying: false
 };
 
