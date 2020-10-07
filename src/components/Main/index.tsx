@@ -38,7 +38,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
           <Switch>
             <Route
               path={`${REACT_APP_URL_PREFIX}/threads/new`}
-              component={VoiceForm}
+              children={<VoiceForm thread={props.activeThread} />}
             />
 
             <Route
