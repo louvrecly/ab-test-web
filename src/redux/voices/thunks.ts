@@ -19,14 +19,16 @@ export function loadVoices(threadId: string) {
   };
 }
 
-export function createVoice(newVoice: VoiceJson) {
+export function createVoice(newVoice: VoiceJson, audioBlob: Blob) {
+  const voiceString = JSON.stringify(newVoice);
+  const formData = new FormData();
+  formData.append('voice_string', voiceString);
+  formData.append('audio_blob', audioBlob);
+
   return async (dispatch: Dispatch<IVoicesAction>) => {
     const res = await fetch(`${REACT_APP_API_SERVER}/voices`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(newVoice)
+      body: formData
     });
     const { isSuccess, data } = await res.json();
 
