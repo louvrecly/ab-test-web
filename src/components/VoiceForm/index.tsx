@@ -10,8 +10,9 @@ import { REACT_APP_URL_PREFIX } from 'variables';
 import { VoiceFormData } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { createThread } from 'redux/threads/thunks';
-import { createVoice } from 'redux/voices/thunks';
+import { createVoice, loadVoices } from 'redux/voices/thunks';
 import { setGeolocation } from 'redux/geolocation/actions';
+import { setShowRecordButtonState } from 'redux/components/actions';
 import { connect } from 'react-redux';
 import { AudioData } from 'utils/audioRecorder';
 import { getTimestampJson } from 'utils/time';
@@ -22,8 +23,13 @@ interface IVoiceFormProps {
   thread: ThreadJson | null;
   geolocation: LocationJson | undefined;
   createThread: (newThread: ThreadJson) => Promise<ThreadJson | undefined>;
-  createVoice: (newVoice: VoiceJson) => Promise<VoiceJson | undefined>;
+  createVoice: (
+    newVoice: VoiceJson,
+    audioBlob: Blob
+  ) => Promise<VoiceJson | undefined>;
   setGeolocation: (geolocation?: LocationJson) => void;
+  loadVoices: (threadId: string) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
@@ -64,23 +70,25 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
         threadId = props.thread.id as string;
       }
 
+      const { audioUrl, audioBlob } = props.audio;
       const newVoice: VoiceJson = {
         is_active: true,
         thread_id: threadId,
         user_id: 'Z1aO565FJD1ZmaOqI9Mi', // TODO: replace hard coded user_id with logged in user.id from redux store
-        voice_url: props.audio.audioUrl,
+        voice_url: audioUrl,
         liked_by_users: [],
         location,
         timestamp
       };
 
-      const voice = await props.createVoice(newVoice);
-
+      const voice = await props.createVoice(newVoice, audioBlob);
       const { thread_id } = voice as VoiceJson;
 
       props.setGeolocation();
       const pathname = `${REACT_APP_URL_PREFIX}/${thread_id}`;
       history.push(pathname);
+      props.loadVoices(threadId);
+      props.setShowRecordButtonState(true);
     } else {
       console.log('No voice has been recorded yet!'); /* tslint:disable-line */
     }
@@ -180,9 +188,13 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     createThread: (newThread: ThreadJson) => dispatch(createThread(newThread)),
-    createVoice: (newVoice: VoiceJson) => dispatch(createVoice(newVoice)),
+    createVoice: (newVoice: VoiceJson, audioBlob: Blob) =>
+      dispatch(createVoice(newVoice, audioBlob)),
     setGeolocation: (geolocation?: LocationJson) =>
-      dispatch(setGeolocation(geolocation))
+      dispatch(setGeolocation(geolocation)),
+    loadVoices: (threadId: string) => dispatch(loadVoices(threadId)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton))
   };
 };
 
