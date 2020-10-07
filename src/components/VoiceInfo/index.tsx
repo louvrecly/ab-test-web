@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import { FaUserPlus, FaRegHeart } from 'react-icons/fa';
 import { VoiceJson, User } from 'models';
@@ -13,6 +13,21 @@ interface IVoiceInfoProps {
 }
 
 const VoiceInfo: React.FC<IVoiceInfoProps> = (props: IVoiceInfoProps) => {
+  const [isPlaying, setIsPlayingState] = useState<boolean>(false);
+
+  const audioElement = document.createElement('audio');
+  audioElement.src = props.voice.voice_url;
+  const audioRef = useRef(audioElement);
+
+  const playOrPauseAudio = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlayingState(prevIsPlaying => !prevIsPlaying);
+  };
+
   return (
     <div className={classes['voice-info']}>
       <IconButton className={classes.profile} aria-label="profile">
@@ -33,7 +48,7 @@ const VoiceInfo: React.FC<IVoiceInfoProps> = (props: IVoiceInfoProps) => {
           {sanitizedDate(props.voice.timestamp as any)}
         </p>
 
-        <h3 className={classes.user}>
+        <h3 className={classes.user} onClick={playOrPauseAudio}>
           {
             props.users.find(
               user => user.id === props.voice.user_id.split('/')[1]
