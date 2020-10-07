@@ -12,7 +12,6 @@ import {
   routerMiddleware
 } from 'connected-react-router';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import logger from 'redux-logger';
 import { IThreadsState } from 'redux/threads/state';
 import { IVoicesState } from 'redux/voices/state';
 import { IUsersState } from 'redux/users/state';
@@ -82,7 +81,6 @@ export type ThunkResult = ThunkDispatch<IRootState, null, IRootAction>;
 const store: Store<IRootState, IRootAction> = createStore(
   rootReducer,
   composeEnhancers(
-    applyMiddleware(logger),
     applyMiddleware(thunk),
     applyMiddleware(routerMiddleware(history))
   )
