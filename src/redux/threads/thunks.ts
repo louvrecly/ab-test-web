@@ -27,9 +27,7 @@ export function createThread(newThread: ThreadJson) {
   return async (dispatch: Dispatch<IThreadsAction>) => {
     const res = await fetch(`${REACT_APP_API_SERVER}/threads`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify(newThread)
     });
     const { isSuccess, data } = await res.json();
