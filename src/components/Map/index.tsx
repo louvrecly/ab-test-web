@@ -154,9 +154,9 @@ const Map: React.FC<IMapProps> = ({
     }
   }, [geolocation]);
 
-  /* monitor route to check if it matches /threads/:threadId */
+  /* monitor route to check if it matches /threads/:threadId or /threads/:threadId/new */
   useEffect(() => {
-    if (match && match.isExact) {
+    if (match) {
       const { threadId } = match.params as ThreadRouteParam;
       const thread = threads.find(thread => thread.id === threadId);
       stopPlayingThread();
