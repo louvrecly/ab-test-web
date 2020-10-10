@@ -162,17 +162,18 @@ const Map: React.FC<IMapProps> = ({
       stopPlayingThread();
       if (thread) {
         setActiveThread(thread);
+        loadVoices(thread.id as string);
       } else {
         setActiveThread(null);
       }
     } else {
       setActiveThread(null);
     }
-  }, [match, threads, stopPlayingThread, setActiveThread]);
+  }, [match, threads, stopPlayingThread, setActiveThread, loadVoices]);
 
+  /* open popup on activeThread changed */
   useEffect(() => {
     if (activeThread) {
-      loadVoices(activeThread.id as string);
       markerRef.current = markers[activeThread.id as string];
 
       const isPopupOpen = markerRef.current.isPopupOpen();
@@ -180,7 +181,7 @@ const Map: React.FC<IMapProps> = ({
         markerRef.current.openPopup();
       }
     }
-  }, [activeThread, markers, loadVoices]);
+  }, [activeThread, markers]);
 
   return <div id="map" className={classes.map} />;
 };
