@@ -72,6 +72,14 @@ const RecordButton: React.FC<IRecordButtonProps> = (
     }
   };
 
+  const toggleRecording = () => {
+    if (props.isRecording) {
+      return stopRecording();
+    } else {
+      if (props.recorder) return startRecording();
+    }
+  };
+
   /* disable context menu from long press event in mobile or tablet devices */
   const disableContextMenu = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -88,10 +96,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         id="record"
         className={classes.button}
         aria-label="record"
-        onMouseDown={startRecording}
-        onTouchStart={startRecording}
-        onMouseUp={stopRecording}
-        onTouchEnd={stopRecording}
+        onDoubleClick={toggleRecording}
         onContextMenu={disableContextMenu}
       >
         {props.embeddedRecordButton ? '開始錄' : '9up'}
