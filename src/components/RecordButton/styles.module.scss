@@ -1,6 +1,8 @@
 @import 'css/main';
 
 .record-button {
+  touch-action: manipulation;
+
   /* NORMAL STYLE */
   &.floating {
     margin: 0 auto;
