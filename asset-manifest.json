@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/ab-test-web/static/css/main.fbbcc444.chunk.css",
+    "main.css": "/ab-test-web/static/css/main.0c0eb65c.chunk.css",
     "main.js": "/ab-test-web/static/js/main.a41814bb.chunk.js",
     "main.js.map": "/ab-test-web/static/js/main.a41814bb.chunk.js.map",
     "runtime-main.js": "/ab-test-web/static/js/runtime-main.27184111.js",
@@ -8,16 +8,16 @@
     "static/js/2.770edd53.chunk.js": "/ab-test-web/static/js/2.770edd53.chunk.js",
     "static/js/2.770edd53.chunk.js.map": "/ab-test-web/static/js/2.770edd53.chunk.js.map",
     "index.html": "/ab-test-web/index.html",
-    "precache-manifest.06339b90797ff7685bb53a242e37270a.js": "/ab-test-web/precache-manifest.06339b90797ff7685bb53a242e37270a.js",
+    "precache-manifest.f98fe07ddcc9f03ae60b3c0c8b928638.js": "/ab-test-web/precache-manifest.f98fe07ddcc9f03ae60b3c0c8b928638.js",
     "service-worker.js": "/ab-test-web/service-worker.js",
-    "static/css/main.fbbcc444.chunk.css.map": "/ab-test-web/static/css/main.fbbcc444.chunk.css.map",
+    "static/css/main.0c0eb65c.chunk.css.map": "/ab-test-web/static/css/main.0c0eb65c.chunk.css.map",
     "static/js/2.770edd53.chunk.js.LICENSE.txt": "/ab-test-web/static/js/2.770edd53.chunk.js.LICENSE.txt",
     "static/media/styles.module.scss": "/ab-test-web/static/media/marker.c6d4876a.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.27184111.js",
     "static/js/2.770edd53.chunk.js",
-    "static/css/main.fbbcc444.chunk.css",
+    "static/css/main.0c0eb65c.chunk.css",
     "static/js/main.a41814bb.chunk.js"
   ]
 }
