@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
@@ -35,6 +35,7 @@ interface IRecordButtonProps {
 const RecordButton: React.FC<IRecordButtonProps> = (
   props: IRecordButtonProps
 ) => {
+  const [latestTapTime, setLatestTapTime] = useState<number>(0);
   const history = useHistory();
   const location = useLocation();
 
@@ -80,6 +81,19 @@ const RecordButton: React.FC<IRecordButtonProps> = (
     }
   };
 
+  const checkDoubleTap = (now: number) => {
+    return now - latestTapTime < 600;
+  };
+
+  const handleTouch = () => {
+    const now = new Date().getTime();
+    setLatestTapTime(now);
+    const isDoubleTap = checkDoubleTap(now);
+    if (isDoubleTap) {
+      return toggleRecording();
+    }
+  };
+
   /* disable context menu from long press event in mobile or tablet devices */
   const disableContextMenu = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -97,6 +111,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         className={classes.button}
         aria-label="record"
         onDoubleClick={toggleRecording}
+        onTouchStart={handleTouch}
         onContextMenu={disableContextMenu}
       >
         {props.embeddedRecordButton ? '開始錄' : '9up'}
