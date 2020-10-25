@@ -19,7 +19,7 @@ import classes from './styles.module.scss';
 interface IMapProps {
   activeThread: ThreadJson | null;
   threads: Array<ThreadJson>;
-  geolocation: LocationJson | undefined;
+  geolocation: LocationJson | null;
   setActiveThread: (thread: ThreadJson | null) => void;
   loadVoices: (threadId: string) => void;
   stopPlayingThread: () => void;

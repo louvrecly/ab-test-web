@@ -29,7 +29,7 @@ interface IRecordButtonProps {
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
-  setGeolocation: (geolocation?: LocationJson) => void;
+  setGeolocation: (geolocation: LocationJson | null) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
@@ -41,7 +41,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
 
   const startRecording = () => {
     if (props.recorder && !props.isRecording) {
-      props.setGeolocation();
+      props.setGeolocation(null);
       const pathname = location.pathname.replace('/new', '');
       history.push(pathname);
       props.setDrawerState('bottom', true);
@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>
       dispatch(embedRecordButton(embeddedRecordButton)),
-    setGeolocation: (geolocation?: LocationJson) =>
+    setGeolocation: (geolocation: LocationJson | null) =>
       dispatch(setGeolocation(geolocation))
   };
 };

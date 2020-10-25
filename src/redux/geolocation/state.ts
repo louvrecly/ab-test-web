@@ -1,5 +1,5 @@
 import { LocationJson } from 'models';
 
 export interface IGeolocationState {
-  geolocation: LocationJson | undefined;
+  geolocation: LocationJson | null;
 }

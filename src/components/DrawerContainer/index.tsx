@@ -21,7 +21,7 @@ interface IDrawerContainerProps {
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
-  setGeolocation: (geolocation?: LocationJson) => void;
+  setGeolocation: (geolocation: LocationJson | null) => void;
 }
 
 const DrawerContainer: React.FC<IDrawerContainerProps> = ({
@@ -52,7 +52,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = ({
 
   useEffect(() => {
     if (!drawerState.bottom) {
-      setGeolocation();
+      setGeolocation(null);
     }
   }, [drawerState.bottom, setGeolocation]);
 
@@ -87,7 +87,7 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>
       dispatch(embedRecordButton(embeddedRecordButton)),
-    setGeolocation: (geolocation?: LocationJson) =>
+    setGeolocation: (geolocation: LocationJson | null) =>
       dispatch(setGeolocation(geolocation))
   };
 };
