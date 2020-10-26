@@ -14,7 +14,7 @@ export const audioRecorder = () =>
       audio: true
     });
     const mediaRecorder: MediaRecorder = new MediaRecorder(stream);
-    let audioChunk: Blob | undefined;
+    let audioChunk: Blob;
 
     const dataAvailableHandler = (event: BlobEvent) => {
       audioChunk = event.data;
