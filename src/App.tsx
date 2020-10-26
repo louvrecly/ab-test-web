@@ -12,7 +12,7 @@ import classes from './App.module.scss';
 interface IAppProps {
   loadThreads: () => void;
   loadUsers: () => void;
-  setRecorder: (recorder?: AudioRecorder) => void;
+  setRecorder: (recorder: AudioRecorder | null) => void;
 }
 
 const App: React.FC<IAppProps> = (props: IAppProps) => {
@@ -43,7 +43,8 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     loadThreads: () => dispatch(loadThreads()),
     loadUsers: () => dispatch(loadUsers()),
-    setRecorder: (recorder?: AudioRecorder) => dispatch(setRecorder(recorder))
+    setRecorder: (recorder: AudioRecorder | null) =>
+      dispatch(setRecorder(recorder))
   };
 };
 

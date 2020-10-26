@@ -19,7 +19,7 @@ import { getLocationJson } from 'utils/geolocation';
 import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
-  recorder: AudioRecorder | undefined;
+  recorder: AudioRecorder | null;
   isRecording: boolean;
   activeThread: ThreadJson | null;
   showRecordButton: boolean;
