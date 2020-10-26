@@ -22,7 +22,7 @@ interface IVoiceFormProps {
   audio: AudioData | null;
   thread: ThreadJson | null;
   geolocation: LocationJson | null;
-  createThread: (newThread: ThreadJson) => Promise<ThreadJson | undefined>;
+  createThread: (newThread: ThreadJson) => Promise<ThreadJson | null>;
   createVoice: (
     newVoice: VoiceJson,
     audioBlob: Blob
