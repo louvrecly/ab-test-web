@@ -24,7 +24,7 @@ interface IRecordButtonProps {
   activeThread: ThreadJson | null;
   showRecordButton: boolean;
   embeddedRecordButton: boolean;
-  setAudio: (audio?: AudioData) => void;
+  setAudio: (audio: AudioData | null) => void;
   setIsRecordingState: (isRecording: boolean) => void;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
@@ -133,7 +133,7 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setAudio: (audio?: AudioData) => dispatch(setAudio(audio)),
+    setAudio: (audio: AudioData | null) => dispatch(setAudio(audio)),
     setIsRecordingState: (isRecording: boolean) =>
       dispatch(setIsRecordingState(isRecording)),
     setDrawerState: (side: DrawerSide, open: boolean) =>

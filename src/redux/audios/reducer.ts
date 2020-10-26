@@ -3,7 +3,7 @@ import { IAudiosAction } from './actions';
 
 const initialState: IAudiosState = {
   recorder: null,
-  audio: undefined,
+  audio: null,
   isRecording: false
 };
 

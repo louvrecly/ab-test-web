@@ -19,7 +19,7 @@ import { getTimestampJson } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IVoiceFormProps {
-  audio: AudioData | undefined;
+  audio: AudioData | null;
   thread: ThreadJson | null;
   geolocation: LocationJson | null;
   createThread: (newThread: ThreadJson) => Promise<ThreadJson | undefined>;
