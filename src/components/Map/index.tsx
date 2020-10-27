@@ -79,7 +79,10 @@ const Map: React.FC<IMapProps> = ({
   /* create thread popups and markers */
   useEffect(() => {
     (layerRef.current as L.LayerGroup).clearLayers();
-    const icon: L.DivIcon = L.divIcon({ className: classes.thread });
+    const icon: L.DivIcon = L.divIcon({
+      className: classes.thread,
+      iconSize: [25, 25]
+    });
 
     threads.forEach(thread => {
       const position = L.latLng([
