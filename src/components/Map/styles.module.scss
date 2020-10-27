@@ -8,15 +8,33 @@
     filter: contrast(1.4) hue-rotate(260deg) saturate(1.3) brightness(0.8);
   }
 
-  .icon {
-    background-color: rgba(get-color(white), 0.9);
+  .thread {
     border-radius: 50%;
-    box-shadow: inset 0px 0px 3px 3px get-color(gold), 0px 0px 5px 5px rgba(get-color(gold), 0.9);
-    transform-origin: center;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    &:active {
-      zoom: 1;
+    &:before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      background-color: rgba(get-color(white), 0.9);
+      border-radius: 50%;
+      box-shadow: inset 0px 0px 3px 3px get-color(gold), 0px 0px 5px 5px rgba(get-color(gold), 0.9);
+      transform-origin: center;
     }
+  }
+
+  .new-thread {
+    background-image: url('../../assets/icons/marker.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 25px !important;
+    height: 35px !important;
+    transform-origin: center;
+    outline: none;
   }
 
   .popup {

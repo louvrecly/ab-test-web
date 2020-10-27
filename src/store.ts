@@ -12,18 +12,26 @@ import {
   routerMiddleware
 } from 'connected-react-router';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import logger from 'redux-logger';
 import { IThreadsState } from 'redux/threads/state';
 import { IVoicesState } from 'redux/voices/state';
 import { IUsersState } from 'redux/users/state';
+import { IAudiosState } from 'redux/audios/state';
+import { IGeolocationState } from 'redux/geolocation/state';
+import { IChannelsState } from 'redux/channels/state';
 import { IComponentsState } from 'redux/components/state';
 import { IThreadsAction } from 'redux/threads/actions';
 import { IVoicesAction } from 'redux/voices/actions';
 import { IUsersAction } from 'redux/users/actions';
+import { IAudiosAction } from 'redux/audios/actions';
+import { IGeolocationAction } from 'redux/geolocation/actions';
+import { IChannelsActions } from 'redux/channels/actions';
 import { IComponentsAction } from 'redux/components/actions';
 import { threadsReducer } from 'redux/threads/reducer';
 import { voicesReducer } from 'redux/voices/reducer';
 import { usersReducer } from 'redux/users/reducer';
+import { audiosReducer } from 'redux/audios/reducer';
+import { geolocationReducer } from 'redux/geolocation/reducer';
+import { channelsReducer } from 'redux/channels/reducer';
 import { componentsReducer } from 'redux/components/reducer';
 
 declare global {
@@ -41,6 +49,9 @@ export interface IRootState {
   threads: IThreadsState;
   voices: IVoicesState;
   users: IUsersState;
+  audios: IAudiosState;
+  geolocation: IGeolocationState;
+  channels: IChannelsState;
   components: IComponentsState;
   router: RouterState;
 }
@@ -49,12 +60,18 @@ type IRootAction =
   | IThreadsAction
   | IVoicesAction
   | IUsersAction
+  | IAudiosAction
+  | IGeolocationAction
+  | IChannelsActions
   | IComponentsAction;
 
 const rootReducer = combineReducers<IRootState>({
   threads: threadsReducer,
   voices: voicesReducer,
   users: usersReducer,
+  audios: audiosReducer,
+  geolocation: geolocationReducer,
+  channels: channelsReducer,
   components: componentsReducer,
   router: connectRouter(history)
 });
@@ -64,7 +81,6 @@ export type ThunkResult = ThunkDispatch<IRootState, null, IRootAction>;
 const store: Store<IRootState, IRootAction> = createStore(
   rootReducer,
   composeEnhancers(
-    applyMiddleware(logger),
     applyMiddleware(thunk),
     applyMiddleware(routerMiddleware(history))
   )

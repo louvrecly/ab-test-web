@@ -1,27 +1,129 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
+import { ThreadJson, LocationJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
+import { DrawerSide } from 'redux/components/state';
+import { IRootState, ThunkResult } from 'store';
+import { setAudio, setIsRecordingState } from 'redux/audios/actions';
+import {
+  setDrawerState,
+  setShowRecordButtonState,
+  embedRecordButton
+} from 'redux/components/actions';
+import { setGeolocation } from 'redux/geolocation/actions';
+import { connect } from 'react-redux';
+import { AudioData, AudioRecorder } from 'utils/audioRecorder';
+import { getLocationJson } from 'utils/geolocation';
 import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
-  isAbsolute?: boolean;
+  recorder: AudioRecorder | undefined;
+  isRecording: boolean;
+  activeThread: ThreadJson | null;
+  showRecordButton: boolean;
+  embeddedRecordButton: boolean;
+  setAudio: (audio?: AudioData) => void;
+  setIsRecordingState: (isRecording: boolean) => void;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
+  embedRecordButton: (embeddedRecordButton: boolean) => void;
+  setGeolocation: (geolocation?: LocationJson) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
   props: IRecordButtonProps
 ) => {
+  const history = useHistory();
+  const location = useLocation();
+
+  const startRecording = () => {
+    if (props.recorder && !props.isRecording) {
+      props.setGeolocation();
+      const pathname = location.pathname.replace('/new', '');
+      history.push(pathname);
+      props.setDrawerState('bottom', true);
+      props.recorder.start();
+      props.setIsRecordingState(true);
+      props.embedRecordButton(false);
+    } else {
+      console.log('recorder is not ready!'); /* tslint:disable-line */
+    }
+  };
+
+  const stopRecording = async () => {
+    if (props.isRecording) {
+      const audio = await props.recorder?.stop();
+      props.setAudio(audio as AudioData);
+      props.setIsRecordingState(false);
+      const pathname = `${
+        props.activeThread
+          ? location.pathname
+          : `${REACT_APP_URL_PREFIX}/threads`
+      }/new`;
+      history.push(pathname);
+      props.setShowRecordButtonState(false);
+
+      const geolocation = await getLocationJson();
+      props.setGeolocation(geolocation);
+    } else {
+      console.log('no audio is being recorded'); /* tslint:disable-line */
+    }
+  };
+
+  /* disable context menu from long press event in mobile or tablet devices */
+  const disableContextMenu = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => event.preventDefault();
+
   return (
     <div
       className={clsx({
         [classes['record-button']]: true,
-        [classes.absolute]: props.isAbsolute
+        [classes.floating]: !props.embeddedRecordButton
       })}
     >
-      <IconButton className={classes.button} aria-label="record">
-        9up
+      <IconButton
+        id="record"
+        className={classes.button}
+        aria-label="record"
+        onMouseDown={startRecording}
+        onTouchStart={startRecording}
+        onMouseUp={stopRecording}
+        onTouchEnd={stopRecording}
+        onContextMenu={disableContextMenu}
+      >
+        {props.embeddedRecordButton ? '開始錄' : '9up'}
       </IconButton>
     </div>
   );
 };
 
-export default RecordButton;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    recorder: state.audios.recorder,
+    isRecording: state.audios.isRecording,
+    activeThread: state.threads.activeThread,
+    showRecordButton: state.components.showRecordButton,
+    embeddedRecordButton: state.components.embeddedRecordButton
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkResult) => {
+  return {
+    setAudio: (audio?: AudioData) => dispatch(setAudio(audio)),
+    setIsRecordingState: (isRecording: boolean) =>
+      dispatch(setIsRecordingState(isRecording)),
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton)),
+    embedRecordButton: (embeddedRecordButton: boolean) =>
+      dispatch(embedRecordButton(embeddedRecordButton)),
+    setGeolocation: (geolocation?: LocationJson) =>
+      dispatch(setGeolocation(geolocation))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordButton);

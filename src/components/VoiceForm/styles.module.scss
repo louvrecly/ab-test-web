@@ -1,0 +1,92 @@
+@import 'css/main';
+
+.voice-form {
+  padding: 10px 0;
+  margin: 0 30px;
+
+  .container {
+    .handle {
+      margin: 0 auto;
+      width: 20px;
+      height: 5px;
+      background-color: get-color(white);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form {
+      padding: 20px 0;
+
+      .fields {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        .field {
+          padding: 10px 0;
+          display: flex;
+          flex-flow: column nowrap;
+
+          .label {
+            margin: 0 0 10px;
+            color: rgba($color: get-color(white), $alpha: 0.7);
+            @include font-size-small;
+          }
+
+          .select,
+          .input {
+            padding: 5px 15px;
+            outline: none;
+            background-color: transparent;
+            color: get-color(gold);
+            border: 1px solid get-color(gold);
+            border-radius: 8px;
+            @include font-size-normal;
+            font-weight: $font-weight-bold;
+          }
+        }
+      }
+
+      .control {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+
+        .buttons {
+          flex: 1;
+
+          .new,
+          .music {
+            padding: 12px 0;
+            color: get-color(gold);
+            @include font-size-larger;
+
+            &:not(:last-child) {
+              margin: 0 12px 0 0;
+            }
+          }
+        }
+
+        .submit {
+          width: 72px;
+          height: 72px;
+          background-color: rgba($color: get-color(gold), $alpha: 0.2);
+          color: get-color(gold);
+          @include font-size-large;
+          position: relative;
+
+          :before {
+            content: '';
+            background-color: rgba($color: get-color(gold), $alpha: 0.1);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+          }
+        }
+      }
+    }
+  }
+}

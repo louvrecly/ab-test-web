@@ -9,3 +9,11 @@ export function sanitizedDate(timestampObj: {
   const timestamp = new firestore.Timestamp(_seconds, _nanoseconds);
   return moment(timestamp.toDate()).fromNow();
 }
+
+export function getTimestampJson() {
+  const milliseconds = Date.now();
+  const _seconds = Math.floor(milliseconds / 1000);
+  const _nanoseconds = (milliseconds - _seconds * 1000) * 1000000;
+  const timestamp = { _seconds, _nanoseconds };
+  return timestamp;
+}

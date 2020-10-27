@@ -1,0 +1,10 @@
+@import 'css/main';
+
+.timer-bar {
+  .timer {
+    color: get-color(gold);
+    font-weight: normal;
+    @include font-size-small;
+    text-align: center;
+  }
+}

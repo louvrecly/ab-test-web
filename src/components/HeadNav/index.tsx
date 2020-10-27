@@ -12,18 +12,29 @@ import {
   MdChevronLeft,
   MdChevronRight
 } from 'react-icons/md';
-import { DrawerSide } from 'redux/components/state';
+import { ThunkResult, IRootState } from 'store';
+import { DrawerSide, DrawerState } from 'redux/components/state';
+import {
+  setDrawerState,
+  setShowRecordButtonState
+} from 'redux/components/actions';
+import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IHeadNavProps {
-  title: string;
-  toggleDrawer: (
-    side: DrawerSide,
-    open: boolean
-  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  channel: string;
+  drawerState: DrawerState;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
+  const toggleLeftDrawer = () => {
+    const open = !props.drawerState.left;
+    props.setShowRecordButtonState(!open);
+    props.setDrawerState('left', open);
+  };
+
   return (
     <AppBar className={classes['head-nav']} position="absolute">
       <Toolbar>
@@ -32,7 +43,7 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          onClick={props.toggleDrawer('left', true)}
+          onClick={toggleLeftDrawer}
         >
           <MdFormatListBulleted />
         </IconButton>
@@ -46,7 +57,7 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
           </Button>
 
           <Button className={classes.stage} color="inherit">
-            {props.title}
+            {props.channel}
           </Button>
 
           <Button
@@ -70,4 +81,20 @@ const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
   );
 };
 
-export default HeadNav;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    channel: state.channels.channel,
+    drawerState: state.components.drawerState
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkResult) => {
+  return {
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeadNav);

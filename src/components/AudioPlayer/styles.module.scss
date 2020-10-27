@@ -1,0 +1,24 @@
+@import 'css/main';
+
+.voice-player {
+  .control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .play {
+      color: get-color(gold);
+      @include font-size-smaller;
+    }
+
+    .delete {
+      color: get-color(gold);
+      @include font-size-small;
+    }
+
+    .wave-form {
+      color: get-color(gold);
+      @include font-size-small;
+    }
+  }
+}

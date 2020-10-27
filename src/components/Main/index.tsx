@@ -1,62 +1,54 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/DrawerContainer';
 import ThreadPanel from 'components/ThreadPanel';
-import { drawerSides } from 'components/DrawerContainer/constant';
-import { Thread } from 'models';
+import TimerBar from 'components/TimerBar';
+import VoiceForm from 'components/VoiceForm';
+import { ThreadJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { IRootState, ThunkResult } from 'store';
-import { DrawerState, DrawerSide } from 'redux/components/state';
-import { setDrawerState } from 'redux/components/actions';
+import { DrawerState } from 'redux/components/state';
 import { connect } from 'react-redux';
 import classes from './styles.module.scss';
 
 interface IMainProps {
   drawerState: DrawerState;
-  activeThread: Thread | undefined;
-  setDrawerState: (side: DrawerSide, open: boolean) => void;
+  activeThread: ThreadJson | null;
+  showRecordButton: boolean;
+  isRecording: boolean;
 }
 
 const Main: React.FC<IMainProps> = (props: IMainProps) => {
-  const toggleDrawer = (side: DrawerSide, open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    props.setDrawerState(side, open);
-  };
-
   return (
     <div className={classes.main}>
-      <HeadNav title="吹水台" toggleDrawer={toggleDrawer} />
+      <HeadNav />
 
-      {drawerSides.reduce((combinedState: boolean, drawerSide: DrawerSide) => {
-        return combinedState || props.drawerState[drawerSide];
-      }, false) ? null : (
-        <RecordButton isAbsolute={true} />
-      )}
+      {props.showRecordButton && <RecordButton />}
 
-      <DrawerContainer
-        side="left"
-        open={props.drawerState.left}
-        toggleDrawer={toggleDrawer}
-      >
+      <DrawerContainer side="left">
         <p>drawer contents</p>
       </DrawerContainer>
 
-      <DrawerContainer
-        side="bottom"
-        open={props.drawerState.bottom}
-        toggleDrawer={toggleDrawer}
-        disableSwipe={props.activeThread === undefined}
-      >
-        <ThreadPanel />
+      <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
+        {props.isRecording ? (
+          <TimerBar />
+        ) : (
+          <Switch>
+            <Route
+              path={`${REACT_APP_URL_PREFIX}/threads/new`}
+              children={<VoiceForm thread={props.activeThread} />}
+            />
+
+            <Route
+              path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`}
+              children={<VoiceForm thread={props.activeThread} />}
+            />
+
+            <Route path={`${REACT_APP_URL_PREFIX}/`} component={ThreadPanel} />
+          </Switch>
+        )}
       </DrawerContainer>
     </div>
   );
@@ -65,15 +57,14 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
 const mapStateToProps = (state: IRootState) => {
   return {
     drawerState: state.components.drawerState,
-    activeThread: state.threads.activeThread
+    activeThread: state.threads.activeThread,
+    showRecordButton: state.components.showRecordButton,
+    isRecording: state.audios.isRecording
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
-  return {
-    setDrawerState: (side: DrawerSide, open: boolean) =>
-      dispatch(setDrawerState(side, open))
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
