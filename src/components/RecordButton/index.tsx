@@ -88,8 +88,8 @@ const RecordButton: React.FC<IRecordButtonProps> = (
   const handleTouch = (event: React.TouchEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const now = new Date().getTime();
-    setLatestTapTime(now);
     const isDoubleTap = checkDoubleTap(now);
+    setLatestTapTime(now);
     if (isDoubleTap) {
       return toggleRecording();
     }
