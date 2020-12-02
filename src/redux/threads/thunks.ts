@@ -37,6 +37,7 @@ export function createThread(newThread: ThreadJson) {
       return data as ThreadJson;
     } else {
       dispatch(failed('CREATE_THREAD_FAILED', data));
+      return null;
     }
   };
 }

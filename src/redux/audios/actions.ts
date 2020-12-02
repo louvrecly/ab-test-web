@@ -1,13 +1,13 @@
 import { AudioRecorder, AudioData } from 'utils/audioRecorder';
 
-export function setRecorder(recorder?: AudioRecorder) {
+export function setRecorder(recorder: AudioRecorder | null) {
   return {
     type: 'SET_RECORDER' as 'SET_RECORDER',
     recorder
   };
 }
 
-export function setAudio(audio?: AudioData) {
+export function setAudio(audio: AudioData | null) {
   return {
     type: 'SET_AUDIO' as 'SET_AUDIO',
     audio

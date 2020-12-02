@@ -27,5 +27,5 @@ function positionToLocationJson(position: Position) {
 
 export async function getLocationJson() {
   const position = await getGeolocation();
-  return position ? positionToLocationJson(position) : undefined;
+  return position ? positionToLocationJson(position) : null;
 }

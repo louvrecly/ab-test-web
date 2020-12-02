@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
 import { IconButton } from '@material-ui/core';
@@ -19,28 +19,29 @@ import { getLocationJson } from 'utils/geolocation';
 import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
-  recorder: AudioRecorder | undefined;
+  recorder: AudioRecorder | null;
   isRecording: boolean;
   activeThread: ThreadJson | null;
   showRecordButton: boolean;
   embeddedRecordButton: boolean;
-  setAudio: (audio?: AudioData) => void;
+  setAudio: (audio: AudioData | null) => void;
   setIsRecordingState: (isRecording: boolean) => void;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
-  setGeolocation: (geolocation?: LocationJson) => void;
+  setGeolocation: (geolocation: LocationJson | null) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
   props: IRecordButtonProps
 ) => {
+  const [latestTapTime, setLatestTapTime] = useState<number>(0);
   const history = useHistory();
   const location = useLocation();
 
   const startRecording = () => {
     if (props.recorder && !props.isRecording) {
-      props.setGeolocation();
+      props.setGeolocation(null);
       const pathname = location.pathname.replace('/new', '');
       history.push(pathname);
       props.setDrawerState('bottom', true);
@@ -72,6 +73,28 @@ const RecordButton: React.FC<IRecordButtonProps> = (
     }
   };
 
+  const toggleRecording = () => {
+    if (props.isRecording) {
+      return stopRecording();
+    } else {
+      if (props.recorder) return startRecording();
+    }
+  };
+
+  const checkDoubleTap = (now: number) => {
+    return now - latestTapTime < 600;
+  };
+
+  const handleTouch = (event: React.TouchEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const now = new Date().getTime();
+    const isDoubleTap = checkDoubleTap(now);
+    setLatestTapTime(now);
+    if (isDoubleTap) {
+      return toggleRecording();
+    }
+  };
+
   /* disable context menu from long press event in mobile or tablet devices */
   const disableContextMenu = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -88,10 +111,8 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         id="record"
         className={classes.button}
         aria-label="record"
-        onMouseDown={startRecording}
-        onTouchStart={startRecording}
-        onMouseUp={stopRecording}
-        onTouchEnd={stopRecording}
+        onDoubleClick={toggleRecording}
+        onTouchStart={handleTouch}
         onContextMenu={disableContextMenu}
       >
         {props.embeddedRecordButton ? '開始錄' : '9up'}
@@ -112,7 +133,7 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setAudio: (audio?: AudioData) => dispatch(setAudio(audio)),
+    setAudio: (audio: AudioData | null) => dispatch(setAudio(audio)),
     setIsRecordingState: (isRecording: boolean) =>
       dispatch(setIsRecordingState(isRecording)),
     setDrawerState: (side: DrawerSide, open: boolean) =>
@@ -121,7 +142,7 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>
       dispatch(embedRecordButton(embeddedRecordButton)),
-    setGeolocation: (geolocation?: LocationJson) =>
+    setGeolocation: (geolocation: LocationJson | null) =>
       dispatch(setGeolocation(geolocation))
   };
 };

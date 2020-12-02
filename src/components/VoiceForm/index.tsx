@@ -19,15 +19,15 @@ import { getTimestampJson } from 'utils/time';
 import classes from './styles.module.scss';
 
 interface IVoiceFormProps {
-  audio: AudioData | undefined;
+  audio: AudioData | null;
   thread: ThreadJson | null;
-  geolocation: LocationJson | undefined;
-  createThread: (newThread: ThreadJson) => Promise<ThreadJson | undefined>;
+  geolocation: LocationJson | null;
+  createThread: (newThread: ThreadJson) => Promise<ThreadJson | null>;
   createVoice: (
     newVoice: VoiceJson,
     audioBlob: Blob
   ) => Promise<VoiceJson | undefined>;
-  setGeolocation: (geolocation?: LocationJson) => void;
+  setGeolocation: (geolocation: LocationJson | null) => void;
   loadVoices: (threadId: string) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
@@ -84,7 +84,7 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
       const voice = await props.createVoice(newVoice, audioBlob);
       const { thread_id } = voice as VoiceJson;
 
-      props.setGeolocation();
+      props.setGeolocation(null);
       const pathname = `${REACT_APP_URL_PREFIX}/${thread_id}`;
       history.push(pathname);
       props.loadVoices(threadId);
@@ -190,7 +190,7 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     createThread: (newThread: ThreadJson) => dispatch(createThread(newThread)),
     createVoice: (newVoice: VoiceJson, audioBlob: Blob) =>
       dispatch(createVoice(newVoice, audioBlob)),
-    setGeolocation: (geolocation?: LocationJson) =>
+    setGeolocation: (geolocation: LocationJson | null) =>
       dispatch(setGeolocation(geolocation)),
     loadVoices: (threadId: string) => dispatch(loadVoices(threadId)),
     setShowRecordButtonState: (showRecordButton: boolean) =>

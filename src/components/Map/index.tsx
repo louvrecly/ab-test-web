@@ -19,7 +19,7 @@ import classes from './styles.module.scss';
 interface IMapProps {
   activeThread: ThreadJson | null;
   threads: Array<ThreadJson>;
-  geolocation: LocationJson | undefined;
+  geolocation: LocationJson | null;
   setActiveThread: (thread: ThreadJson | null) => void;
   loadVoices: (threadId: string) => void;
   stopPlayingThread: () => void;
@@ -96,17 +96,14 @@ const Map: React.FC<IMapProps> = ({
         pane: 'shadowPane' /* avoid masking other markers */
       });
 
-      const markerOnMousedownHandler = (event: L.LeafletEvent) => {
-        markerRef.current = event.target as L.Marker;
-        const pathname = `${REACT_APP_URL_PREFIX}/threads/${thread.id}`;
-        history.push(pathname);
-      };
-
       const popupOpenHandler = () => {
         (mapRef.current as L.Map).flyTo(position);
         setShowPlayListState(false);
         setShowRecordButtonState(false);
         setDrawerState('bottom', true);
+
+        const pathname = `${REACT_APP_URL_PREFIX}/threads/${thread.id}`;
+        history.push(pathname);
       };
 
       const popupCloseHandler = () => {
@@ -119,7 +116,6 @@ const Map: React.FC<IMapProps> = ({
 
       const marker = L.marker(position, { icon })
         .bindPopup(popup)
-        .on('mousedown', markerOnMousedownHandler)
         .on('popupopen', popupOpenHandler)
         .on('popupclose', popupCloseHandler)
         .addTo(layerRef.current as L.LayerGroup);

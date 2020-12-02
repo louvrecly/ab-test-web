@@ -15,7 +15,7 @@ import classes from './styles.module.scss';
 
 interface IAudioPlayerProps {
   audioUrl: string;
-  setAudio: (audio?: AudioData) => void;
+  setAudio: (audio: AudioData | null) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
   embedRecordButton: (embeddedRecordButton: boolean) => void;
 }
@@ -39,7 +39,7 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
   };
 
   const removeAudio = () => {
-    props.setAudio();
+    props.setAudio(null);
     props.embedRecordButton(true);
     props.setShowRecordButtonState(true);
   };
@@ -80,7 +80,7 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setAudio: (audio?: AudioData) => dispatch(setAudio(audio)),
+    setAudio: (audio: AudioData | null) => dispatch(setAudio(audio)),
     setShowRecordButtonState: (showRecordButton: boolean) =>
       dispatch(setShowRecordButtonState(showRecordButton)),
     embedRecordButton: (embeddedRecordButton: boolean) =>

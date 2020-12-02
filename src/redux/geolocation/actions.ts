@@ -1,6 +1,6 @@
 import { LocationJson } from 'models';
 
-export function setGeolocation(geolocation?: LocationJson) {
+export function setGeolocation(geolocation: LocationJson | null) {
   return {
     type: 'SET_GEOLOCATION' as 'SET_GEOLOCATION',
     geolocation

@@ -2,7 +2,7 @@ import { IGeolocationState } from './state';
 import { IGeolocationAction } from './actions';
 
 const initialState: IGeolocationState = {
-  geolocation: undefined
+  geolocation: null
 };
 
 export const geolocationReducer = (
