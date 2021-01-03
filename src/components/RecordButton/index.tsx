@@ -16,6 +16,7 @@ import { setGeolocation } from 'redux/geolocation/actions';
 import { connect } from 'react-redux';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
 import { getLocationJson } from 'utils/geolocation';
+import { useDidUpdateEffect } from 'utils/customHooks';
 import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
@@ -39,25 +40,47 @@ const RecordButton: React.FC<IRecordButtonProps> = (
   const history = useHistory();
   const location = useLocation();
 
-  const startRecording = () => {
-    if (props.recorder && !props.isRecording) {
-      props.setGeolocation(null);
-      const pathname = location.pathname.replace('/new', '');
-      history.push(pathname);
-      props.setDrawerState('bottom', true);
-      props.recorder.start();
-      props.setIsRecordingState(true);
-      props.embedRecordButton(false);
-    } else {
-      console.log('recorder is not ready!'); /* tslint:disable-line */
-    }
+  /* Determine if the touch event is a double tap */
+  const checkDoubleTap = (now: number) => now - latestTapTime < 600;
+
+  /* Toggle isRecording state */
+  const toggleRecording = () => props.setIsRecordingState(!props.isRecording);
+
+  /* Call toggleRecording when if isDoubleTap is true */
+  const handleTouch = (event: React.TouchEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const now = new Date().getTime();
+    const isDoubleTap = checkDoubleTap(now);
+    setLatestTapTime(now);
+
+    if (isDoubleTap) return toggleRecording();
   };
 
-  const stopRecording = async () => {
-    if (props.isRecording) {
+  /* Disable context menu from long press event in mobile or tablet devices */
+  const disableContextMenu = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => event.preventDefault();
+
+  /* Call startRecording or stopRecording on update in props.isRecording */
+  useDidUpdateEffect(() => {
+    /* Define startRecording procedures */
+    const startRecording = () => {
+      if (props.recorder) {
+        props.setGeolocation(null);
+        const pathname = location.pathname.replace('/new', '');
+        history.push(pathname);
+        props.setDrawerState('bottom', true);
+        props.recorder.start();
+        props.embedRecordButton(false);
+      } else {
+        console.log('recorder is not ready!'); /* tslint:disable-line */
+      }
+    };
+
+    /* Define stopRecording procedures */
+    const stopRecording = async () => {
       const audio = await props.recorder?.stop();
       props.setAudio(audio as AudioData);
-      props.setIsRecordingState(false);
       const pathname = `${
         props.activeThread
           ? location.pathname
@@ -68,37 +91,11 @@ const RecordButton: React.FC<IRecordButtonProps> = (
 
       const geolocation = await getLocationJson();
       props.setGeolocation(geolocation);
-    } else {
-      console.log('no audio is being recorded'); /* tslint:disable-line */
-    }
-  };
+    };
 
-  const toggleRecording = () => {
-    if (props.isRecording) {
-      return stopRecording();
-    } else {
-      if (props.recorder) return startRecording();
-    }
-  };
-
-  const checkDoubleTap = (now: number) => {
-    return now - latestTapTime < 600;
-  };
-
-  const handleTouch = (event: React.TouchEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const now = new Date().getTime();
-    const isDoubleTap = checkDoubleTap(now);
-    setLatestTapTime(now);
-    if (isDoubleTap) {
-      return toggleRecording();
-    }
-  };
-
-  /* disable context menu from long press event in mobile or tablet devices */
-  const disableContextMenu = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => event.preventDefault();
+    if (props.isRecording) startRecording();
+    else stopRecording();
+  }, [props.isRecording]);
 
   return (
     <div
