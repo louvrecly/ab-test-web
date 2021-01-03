@@ -33,7 +33,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
 
       <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
         {props.isRecording ? (
-          <TimerBar />
+          <TimerBar limit={props.activeThread ? 900 : 9900} />
         ) : (
           <Switch>
             <Route
