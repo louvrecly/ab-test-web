@@ -1,13 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
-import DrawerContainer from 'components/DrawerContainer';
-import ThreadPanel from 'components/ThreadPanel';
-import TimerBar from 'components/TimerBar';
-import VoiceForm from 'components/VoiceForm';
+import DrawerContainer from 'components/Drawer/Container';
+import BottomDrawerContents from 'components/Drawer/Contents/Bottom';
 import { ThreadJson } from 'models';
-import { REACT_APP_URL_PREFIX } from 'variables';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerState } from 'redux/components/state';
 import { connect } from 'react-redux';
@@ -32,23 +28,10 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
       </DrawerContainer>
 
       <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
-        {props.isRecording ? (
-          <TimerBar limit={props.activeThread ? 900 : 9900} />
-        ) : (
-          <Switch>
-            <Route
-              path={`${REACT_APP_URL_PREFIX}/threads/new`}
-              children={<VoiceForm thread={props.activeThread} />}
-            />
-
-            <Route
-              path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`}
-              children={<VoiceForm thread={props.activeThread} />}
-            />
-
-            <Route path={`${REACT_APP_URL_PREFIX}/`} component={ThreadPanel} />
-          </Switch>
-        )}
+        <BottomDrawerContents
+          isRecording={props.isRecording}
+          activeThread={props.activeThread}
+        />
       </DrawerContainer>
     </div>
   );
