@@ -1,36 +1,30 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import TimerBar from 'components/TimerBar';
-import VoiceForm from 'components/VoiceForm';
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import ThreadPanel from 'components/ThreadPanel';
-import { ThreadJson } from 'models';
+import ThreadRoute from 'components/Routes/ThreadRoute';
+import NewVoice from 'components/NewVoice';
 import { REACT_APP_URL_PREFIX } from 'variables';
 
-interface IDrawerContentsProps {
-  isRecording: boolean,
-  activeThread: ThreadJson | null
-}
+const BottomDrawerContents: React.FC = () => {
+  const history = useHistory();
 
-const BottomDrawerContents: React.FC<IDrawerContentsProps> = (props: IDrawerContentsProps) => {
+  /* Navigate to main page on closing the bottom drawer */
+  useEffect(() => {
+    return () => {
+      const pathname = REACT_APP_URL_PREFIX as string;
+      history.push(pathname);
+    }
+  }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
+
   return (
     <div>
-      {props.isRecording ? (
-        <TimerBar limit={props.activeThread ? 900 : 9900} />
-      ) : (
-        <Switch>
-          <Route
-            path={`${REACT_APP_URL_PREFIX}/threads/new`}
-            children={<VoiceForm thread={props.activeThread} />}
-          />
+      <Switch>
+        <Route path={`${REACT_APP_URL_PREFIX}/threads/new`} children={<NewVoice thread={null} />} />
 
-          <Route
-            path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`}
-            children={<VoiceForm thread={props.activeThread} />}
-          />
+        <ThreadRoute path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`} component={NewVoice} />
 
-          <Route path={`${REACT_APP_URL_PREFIX}/`} component={ThreadPanel} />
-        </Switch>
-      )}
+        <ThreadRoute path={`${REACT_APP_URL_PREFIX}/threads/:threadId`} component={ThreadPanel} />
+      </Switch>
     </div>
   );
 };
