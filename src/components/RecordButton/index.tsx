@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
 import clsx from 'clsx';
+import { useHistory, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { IconButton } from '@material-ui/core';
-import { ThreadJson, LocationJson } from 'models';
-import { REACT_APP_URL_PREFIX } from 'variables';
-import { DrawerSide } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { setAudio, setIsRecordingState } from 'redux/audios/actions';
-import {
-  setDrawerState,
-  setShowRecordButtonState,
-  embedRecordButton
-} from 'redux/components/actions';
-import { setGeolocation } from 'redux/geolocation/actions';
-import { connect } from 'react-redux';
+import { setShowRecordButtonState } from 'redux/components/actions';
+import { ThreadJson } from 'models';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import { AudioData, AudioRecorder } from 'utils/audioRecorder';
-import { getLocationJson } from 'utils/geolocation';
 import { useDidUpdateEffect } from 'utils/customHooks';
+import { startRecording, stopRecording } from './Bloc';
 import classes from './styles.module.scss';
 
 interface IRecordButtonProps {
@@ -24,13 +18,9 @@ interface IRecordButtonProps {
   isRecording: boolean;
   activeThread: ThreadJson | null;
   showRecordButton: boolean;
-  embeddedRecordButton: boolean;
   setAudio: (audio: AudioData | null) => void;
   setIsRecordingState: (isRecording: boolean) => void;
-  setDrawerState: (side: DrawerSide, open: boolean) => void;
   setShowRecordButtonState: (showRecordButton: boolean) => void;
-  embedRecordButton: (embeddedRecordButton: boolean) => void;
-  setGeolocation: (geolocation: LocationJson | null) => void;
 }
 
 const RecordButton: React.FC<IRecordButtonProps> = (
@@ -44,7 +34,18 @@ const RecordButton: React.FC<IRecordButtonProps> = (
   const checkDoubleTap = (now: number) => now - latestTapTime < 600;
 
   /* Toggle isRecording state */
-  const toggleRecording = () => props.setIsRecordingState(!props.isRecording);
+  const toggleRecording = () => {
+    if (!props.isRecording) {
+      const pathname = `${REACT_APP_URL_PREFIX}/threads${
+        props.activeThread
+        ? `/${props.activeThread.id}`
+        : ''
+      }/new`;
+      history.push(pathname);
+    } else {
+      props.setIsRecordingState(false);
+    }
+  };
 
   /* Call toggleRecording when if isDoubleTap is true */
   const handleTouch = (event: React.TouchEvent<HTMLButtonElement>) => {
@@ -61,49 +62,28 @@ const RecordButton: React.FC<IRecordButtonProps> = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => event.preventDefault();
 
+  /* Capture audio data from audio recorder and save it to the store */
+  const captureAudio = async () => {
+    const audio = await stopRecording(props.recorder);
+
+    /* Check if the recording is cancelled due to closing the bottom drawer */
+    if (audio && location.pathname !== REACT_APP_URL_PREFIX) {
+      props.setAudio(audio as AudioData);
+      props.setShowRecordButtonState(false);
+    }
+  };
+
   /* Call startRecording or stopRecording on update in props.isRecording */
   useDidUpdateEffect(() => {
-    /* Define startRecording procedures */
-    const startRecording = () => {
-      if (props.recorder) {
-        props.setGeolocation(null);
-        const pathname = location.pathname.replace('/new', '');
-        history.push(pathname);
-        props.setDrawerState('bottom', true);
-        props.recorder.start();
-        props.embedRecordButton(false);
-      } else {
-        console.log('recorder is not ready!'); /* tslint:disable-line */
-      }
-    };
-
-    /* Define stopRecording procedures */
-    const stopRecording = async () => {
-      const audio = await props.recorder?.stop();
-      props.setAudio(audio as AudioData);
-      const pathname = `${
-        props.activeThread
-          ? location.pathname
-          : `${REACT_APP_URL_PREFIX}/threads`
-      }/new`;
-      history.push(pathname);
-      props.setShowRecordButtonState(false);
-
-      const geolocation = await getLocationJson();
-      props.setGeolocation(geolocation);
-    };
-
-    if (props.isRecording) startRecording();
-    else stopRecording();
+    if (props.isRecording) startRecording(props.recorder);
+    else captureAudio();
   }, [props.isRecording]);
 
   return (
-    <div
-      className={clsx({
-        [classes['record-button']]: true,
-        [classes.floating]: !props.embeddedRecordButton
-      })}
-    >
+    <div className={clsx({
+      [classes['record-button']]: true,
+      [classes.show]: props.showRecordButton
+    })}>
       <IconButton
         id="record"
         className={classes.button}
@@ -112,7 +92,7 @@ const RecordButton: React.FC<IRecordButtonProps> = (
         onTouchStart={handleTouch}
         onContextMenu={disableContextMenu}
       >
-        {props.embeddedRecordButton ? '開始錄' : '9up'}
+        9up
       </IconButton>
     </div>
   );
@@ -122,9 +102,7 @@ const mapStateToProps = (state: IRootState) => {
   return {
     recorder: state.audios.recorder,
     isRecording: state.audios.isRecording,
-    activeThread: state.threads.activeThread,
-    showRecordButton: state.components.showRecordButton,
-    embeddedRecordButton: state.components.embeddedRecordButton
+    activeThread: state.threads.activeThread
   };
 };
 
@@ -133,14 +111,8 @@ const mapDispatchToProps = (dispatch: ThunkResult) => {
     setAudio: (audio: AudioData | null) => dispatch(setAudio(audio)),
     setIsRecordingState: (isRecording: boolean) =>
       dispatch(setIsRecordingState(isRecording)),
-    setDrawerState: (side: DrawerSide, open: boolean) =>
-      dispatch(setDrawerState(side, open)),
     setShowRecordButtonState: (showRecordButton: boolean) =>
-      dispatch(setShowRecordButtonState(showRecordButton)),
-    embedRecordButton: (embeddedRecordButton: boolean) =>
-      dispatch(embedRecordButton(embeddedRecordButton)),
-    setGeolocation: (geolocation: LocationJson | null) =>
-      dispatch(setGeolocation(geolocation))
+      dispatch(setShowRecordButtonState(showRecordButton))
   };
 };
 
