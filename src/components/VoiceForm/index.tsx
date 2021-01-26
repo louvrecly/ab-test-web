@@ -3,11 +3,12 @@ import { useHistory } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@material-ui/core';
 import AudioPlayer from 'components/AudioPlayer';
+import EmbeddedRecordButton from 'components/RecordButton/Embedded';
 import { RiFileAddLine } from 'react-icons/ri';
 import { FaMusic, FaCheck } from 'react-icons/fa';
 import { ThreadJson, VoiceJson, LocationJson } from 'models';
 import { REACT_APP_URL_PREFIX } from 'variables';
-import { VoiceFormData } from 'redux/components/state';
+import { DrawerState, VoiceFormData } from 'redux/components/state';
 import { IRootState, ThunkResult } from 'store';
 import { createThread } from 'redux/threads/thunks';
 import { createVoice, loadVoices } from 'redux/voices/thunks';
@@ -22,6 +23,7 @@ interface IVoiceFormProps {
   audio: AudioData | null;
   thread: ThreadJson | null;
   geolocation: LocationJson | null;
+  drawerState: DrawerState;
   createThread: (newThread: ThreadJson) => Promise<ThreadJson | null>;
   createVoice: (
     newVoice: VoiceJson,
@@ -33,6 +35,7 @@ interface IVoiceFormProps {
 }
 
 const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
+  const [isLoading, setLoadingState] = useState<boolean>(true);
   const { register, handleSubmit } = useForm<VoiceFormData>();
   const inputRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
   const history = useHistory();
@@ -94,12 +97,17 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
     }
   };
 
-  /* set focus on thread title input on render */
+  /* Set focus on thread title input on render */
   useEffect(() => {
     if (inputRef.current && !props.thread) {
       inputRef.current.focus();
     }
-  }, [props.thread]);
+  }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
+
+  /* End loading state when audio is available */
+  useEffect(() => {
+    if (props.audio) setLoadingState(false);
+  }, [props.audio]);
 
   return (
     <div className={classes['voice-form']}>
@@ -150,7 +158,12 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
             </li>
           </ul>
 
-          <AudioPlayer audioUrl={props.audio?.audioUrl as string} />
+          {isLoading
+            ? <div className={classes.loading}>Loading Audio...</div>
+            : props.audio
+            ? <AudioPlayer audioUrl={props.audio.audioUrl} />
+            : <EmbeddedRecordButton />
+          }
 
           <div className={classes.control}>
             <div className={classes.buttons}>
@@ -181,7 +194,8 @@ const VoiceForm: React.FC<IVoiceFormProps> = (props: IVoiceFormProps) => {
 const mapStateToProps = (state: IRootState) => {
   return {
     audio: state.audios.audio,
-    geolocation: state.geolocation.geolocation
+    geolocation: state.geolocation.geolocation,
+    drawerState: state.components.drawerState
   };
 };
 
