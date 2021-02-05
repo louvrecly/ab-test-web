@@ -8,9 +8,9 @@ import { REACT_APP_URL_PREFIX } from 'variables';
 const BottomDrawerContents: React.FC = () => {
   const history = useHistory();
 
-  /* Navigate to main page on closing the bottom drawer */
   useEffect(() => {
     return () => {
+      /* Navigate to main page on cleanup */
       const pathname = REACT_APP_URL_PREFIX as string;
       history.push(pathname);
     }
