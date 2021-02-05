@@ -5,6 +5,7 @@ import Map from 'components/Map';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
 import DrawerContainer from 'components/Drawer/Container';
+import LeftDrawerContents from 'components/Drawer/Contents/Left';
 import BottomDrawerContents from 'components/Drawer/Contents/Bottom';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerSide } from 'redux/components/state';
@@ -66,7 +67,7 @@ const Main: React.FC<IMainProps> = (props: IMainProps) => {
         <HeadNav />
 
         <DrawerContainer side="left">
-          <p>drawer contents</p>
+          <LeftDrawerContents />
         </DrawerContainer>
 
         <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
