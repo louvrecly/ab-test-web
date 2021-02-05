@@ -1,7 +1,20 @@
 @import 'css/main';
 
 .main {
+  height: 100%;
+
   > div[tabindex="0"] {
     background-color: get-color(black);
   }
+}
+
+.loading {
+  height: 100%;
+  background-color: get-color(black);
+  color: get-color(gold);
+  // text-align: center;
+  @include font-size-normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

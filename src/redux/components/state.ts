@@ -16,5 +16,4 @@ export interface IComponentsState {
   showRecordButton: boolean;
   showPlayList: boolean;
   drawerState: DrawerState;
-  embeddedRecordButton: boolean;
 }

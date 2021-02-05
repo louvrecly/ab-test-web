@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
+import { connect } from 'react-redux';
 import { SwipeableDrawer } from '@material-ui/core';
-import { LocationJson } from 'models';
 import { IRootState, ThunkResult } from 'store';
 import { DrawerSide, DrawerState } from 'redux/components/state';
-import {
-  setDrawerState,
-  setShowRecordButtonState,
-  embedRecordButton
-} from 'redux/components/actions';
-import { setGeolocation } from 'redux/geolocation/actions';
-import { connect } from 'react-redux';
+import { setDrawerState } from 'redux/components/actions';
 import classes from './styles.module.scss';
 
 interface IDrawerContainerProps {
@@ -19,9 +13,6 @@ interface IDrawerContainerProps {
   disableSwipe?: boolean;
   children: React.ReactNode;
   setDrawerState: (side: DrawerSide, open: boolean) => void;
-  setShowRecordButtonState: (showRecordButton: boolean) => void;
-  embedRecordButton: (embeddedRecordButton: boolean) => void;
-  setGeolocation: (geolocation: LocationJson | null) => void;
 }
 
 const DrawerContainer: React.FC<IDrawerContainerProps> = ({
@@ -29,10 +20,7 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = ({
   drawerState,
   disableSwipe,
   children,
-  setDrawerState,
-  setShowRecordButtonState,
-  embedRecordButton,
-  setGeolocation
+  setDrawerState
 }: IDrawerContainerProps) => {
   const toggleDrawer = (side: DrawerSide, open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
@@ -42,19 +30,9 @@ const DrawerContainer: React.FC<IDrawerContainerProps> = ({
       event.type === 'keydown' &&
       ((event as React.KeyboardEvent).key === 'Tab' ||
         (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    setShowRecordButtonState(!open);
+    ) return;
     setDrawerState(side, open);
-    embedRecordButton(open); /* reset RecordButton */
   };
-
-  useEffect(() => {
-    if (!drawerState.bottom) {
-      setGeolocation(null);
-    }
-  }, [drawerState.bottom, setGeolocation]);
 
   return (
     <SwipeableDrawer
@@ -82,13 +60,7 @@ const mapStateToProps = (state: IRootState) => {
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
     setDrawerState: (side: DrawerSide, open: boolean) =>
-      dispatch(setDrawerState(side, open)),
-    setShowRecordButtonState: (showRecordButton: boolean) =>
-      dispatch(setShowRecordButtonState(showRecordButton)),
-    embedRecordButton: (embeddedRecordButton: boolean) =>
-      dispatch(embedRecordButton(embeddedRecordButton)),
-    setGeolocation: (geolocation: LocationJson | null) =>
-      dispatch(setGeolocation(geolocation))
+      dispatch(setDrawerState(side, open))
   };
 };
 

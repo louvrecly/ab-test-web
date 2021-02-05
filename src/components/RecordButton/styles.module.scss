@@ -4,7 +4,8 @@
   touch-action: manipulation;
 
   /* NORMAL STYLE */
-  &.floating {
+  // &.floating {
+  &:not(.embedded) {
     margin: 0 auto;
     width: 65px;
     height: 65px;
@@ -18,7 +19,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1400;
+    z-index: 0;
+
+    &.show {
+      z-index: 1400;
+    }
 
     &:before {
       content: '';
@@ -54,7 +59,8 @@
   }
 
   /* EMBEDDED STYLE */
-  &:not(.floating) {
+  // &:not(.floating) {
+  &.embedded {
     padding: 10px 0;
 
     .button {

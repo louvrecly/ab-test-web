@@ -1,70 +1,106 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Map from 'components/Map';
 import HeadNav from 'components/HeadNav';
 import RecordButton from 'components/RecordButton';
-import DrawerContainer from 'components/DrawerContainer';
-import ThreadPanel from 'components/ThreadPanel';
-import TimerBar from 'components/TimerBar';
-import VoiceForm from 'components/VoiceForm';
+import DrawerContainer from 'components/Drawer/Container';
+import LeftDrawerContents from 'components/Drawer/Contents/Left';
+import BottomDrawerContents from 'components/Drawer/Contents/Bottom';
+import { IRootState, ThunkResult } from 'store';
+import { DrawerSide } from 'redux/components/state';
+import { loadThreads } from 'redux/threads/thunks';
+import { loadUsers } from 'redux/users/thunks';
+import { setRecorder } from 'redux/audios/actions';
+import { setActiveThread } from 'redux/threads/actions';
+import { setDrawerState, setShowRecordButtonState } from 'redux/components/actions';
 import { ThreadJson } from 'models';
 import { REACT_APP_URL_PREFIX } from 'variables';
-import { IRootState, ThunkResult } from 'store';
-import { DrawerState } from 'redux/components/state';
-import { connect } from 'react-redux';
+import { audioRecorder, AudioRecorder } from 'utils/audioRecorder';
 import classes from './styles.module.scss';
 
 interface IMainProps {
-  drawerState: DrawerState;
+  threads: Array<ThreadJson>;
   activeThread: ThreadJson | null;
   showRecordButton: boolean;
-  isRecording: boolean;
+  loadThreads: () => void;
+  loadUsers: () => void;
+  setRecorder: (recorder: AudioRecorder | null) => void;
+  setActiveThread: (thread: ThreadJson | null) => void;
+  setShowRecordButtonState: (showRecordButton: boolean) => void;
+  setDrawerState: (side: DrawerSide, open: boolean) => void;
 }
 
 const Main: React.FC<IMainProps> = (props: IMainProps) => {
-  return (
-    <div className={classes.main}>
-      <HeadNav />
+  const location = useLocation();
 
-      {props.showRecordButton && <RecordButton />}
+  /* Define function to initialize recorder */
+  const initializeRecorder = async () => {
+    const recorder = await audioRecorder();
+    props.setRecorder(recorder);
+  };
 
-      <DrawerContainer side="left">
-        <p>drawer contents</p>
-      </DrawerContainer>
+  /* Initialize recorder, load threads and users on start */
+  useEffect(() => {
+    initializeRecorder();
 
-      <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
-        {props.isRecording ? (
-          <TimerBar limit={props.activeThread ? 900 : 9900} />
-        ) : (
-          <Switch>
-            <Route
-              path={`${REACT_APP_URL_PREFIX}/threads/new`}
-              children={<VoiceForm thread={props.activeThread} />}
-            />
+    props.loadThreads();
+    props.loadUsers();
+  }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
 
-            <Route
-              path={`${REACT_APP_URL_PREFIX}/threads/:threadId/new`}
-              children={<VoiceForm thread={props.activeThread} />}
-            />
+  /* Control bottom drawer depending on location and set active thread to null on main page */
+  useEffect(() => {
+    if (location.pathname === REACT_APP_URL_PREFIX) {
+      props.setShowRecordButtonState(true);
+      props.setDrawerState('bottom', false);
+      if (props.activeThread) props.setActiveThread(null);
+    } else {
+      props.setDrawerState('bottom', true);
+    }
+  }, [location]); /* eslint-disable-line react-hooks/exhaustive-deps */
 
-            <Route path={`${REACT_APP_URL_PREFIX}/`} component={ThreadPanel} />
-          </Switch>
-        )}
-      </DrawerContainer>
-    </div>
-  );
+  return props.threads.length
+    ? (
+      <div className={classes.main}>
+        <Map />
+
+        <HeadNav />
+
+        <DrawerContainer side="left">
+          <LeftDrawerContents />
+        </DrawerContainer>
+
+        <DrawerContainer side="bottom" disableSwipe={props.activeThread === null}>
+          <BottomDrawerContents />
+        </DrawerContainer>
+
+        <RecordButton showRecordButton={props.showRecordButton} />
+      </div>
+    )
+    : <div className={classes.loading}>Loading...</div>;
 };
 
 const mapStateToProps = (state: IRootState) => {
   return {
-    drawerState: state.components.drawerState,
+    threads: state.threads.threads,
     activeThread: state.threads.activeThread,
-    showRecordButton: state.components.showRecordButton,
-    isRecording: state.audios.isRecording
+    showRecordButton: state.components.showRecordButton
   };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
-  return {};
+  return {
+    loadThreads: () => dispatch(loadThreads()),
+    loadUsers: () => dispatch(loadUsers()),
+    setRecorder: (recorder: AudioRecorder | null) =>
+      dispatch(setRecorder(recorder)),
+    setActiveThread: (thread: ThreadJson | null) =>
+      dispatch(setActiveThread(thread)),
+    setShowRecordButtonState: (showRecordButton: boolean) =>
+      dispatch(setShowRecordButtonState(showRecordButton)),
+    setDrawerState: (side: DrawerSide, open: boolean) =>
+      dispatch(setDrawerState(side, open))
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

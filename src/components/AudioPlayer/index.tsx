@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import RecordButton from 'components/RecordButton';
 import { setAudio } from 'redux/audios/actions';
-import {
-  setShowRecordButtonState,
-  embedRecordButton
-} from 'redux/components/actions';
 import { IRootState, ThunkResult } from 'store';
 import { connect } from 'react-redux';
 import { AudioData } from 'utils/audioRecorder';
@@ -16,8 +11,6 @@ import classes from './styles.module.scss';
 interface IAudioPlayerProps {
   audioUrl: string;
   setAudio: (audio: AudioData | null) => void;
-  setShowRecordButtonState: (showRecordButton: boolean) => void;
-  embedRecordButton: (embeddedRecordButton: boolean) => void;
 }
 
 const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
@@ -38,38 +31,29 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = (props: IAudioPlayerProps) => {
     setIsPlayingState(!isPlaying);
   };
 
-  const removeAudio = () => {
-    props.setAudio(null);
-    props.embedRecordButton(true);
-    props.setShowRecordButtonState(true);
-  };
+  const removeAudio = () => props.setAudio(null);
 
   return (
-    <div className={classes['voice-player']}>
-      {props.audioUrl ? (
-        <div className={classes.control}>
-          <IconButton
-            className={classes.play}
-            aria-label="play"
-            onClick={playAudio}
-          >
-            {isPlaying ? <FaPause /> : <FaPlay />}
-          </IconButton>
+    <div className={classes['audio-player']}>
+      <div className={classes.control}>
+        <IconButton
+          className={classes.play}
+          aria-label="play"
+          onClick={playAudio}
+        >
+          {isPlaying ? <FaPause /> : <FaPlay />}
+        </IconButton>
 
-          <div className={classes['wave-form']}>WaveForm</div>
+        <div className={classes['wave-form']}>WaveForm</div>
 
-          <IconButton
-            className={classes.delete}
-            aria-label="delete"
-            onClick={removeAudio}
-          >
-            <IoMdClose />
-          </IconButton>
-        </div>
-      ) : (
-        // TODO: capture global mouseup event and dispatch in RecordButton to trigger stopRecording
-        <RecordButton />
-      )}
+        <IconButton
+          className={classes.delete}
+          aria-label="delete"
+          onClick={removeAudio}
+        >
+          <IoMdClose />
+        </IconButton>
+      </div>
     </div>
   );
 };
@@ -80,11 +64,7 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
   return {
-    setAudio: (audio: AudioData | null) => dispatch(setAudio(audio)),
-    setShowRecordButtonState: (showRecordButton: boolean) =>
-      dispatch(setShowRecordButtonState(showRecordButton)),
-    embedRecordButton: (embeddedRecordButton: boolean) =>
-      dispatch(embedRecordButton(embeddedRecordButton))
+    setAudio: (audio: AudioData | null) => dispatch(setAudio(audio))
   };
 };
 

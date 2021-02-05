@@ -22,17 +22,9 @@ export function setDrawerState(side: DrawerSide, open: boolean) {
   };
 }
 
-export function embedRecordButton(embeddedRecordButton: boolean) {
-  return {
-    type: 'EMBED_RECORD_BUTTON' as 'EMBED_RECORD_BUTTON',
-    embeddedRecordButton
-  };
-}
-
 type ComponentsActionCreators =
   | typeof setShowRecordButtonState
   | typeof setShowPlayListState
-  | typeof setDrawerState
-  | typeof embedRecordButton;
+  | typeof setDrawerState;
 
 export type IComponentsAction = ReturnType<ComponentsActionCreators>;

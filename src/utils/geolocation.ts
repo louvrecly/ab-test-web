@@ -1,31 +1,42 @@
-function getGeolocation() {
-  const { geolocation } = window.navigator;
-  if (geolocation) {
-    const getCurrentPositionPromise = () => {
-      return new Promise(
-        (resolve: PositionCallback, reject: PositionErrorCallback) => {
-          geolocation.getCurrentPosition(resolve, reject);
-        }
-      );
-    };
-    return getCurrentPositionPromise();
-  } else {
-    console.log('Geolocation is not supported!'); /* tslint:disable-line */
-  }
+import { LocationJson } from "models";
+
+interface GeolocationPositionError {
+  code: number,
+  message: string
 }
 
 function positionToLocationJson(position: Position) {
   const {
     coords: { latitude, longitude }
   } = position;
-  const location = {
+  const location: LocationJson = {
     _latitude: latitude,
     _longitude: longitude
   };
   return location;
 }
 
-export async function getLocationJson() {
-  const position = await getGeolocation();
-  return position ? positionToLocationJson(position) : null;
+export function getGeolocation(saveLocationJson: (locationJson: LocationJson) => void) {
+  const { geolocation } = window.navigator;
+  if (geolocation) {
+    let watchId: number;
+
+    const onSuccess = (position: Position) => {
+      const location = positionToLocationJson(position);
+      saveLocationJson(location);
+      geolocation.clearWatch(watchId);
+    };
+    const onError = ({ code, message }: GeolocationPositionError) => console.log(`ERROR(${code}): ${message}`);
+
+    watchId = geolocation.watchPosition(onSuccess, onError);
+    return watchId;
+  } else {
+    console.log('Geolocation is not supported!'); /* tslint:disable-line */
+    return null;
+  }
+}
+
+export function clearGeoLocationWatcher(watchId: number | null) {
+  const { geolocation } = window.navigator;
+  if (geolocation && watchId) geolocation.clearWatch(watchId);
 }

@@ -1,51 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Map from 'components/Map';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from 'components/Main';
-import { IRootState, ThunkResult } from './store';
-import { loadThreads } from 'redux/threads/thunks';
-import { loadUsers } from 'redux/users/thunks';
-import { audioRecorder, AudioRecorder } from 'utils/audioRecorder';
-import { setRecorder } from 'redux/audios/actions';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import classes from './App.module.scss';
 
-interface IAppProps {
-  loadThreads: () => void;
-  loadUsers: () => void;
-  setRecorder: (recorder: AudioRecorder | null) => void;
-}
-
-const App: React.FC<IAppProps> = (props: IAppProps) => {
-  const initializeRecorder = async () => {
-    const recorder = await audioRecorder();
-    props.setRecorder(recorder);
-  };
-
-  props.loadThreads();
-  props.loadUsers();
-
-  initializeRecorder();
-
+const App: React.FC = () => {
   return (
     <div className={classes.app}>
-      <Map />
+      <Switch>
+        <Route path='/' exact={true} component={() => <Redirect to={REACT_APP_URL_PREFIX as string} />} />
 
-      <Main />
+        <Route path={REACT_APP_URL_PREFIX as string} component={Main} />
+      </Switch>
     </div>
   );
 };
 
-const mapStateToProps = (state: IRootState) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch: ThunkResult) => {
-  return {
-    loadThreads: () => dispatch(loadThreads()),
-    loadUsers: () => dispatch(loadUsers()),
-    setRecorder: (recorder: AudioRecorder | null) =>
-      dispatch(setRecorder(recorder))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

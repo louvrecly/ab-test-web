@@ -6,24 +6,29 @@ import classes from './styles.module.scss';
 
 interface ITimerBarProps {
   limit: number;
+  isRecording: boolean;
   setIsRecordingState: (isRecording: boolean) => void;
 }
 
 const TimerBar: React.FC<ITimerBarProps> = (props: ITimerBarProps) => {
   const [centisecond, setCentisecond] = useState<number>(0);
 
-  /* Set interval timer */
-  const timer = setInterval(() => {
-    if (centisecond >= props.limit) return props.setIsRecordingState(false);
-
-    setCentisecond(centisecond + 1);
-  }, 10);
-
   /* Display the second and the centisecond separately */
   const displayDigits = (number: number, startIndex: number, endIndex?: number) => number.toString().padStart(4, '0').substring(startIndex, endIndex);
 
-  /* Clear interval timer before TimerBar unmounts */
-  useEffect(() => () => clearInterval(timer));
+  /* Set interval for updating centisecond state */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (centisecond >= props.limit) props.setIsRecordingState(false);
+      else setCentisecond(prevValue => prevValue + 1);
+    }, 10);
+
+    /* Clear interval timer and set isRecordingState to false before TimerBar unmounts */
+    return () => {
+      clearInterval(interval);
+      if (props.isRecording) props.setIsRecordingState(false);
+    };
+  }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
 
   return (
     <div className={classes['timer-bar']}>
@@ -43,7 +48,9 @@ const TimerBar: React.FC<ITimerBarProps> = (props: ITimerBarProps) => {
 };
 
 const mapStateToProps = (state: IRootState) => {
-  return {};
+  return {
+    isRecording: state.audios.isRecording
+  };
 };
 
 const mapDispatchToProps = (dispatch: ThunkResult) => {
