@@ -31,7 +31,6 @@ interface IHeadNavProps {
 const HeadNav: React.FC<IHeadNavProps> = (props: IHeadNavProps) => {
   const toggleLeftDrawer = () => {
     const open = !props.drawerState.left;
-    props.setShowRecordButtonState(!open);
     props.setDrawerState('left', open);
   };
 
