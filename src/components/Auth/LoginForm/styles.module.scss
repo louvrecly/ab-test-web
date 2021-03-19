@@ -1,0 +1,58 @@
+@import 'css/main';
+
+.form {
+  .title {
+    margin: 0 0 20px;
+    color: get-color(gold);
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .fields {
+    margin: 0 0 35px 20px;
+    padding: 0;
+    list-style: none;
+
+    .field {
+      &:not(:last-of-type) {
+        margin: 0 0 15px;
+      }
+
+      .label {
+        color: get-color(white);
+        font-size: 12px;
+        line-height: 15px;
+        display: block;
+      }
+
+      .input {
+        padding: 5px 10px;
+        width: 100%;
+        background: none;
+        color: #999999;
+        font-size: 14px;
+        line-height: 18px;
+        border: none;
+        border-bottom: 1px solid #999999;
+        outline: none;
+        display: block;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .button {
+    // margin: 0 20px 0 0;
+    margin: 0 20px 0 auto;
+    padding: 0;
+    // float: right;
+    background: none;
+    color: get-color(gold);
+    font-size: 16px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: block;
+  }
+}
