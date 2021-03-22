@@ -1,30 +1,31 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IRootState, ThunkResult } from 'store';
 import { setShowRecordButtonState } from 'redux/components/actions';
 import { REACT_APP_URL_PREFIX } from 'variables';
+import classes from './styles.module.scss';
 
 interface ILeftDrawerContentsProps {
   setShowRecordButtonState: (showRecordButton: boolean) => void;
 }
 
 const LeftDrawerContents: React.FC<ILeftDrawerContentsProps> = (props: ILeftDrawerContentsProps) => {
-  const history = useHistory();
-
   useEffect(() => {
     /* Hide RecordButton on render */
     props.setShowRecordButtonState(false);
     return () => {
-      /* Navigate to main page on cleanup */
-      const pathname = REACT_APP_URL_PREFIX as string;
-      history.push(pathname);
+      props.setShowRecordButtonState(true);
     }
   }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
 
   return (
-    <div>
-      Left Drawer Contents
+    <div className={classes.left}>
+      <div className={classes.container}>
+        <Link className={classes.link} to={`${REACT_APP_URL_PREFIX}/login`}>
+          <button className={classes.button}>登入</button>
+        </Link>
+      </div>
     </div>
   );
 };
