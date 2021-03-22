@@ -7,11 +7,7 @@ import classes from './styles.module.scss';
 const Login: React.FC = () => {
   return (
     <div className={classes.auth}>
-      <div className={classes.wrapper}>
-        <img className={classes['background-1']} src="/ab-test-web/auth/login-background-1.png" alt="" />
-
-        <img className={classes['background-2']} src="/ab-test-web/auth/login-background-2.png" alt="" />
-      </div>
+      <div className={classes.background}></div>
 
       <div className={classes.container}>
         <div className={classes.header}>
