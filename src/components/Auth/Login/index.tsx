@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginForm from 'components/Auth/LoginForm';
-import { signupLinks } from './constant';
+import { signupLinks } from 'components/Auth/constant';
 import { REACT_APP_URL_PREFIX } from 'variables';
 import classes from './styles.module.scss';
 
