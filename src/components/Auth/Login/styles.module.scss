@@ -1,115 +1,74 @@
 @import 'css/main';
 
-.auth {
+.login {
+  margin: 0 35px;
+  padding: 50px 0 25px;
   height: 100%;
-  background-color: get-color(brown);
+  box-sizing: border-box;
   position: relative;
-  overflow: hidden;
 
-  .background {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
+  .header {
+    margin: 0 0 40px;
 
-    &:before {
-      background: {
-        image: url('/ab-test-web/auth/background-1.png');
-        size: auto 115px;
+    .wrapper {
+      margin: 0 0 15px;
+      height: 55px;
+      position: static;
+      display: flex;
+      justify-content: center;
+
+      .logo {
+        height: 100%;
       }
     }
 
-    &:after {
-      background: {
-        image: url('/ab-test-web/auth/background-2.png');
-        size: auto 160px;
-      }
-    }
-
-    &:before,
-    &:after {
-      content: '';
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      background: {
-        position: bottom;
-        repeat: repeat-x;
-      }
+    .text {
+      margin: 0;
+      color: get-color(gold);
+      text-align: center;
     }
   }
 
-  .container {
-    margin: 0 35px;
-    padding: 50px 0 25px;
-    height: 100%;
-    box-sizing: border-box;
-    position: relative;
+  .links {
+    padding: 45px 0 0;
 
-    .header {
-      margin: 0 0 40px;
+    .link {
+      text-decoration: none;
+      outline: none;
 
-      .wrapper {
+      &:not(:last-of-type) .button {
         margin: 0 0 15px;
-        height: 55px;
-        position: static;
+      }
+
+      .button {
+        padding: 10px;
+        width: 100%;
+        background-color: get-color(gold);
+        border: none;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
         display: flex;
         justify-content: center;
+        align-items: center;
+        position: relative;
 
-        .logo {
-          height: 100%;
-        }
-      }
+        .wrapper {
+          margin: 0;
+          width: 15px;
+          height: 15px;
+          position: absolute;
+          left: 25px;
 
-      .text {
-        margin: 0;
-        color: get-color(gold);
-        text-align: center;
-      }
-    }
-
-    .links {
-      padding: 45px 0 0;
-
-      .link {
-        text-decoration: none;
-        outline: none;
-
-        &:not(:last-of-type) .button {
-          margin: 0 0 15px;
+          .icon {
+            height: 100%;
+          }
         }
 
-        .button {
-          padding: 10px;
-          width: 100%;
-          background-color: get-color(gold);
-          border: none;
-          border-radius: 10px;
-          outline: none;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-
-          .wrapper {
-            margin: 0;
-            width: 15px;
-            height: 15px;
-            position: absolute;
-            left: 25px;
-
-            .icon {
-              height: 100%;
-            }
-          }
-
-          .text {
-            color: get-color(brown);
-            font-size: 16px;
-            line-height: 20px;
-          }
+        .text {
+          color: get-color(brown);
+          font-size: 16px;
+          line-height: 20px;
         }
       }
     }

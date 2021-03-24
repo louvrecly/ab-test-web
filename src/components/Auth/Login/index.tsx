@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AuthLayout from 'components/Auth/Layout';
 import LoginForm from 'components/Auth/LoginForm';
 import { signupLinks } from 'components/Auth/constant';
 import { REACT_APP_URL_PREFIX } from 'variables';
@@ -7,10 +8,8 @@ import classes from './styles.module.scss';
 
 const Login: React.FC = () => {
   return (
-    <div className={classes.auth}>
-      <div className={classes.background}></div>
-
-      <div className={classes.container}>
+    <AuthLayout>
+      <div className={classes.login}>
         <div className={classes.header}>
           <div className={classes.wrapper}>
             <img className={classes.logo} src={`${REACT_APP_URL_PREFIX}/logo.svg`} alt="9UP"/>
@@ -25,7 +24,7 @@ const Login: React.FC = () => {
 
         <div className={classes.links}>
           {signupLinks.map(({ key, text }) => (
-            <Link className={classes.link} to={`${REACT_APP_URL_PREFIX}/register/${key}`}>
+            <Link className={classes.link} key={key} to={`${REACT_APP_URL_PREFIX}/register/${key}`}>
               <button className={classes.button}>
                 <div className={classes.wrapper}>
                   <img className={classes.icon} src={`${REACT_APP_URL_PREFIX}/icons/${key}.svg`} alt={text} />
@@ -37,7 +36,7 @@ const Login: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 
