@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { AuthFormData } from 'components/Auth/constant';
 import classes from './styles.module.scss';
-
-interface AuthFormData {
-  email: string;
-  password: string;
-}
 
 const LoginForm: React.FC = () => {
   const { register, handleSubmit } = useForm<AuthFormData>();
@@ -61,7 +57,7 @@ const LoginForm: React.FC = () => {
         </li>
 
         <li className={classes.field}>
-          <label className={classes.label} htmlFor="email">
+          <label className={classes.label} htmlFor="password">
             密碼
           </label>
 
