@@ -1,0 +1,127 @@
+@import 'css/main';
+
+.form {
+  .title {
+    margin: 0 0 20px;
+    color: #FFDC15;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .fields {
+    margin: 0 0 35px 20px;
+    padding: 0;
+    list-style: none;
+
+    .field {
+      &:not(:last-of-type) {
+        margin: 0 0 15px;
+      }
+
+      .label {
+        color: get-color(white);
+        font-size: 12px;
+        line-height: 15px;
+        display: block;
+      }
+
+      .input {
+        padding: 5px 10px;
+        width: 100%;
+        background: none;
+        color: #999999;
+        font-size: 14px;
+        line-height: 18px;
+        border: none;
+        border-bottom: 1px solid #999999;
+        outline: none;
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .combo {
+        padding: 5px 10px;
+        display: flex;
+        border-bottom: 1px solid #999999;
+
+        .select {
+          padding: 0;
+          width: auto;
+          border: none;
+        }
+
+        .delimiter {
+          margin: 0 5px;
+          color: #999999;
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+
+      .select {
+        padding: 5px 10px;
+        width: 100%;
+        background-color: transparent;
+        color: #999999;
+        font-size: 14px;
+        line-height: 18px;
+        border: none;
+        border-bottom: 1px solid #999999;
+        /* Remove dropdown carat icon */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+      }
+
+      .checker {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        &:before {
+          content: '';
+          width: 15px;
+          height: 15px;
+          color: get-color(gold);
+          font-size: 12px;
+          line-height: 15px;
+          border: 1px solid get-color(gold);
+          border-radius: 3px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+        }
+
+        &.checked:before {
+          content: '✓';
+        }
+
+        .checkbox {
+          margin: 0 10px 0 0;
+          opacity: 0;
+        }
+
+        .label {
+          color: get-color(gold);
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+    }
+  }
+
+  .button {
+    margin: 0 20px 0 auto;
+    padding: 0;
+    background: none;
+    color: get-color(gold);
+    font-size: 16px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: block;
+  }
+}
