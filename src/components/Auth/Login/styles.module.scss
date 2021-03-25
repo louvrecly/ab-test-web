@@ -1,0 +1,76 @@
+@import 'css/main';
+
+.login {
+  margin: 0 35px;
+  padding: 50px 0 25px;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+
+  .header {
+    margin: 0 0 40px;
+
+    .wrapper {
+      margin: 0 0 15px;
+      height: 55px;
+      position: static;
+      display: flex;
+      justify-content: center;
+
+      .logo {
+        height: 100%;
+      }
+    }
+
+    .text {
+      margin: 0;
+      color: get-color(gold);
+      text-align: center;
+    }
+  }
+
+  .links {
+    padding: 45px 0 0;
+
+    .link {
+      text-decoration: none;
+      outline: none;
+
+      &:not(:last-of-type) .button {
+        margin: 0 0 15px;
+      }
+
+      .button {
+        padding: 10px;
+        width: 100%;
+        background-color: get-color(gold);
+        border: none;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .wrapper {
+          margin: 0;
+          width: 15px;
+          height: 15px;
+          position: absolute;
+          left: 25px;
+
+          .icon {
+            height: 100%;
+          }
+        }
+
+        .text {
+          color: get-color(brown);
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
