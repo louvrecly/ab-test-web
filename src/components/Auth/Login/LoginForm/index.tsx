@@ -14,19 +14,13 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const valueSetter: { [key: string]: React.Dispatch<React.SetStateAction<string>> } = {
+    email: setEmail,
+    password: setPassword
+  };
+
   const handleInput = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    let setValue: (value: string) => void;
-    switch (key) {
-      case 'email':
-        setValue = setEmail;
-        break;
-      case 'password':
-        setValue = setPassword;
-        break;
-      default:
-        console.log('Incorrect handleInput key');
-        return console.log({ key, value: event.target.value });
-    }
+    const setValue = valueSetter[key];
     setValue(event.target.value);
   };
 
