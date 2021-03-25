@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { signUp } from 'utils/firebase';
 import { AuthFormData, districtOptions, dobDayOptions, dobMonthOptions, dobYearOptions } from 'components/Auth/constant';
-import classes from './styles.module.scss';
+import { REACT_APP_URL_PREFIX } from 'variables';
 import clsx from 'clsx';
+import classes from './styles.module.scss';
 
 const RegisterForm: React.FC = () => {
-  const { register, handleSubmit } = useForm<AuthFormData>();
-
-  const submitAuth = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log({ e });
-    console.log({ dob });
-  };
-
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
@@ -21,6 +17,8 @@ const RegisterForm: React.FC = () => {
   const [dob, setDob] = useState<Date>(new Date(dobYear, dobMonth, dobDay, 0, 0, 0, 0));
   const [district, setDistrict] = useState<string>('');
   const [terms, setTerms] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   const valueSetter: { [key: string]: React.Dispatch<React.SetStateAction<string>> | React.Dispatch<React.SetStateAction<number>> } = {
     email: setEmail,
@@ -39,7 +37,25 @@ const RegisterForm: React.FC = () => {
 
   const toggleTerms = () => setTerms(!terms);;
 
+  const { register, handleSubmit } = useForm<AuthFormData>();
+
+  const submitAuth = async (e: AuthFormData) => {
+    setLoading(true);
+    console.log({ dob }); // TODO: Validate dob
+    const { email, password } = e;
+    try {
+      await signUp(email, password);
+      const pathname = `${REACT_APP_URL_PREFIX}/login`;
+      history.push(pathname);
+    } catch (err) {
+      console.log('Error: ', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    /* Update dob on change in dobYear, dobMonth or dobDay */
     setDob(new Date(dobYear, dobMonth, dobDay, 0, 0, 0, 0));
   }, [dobYear, dobMonth, dobDay]);
 
@@ -66,6 +82,7 @@ const RegisterForm: React.FC = () => {
             name="email"
             ref={register}
             value={email}
+            required
             onChange={handleInput('email')}
           />
         </li>
@@ -82,6 +99,7 @@ const RegisterForm: React.FC = () => {
             name="password"
             ref={register}
             value={password}
+            required
             onChange={handleInput('password')}
           />
         </li>
@@ -98,6 +116,7 @@ const RegisterForm: React.FC = () => {
             name="username"
             ref={register}
             value={username}
+            required
             onChange={handleInput('username')}
           />
         </li>
@@ -176,6 +195,7 @@ const RegisterForm: React.FC = () => {
               name="terms"
               ref={register}
               checked={terms}
+              required
               onChange={toggleTerms}
             />
 
@@ -186,7 +206,7 @@ const RegisterForm: React.FC = () => {
         </li>
       </ul>
 
-      <button className={classes.button} type="submit" form="register">
+      <button className={classes.button} type="submit" form="register" disabled={loading}>
         確認
       </button>
     </form>
