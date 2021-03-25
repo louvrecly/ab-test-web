@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from 'components/Main';
 import Login from 'components/Auth/Login';
 import Register from 'components/Auth/Register';
+import { subscribeToAuth } from 'utils/firebase';
 import { REACT_APP_URL_PREFIX } from 'variables';
 import classes from './App.module.scss';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    /* Set up listener on auth state change to update user in auth redux store */
+    const unsubscribe = subscribeToAuth(user => dispatch({ type: 'SET_USER', user }));
+    return unsubscribe;
+  }, []); /* eslint-disable-line react-hooks/exhaustive-deps */
+
   return (
     <div className={classes.app}>
       <Switch>
