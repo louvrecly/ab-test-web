@@ -16,6 +16,7 @@ import { IThreadsState } from 'redux/threads/state';
 import { IVoicesState } from 'redux/voices/state';
 import { IUsersState } from 'redux/users/state';
 import { IAudiosState } from 'redux/audios/state';
+import { IAuthState } from 'redux/auth/state';
 import { IGeolocationState } from 'redux/geolocation/state';
 import { IChannelsState } from 'redux/channels/state';
 import { IComponentsState } from 'redux/components/state';
@@ -23,6 +24,7 @@ import { IThreadsAction } from 'redux/threads/actions';
 import { IVoicesAction } from 'redux/voices/actions';
 import { IUsersAction } from 'redux/users/actions';
 import { IAudiosAction } from 'redux/audios/actions';
+import { IAuthAction } from 'redux/auth/actions';
 import { IGeolocationAction } from 'redux/geolocation/actions';
 import { IChannelsActions } from 'redux/channels/actions';
 import { IComponentsAction } from 'redux/components/actions';
@@ -33,6 +35,7 @@ import { audiosReducer } from 'redux/audios/reducer';
 import { geolocationReducer } from 'redux/geolocation/reducer';
 import { channelsReducer } from 'redux/channels/reducer';
 import { componentsReducer } from 'redux/components/reducer';
+import { authReducer } from 'redux/auth/reducer';
 
 declare global {
   interface Window {
@@ -50,6 +53,7 @@ export interface IRootState {
   voices: IVoicesState;
   users: IUsersState;
   audios: IAudiosState;
+  auth: IAuthState;
   geolocation: IGeolocationState;
   channels: IChannelsState;
   components: IComponentsState;
@@ -61,6 +65,7 @@ type IRootAction =
   | IVoicesAction
   | IUsersAction
   | IAudiosAction
+  | IAuthAction
   | IGeolocationAction
   | IChannelsActions
   | IComponentsAction;
@@ -70,6 +75,7 @@ const rootReducer = combineReducers<IRootState>({
   voices: voicesReducer,
   users: usersReducer,
   audios: audiosReducer,
+  auth: authReducer,
   geolocation: geolocationReducer,
   channels: channelsReducer,
   components: componentsReducer,
