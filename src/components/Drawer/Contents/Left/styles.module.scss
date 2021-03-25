@@ -5,23 +5,18 @@
     margin: 0 10px 0 30px;
     padding: 25px 0;
 
-    .link {
-      text-decoration: none;
+    .button {
+      padding: 10px;
+      width: 100%;
+      background-color: get-color(gold);
+      border: none;
+      border-radius: 10px;
       outline: none;
-
-      .button {
-        padding: 10px;
-        width: 100%;
-        background-color: get-color(gold);
-        border: none;
-        border-radius: 10px;
-        outline: none;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-      }
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
   }
 }

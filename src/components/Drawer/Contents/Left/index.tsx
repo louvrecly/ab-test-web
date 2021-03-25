@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { IRootState, ThunkResult } from 'store';
 import { setShowRecordButtonState } from 'redux/components/actions';
+import { logOut } from 'utils/firebase';
 import { REACT_APP_URL_PREFIX } from 'variables';
 import classes from './styles.module.scss';
 
@@ -11,6 +12,16 @@ interface ILeftDrawerContentsProps {
 }
 
 const LeftDrawerContents: React.FC<ILeftDrawerContentsProps> = (props: ILeftDrawerContentsProps) => {
+  const user = useSelector((state: IRootState) => state.auth.user);
+  const history = useHistory();
+
+  const handleButtonClick = async () => {
+    if (user) await logOut();
+
+    const pathname = `${REACT_APP_URL_PREFIX}/login`;
+    history.push(pathname);
+  }
+
   useEffect(() => {
     /* Hide RecordButton on render */
     props.setShowRecordButtonState(false);
@@ -22,9 +33,7 @@ const LeftDrawerContents: React.FC<ILeftDrawerContentsProps> = (props: ILeftDraw
   return (
     <div className={classes.left}>
       <div className={classes.container}>
-        <Link className={classes.link} to={`${REACT_APP_URL_PREFIX}/login`}>
-          <button className={classes.button}>登入</button>
-        </Link>
+        <button className={classes.button} onClick={handleButtonClick}>登{user ? '出' : '入'}</button>
       </div>
     </div>
   );
